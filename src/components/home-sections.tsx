@@ -13,6 +13,7 @@ import productGate from "@/assets/product-gate.jpg";
 import productRailing from "@/assets/product-railing.jpg";
 import productIndustrial from "@/assets/product-industrial.jpg";
 import projectHero from "@/assets/project-hero.jpg";
+import { ContactForm } from "@/components/contact-form";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -580,52 +581,50 @@ export function ContactCTA() {
         <img src={workshop} alt="" className="h-full w-full object-cover opacity-25" />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
       </div>
-      <div className="relative mx-auto max-w-[1100px] px-6 text-center">
-        <SectionLabel number="07" label="Get In Touch" center />
-        <h2 className="font-display text-5xl md:text-7xl text-white leading-[0.95]">
-          Get your quote <br /><span className="text-gradient-magenta">within 24 hours.</span>
-        </h2>
-        <p className="mt-6 max-w-xl mx-auto text-metallic font-body">
-          Share your drawing, sample, or sketch — our team will respond on WhatsApp with materials,
-          timeline, and price.
-        </p>
-
-        <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <a
-            href="https://wa.me/919000000000"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-3 px-7 py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md transition-all hover:scale-105"
-            style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
-          >
-            <MessageCircle className="h-4 w-4" /> WhatsApp Us
-          </a>
-          <a
-            href="tel:+919000000000"
-            className="inline-flex items-center gap-3 px-7 py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md shadow-magenta hover:shadow-glow transition-all"
-          >
-            <Phone className="h-4 w-4" /> Call Now
-          </a>
-          <a
-            href="mailto:hello@veepeeengineers.com"
-            className="inline-flex items-center gap-3 px-7 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta transition-all"
-          >
-            <Mail className="h-4 w-4" /> Email
-          </a>
+      <div className="relative mx-auto max-w-[1200px] px-6">
+        <div className="text-center">
+          <SectionLabel number="07" label="Get In Touch" center />
+          <h2 className="font-display text-5xl md:text-7xl text-white leading-[0.95]">
+            Get your quote <br /><span className="text-gradient-magenta">within 24 hours.</span>
+          </h2>
+          <p className="mt-6 max-w-xl mx-auto text-metallic font-body">
+            Share your drawing, sample, or sketch — our team will respond on WhatsApp with materials,
+            timeline, and price.
+          </p>
         </div>
 
-        <div className="mt-14 grid sm:grid-cols-3 gap-6 text-left">
-          {[
-            { icon: MapPin, label: "Workshop", value: "225/1 Maheshpur Industrial Estate, Varanasi 221106" },
-            { icon: Shield, label: "GSTIN", value: "09ABTPJ5945P1ZK" },
-            { icon: CheckCircle2, label: "UDYAM", value: "UDYAM-UP-75-0001103" },
-          ].map((c) => (
-            <div key={c.label} className="glass rounded-md p-5">
-              <c.icon className="h-4 w-4 text-magenta" />
-              <div className="mt-3 font-sans-brand text-[10px] tracking-[0.3em] uppercase text-metallic">{c.label}</div>
-              <div className="mt-1 text-white text-sm font-body">{c.value}</div>
-            </div>
-          ))}
+        <div className="mt-14 grid lg:grid-cols-5 gap-8 items-start">
+          <div className="lg:col-span-3">
+            <ContactForm />
+          </div>
+          <div className="lg:col-span-2 grid gap-4">
+            <a
+              href="https://wa.me/919000000000"
+              target="_blank" rel="noreferrer"
+              className="flex items-center gap-3 px-5 py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md"
+              style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
+            >
+              <MessageCircle className="h-4 w-4" /> WhatsApp Us
+            </a>
+            <a href="tel:+919000000000" className="flex items-center gap-3 px-5 py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md shadow-magenta">
+              <Phone className="h-4 w-4" /> Call Now
+            </a>
+            <a href="mailto:hello@veepeeengineers.com" className="flex items-center gap-3 px-5 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta">
+              <Mail className="h-4 w-4" /> Email
+            </a>
+
+            {[
+              { icon: MapPin, label: "Workshop", value: "225/1 Maheshpur Industrial Estate, Varanasi 221106" },
+              { icon: Shield, label: "GSTIN", value: "09ABTPJ5945P1ZK" },
+              { icon: CheckCircle2, label: "UDYAM", value: "UDYAM-UP-75-0001103" },
+            ].map((c) => (
+              <div key={c.label} className="glass rounded-md p-5">
+                <c.icon className="h-4 w-4 text-magenta" />
+                <div className="mt-3 font-sans-brand text-[10px] tracking-[0.3em] uppercase text-metallic">{c.label}</div>
+                <div className="mt-1 text-white text-sm font-body">{c.value}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
