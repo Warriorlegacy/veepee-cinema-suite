@@ -3,7 +3,7 @@ import { ArrowLeft, MessageCircle, MapPin, Calendar, Tag } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { getProjectBySlug, projects } from "@/lib/projects";
+import { getProjectBySlug, projects, type Project } from "@/lib/projects";
 
 export const Route = createFileRoute("/projects/$slug")({
   loader: ({ params }) => {
@@ -70,7 +70,7 @@ export const Route = createFileRoute("/projects/$slug")({
 });
 
 function ProjectDetail() {
-  const { project: p } = Route.useLoaderData();
+  const { project: p } = Route.useLoaderData() as { project: Project };
   const others = projects.filter((x) => x.slug !== p.slug).slice(0, 3);
 
   return (
