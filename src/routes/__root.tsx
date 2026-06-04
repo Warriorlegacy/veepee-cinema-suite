@@ -10,7 +10,9 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import logo from "../assets/veepee-logo.png.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { trackPageView } from "../lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -77,19 +79,50 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "theme-color", content: "#0A0A0A" },
+      { title: "VEEPEE Engineers — Precision Laser Cutting & CNC Fabrication · Varanasi" },
+      { name: "description", content: "Premium laser cutting, CNC fabrication, architectural metalwork and industrial manufacturing in Varanasi since 1976." },
+      { name: "author", content: "VEEPEE Engineers" },
+      { name: "keywords", content: "VEEPEE Engineers, laser cutting Varanasi, CNC fabrication, architectural metalwork, jaali, gates and railings, hot dip galvanizing, industrial manufacturing, Maheshpur" },
+      { property: "og:site_name", content: "VEEPEE Engineers" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:image", content: logo.url },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: logo.url },
+      { name: "format-detection", content: "telephone=yes" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: logo.url },
+      { rel: "apple-touch-icon", href: logo.url },
+    ],
+    scripts: [
       {
-        rel: "stylesheet",
-        href: appCss,
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "VEEPEE Engineers",
+          url: "/",
+          logo: logo.url,
+          foundingDate: "1976",
+          slogan: "Precision · Performance · Progress",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "225/1 Maheshpur Industrial Estate",
+            addressLocality: "Varanasi",
+            postalCode: "221106",
+            addressRegion: "UP",
+            addressCountry: "IN",
+          },
+          contactPoint: [{
+            "@type": "ContactPoint",
+            telephone: "+91-90000-00000",
+            contactType: "sales",
+            areaServed: "IN",
+            availableLanguage: ["en", "hi"],
+          }],
+        }),
       },
     ],
   }),

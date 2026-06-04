@@ -1,18 +1,16 @@
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import logo from "@/assets/veepee-logo.png.asset.json";
 
 export function SiteFooter() {
   return (
     <footer className="relative bg-near-black border-t border-white/5 pt-20 pb-10">
       <div className="mx-auto max-w-[1400px] px-6 grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2 mb-5">
-            <div className="relative flex h-10 w-10 items-center justify-center">
-              <div className="absolute inset-0 rounded-md bg-magenta-gradient" />
-              <span className="relative font-display text-2xl text-white">V</span>
-            </div>
+          <div className="flex items-center gap-3 mb-5">
+            <img src={logo.url} alt="VEEPEE Engineers" width={48} height={48} className="h-12 w-12 object-contain" />
             <div>
               <div className="font-display text-xl tracking-[0.18em] text-white">VEEPEE ENGINEERS</div>
-              <div className="font-sans-brand text-[11px] tracking-[0.3em] text-metallic">PRECISION · POWER · CRAFT</div>
+              <div className="font-sans-brand text-[11px] tracking-[0.3em] text-metallic">PRECISION · PERFORMANCE · PROGRESS</div>
             </div>
           </div>
           <p className="text-metallic max-w-md leading-relaxed font-body text-sm">
