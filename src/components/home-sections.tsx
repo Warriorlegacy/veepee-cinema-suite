@@ -111,7 +111,7 @@ export function Hero() {
                 View Our Work
               </a>
               <a
-                href="https://wa.me/919000000000"
+                href="https://wa.me/919125142400"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-3 px-7 py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md transition-all"
@@ -599,22 +599,22 @@ export function ContactCTA() {
           </div>
           <div className="lg:col-span-2 grid gap-4">
             <a
-              href="https://wa.me/919000000000"
+              href="https://wa.me/919125142400"
               target="_blank" rel="noreferrer"
               className="flex items-center gap-3 px-5 py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md"
               style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
             >
               <MessageCircle className="h-4 w-4" /> WhatsApp Us
             </a>
-            <a href="tel:+919000000000" className="flex items-center gap-3 px-5 py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md shadow-magenta">
+            <a href="tel:+919125142400" className="flex items-center gap-3 px-5 py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md shadow-magenta">
               <Phone className="h-4 w-4" /> Call Now
             </a>
-            <a href="mailto:hello@veepeeengineers.com" className="flex items-center gap-3 px-5 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta">
+            <a href="mailto:veepeeengr@gmail.com" className="flex items-center gap-3 px-5 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta">
               <Mail className="h-4 w-4" /> Email
             </a>
 
             {[
-              { icon: MapPin, label: "Workshop", value: "225/1 Maheshpur Industrial Estate, Varanasi 221106" },
+              { icon: MapPin, label: "Workshop", value: "225/1 Maheshpur Industrial Estate, Varanasi 221106, Uttar Pradesh, India" },
               { icon: Shield, label: "GSTIN", value: "09ABTPJ5945P1ZK" },
               { icon: CheckCircle2, label: "UDYAM", value: "UDYAM-UP-75-0001103" },
             ].map((c) => (

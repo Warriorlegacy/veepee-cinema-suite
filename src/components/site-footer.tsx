@@ -27,10 +27,10 @@ export function SiteFooter() {
         <div>
           <h4 className="font-display text-lg tracking-[0.15em] text-white mb-4">Reach Us</h4>
           <ul className="space-y-3 text-sm text-metallic font-body">
-            <li className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 text-magenta" /> 225/1 Maheshpur Industrial Estate, Varanasi 221106, UP</li>
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-magenta" /> +91 90000 00000</li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-magenta" /> hello@veepeeengineers.com</li>
-            <li className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-magenta" /> WhatsApp 24×7</li>
+            <li className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 text-magenta shrink-0" /> 225/1 Maheshpur Industrial Estate, Varanasi 221106, Uttar Pradesh, India</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-magenta shrink-0" /> +91 9125142400 · +91 7985759501</li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-magenta shrink-0" /> veepeeengr@gmail.com</li>
+            <li className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-magenta shrink-0" /> WhatsApp 24×7</li>
           </ul>
         </div>
 
