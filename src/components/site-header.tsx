@@ -65,15 +65,6 @@ export function SiteHeader() {
           </a>
         </div>
 
-        <div className="hidden lg:flex items-center gap-3">
-          <a
-            href="/#contact"
-            className="font-sans-brand text-sm uppercase tracking-[0.2em] px-5 py-2.5 bg-magenta-gradient text-white rounded-md hover:shadow-magenta transition-all"
-          >
-            Get Quote
-          </a>
-        </div>
-
         <button
           aria-label="Menu"
           onClick={() => setOpen((o) => !o)}
