@@ -1,14 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import logo from "@/assets/veepee-logo.png.asset.json";
 
 const links = [
-  { label: "Services", href: "#services" },
-  { label: "Products", href: "#products" },
-  { label: "Process", href: "#process" },
-  { label: "Projects", href: "#projects" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "Products", href: "/#products" },
+  { label: "Process", href: "/#process" },
+  { label: "Projects", href: "/projects" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export function SiteHeader() {
@@ -29,12 +30,15 @@ export function SiteHeader() {
       }`}
     >
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="relative flex h-9 w-9 items-center justify-center">
-            <div className="absolute inset-0 rounded-md bg-magenta-gradient shadow-magenta opacity-90 group-hover:opacity-100 transition" />
-            <span className="relative font-display text-xl text-white">V</span>
-          </div>
-          <div className="leading-none">
+        <Link to="/" className="flex items-center gap-3 group">
+          <img
+            src={logo.url}
+            alt="VEEPEE Engineers"
+            width={40}
+            height={40}
+            className="h-10 w-10 object-contain drop-shadow-[0_4px_18px_rgba(212,20,142,0.45)]"
+          />
+          <div className="leading-none hidden sm:block">
             <div className="font-display text-lg tracking-[0.18em] text-white">VEEPEE</div>
             <div className="font-sans-brand text-[10px] tracking-[0.3em] text-metallic">ENGINEERS</div>
           </div>
@@ -54,7 +58,7 @@ export function SiteHeader() {
 
         <div className="hidden lg:flex items-center gap-3">
           <a
-            href="#contact"
+            href="/#contact"
             className="font-sans-brand text-sm uppercase tracking-[0.2em] px-5 py-2.5 bg-magenta-gradient text-white rounded-md hover:shadow-magenta transition-all"
           >
             Get Quote
