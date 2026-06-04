@@ -90,6 +90,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: logo.url },
       { name: "format-detection", content: "telephone=yes" },
+      { property: "og:title", content: "VEEPEE Engineers — Precision Laser Cutting & CNC Fabrication · Varanasi" },
+      { name: "twitter:title", content: "VEEPEE Engineers — Precision Laser Cutting & CNC Fabrication · Varanasi" },
+      { property: "og:description", content: "Premium laser cutting, CNC fabrication, architectural metalwork and industrial manufacturing in Varanasi since 1976." },
+      { name: "twitter:description", content: "Premium laser cutting, CNC fabrication, architectural metalwork and industrial manufacturing in Varanasi since 1976." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/z9pHpNWd9MUTo6M3fEIu8Itwhu83/social-images/social-1780585178191-ChatGPT_Image_Jun_4,_2026,_05_07_05_PM.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/z9pHpNWd9MUTo6M3fEIu8Itwhu83/social-images/social-1780585178191-ChatGPT_Image_Jun_4,_2026,_05_07_05_PM.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
