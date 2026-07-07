@@ -259,15 +259,23 @@ function AdminDashboard() {
           <label className="flex items-center gap-2 px-3 py-2 border border-dashed border-white/20 rounded-md cursor-pointer hover:border-magenta transition-colors mb-2">
             <Upload className="h-4 w-4 text-magenta" />
             <span className="text-sm text-metallic truncate">
-              {file ? file.name : "Choose an image (JPG/PNG, ≤5 MB)"}
+              {file ? file.name : "Choose an image (JPG/PNG/WebP, ≤5 MB)"}
             </span>
             <input
               type="file"
-              accept="image/*"
-              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(e) => onPickFile(e.target.files?.[0] ?? null)}
               className="hidden"
             />
           </label>
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              className="mb-2 h-32 w-full object-cover rounded-md border border-white/10"
+            />
+          )}
+          {fileErr && <p className="mb-2 text-xs text-red-400">{fileErr}</p>}
 
           {msg && (
             <p className="text-sm text-metallic mb-3">{msg}</p>
