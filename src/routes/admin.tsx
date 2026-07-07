@@ -2,16 +2,20 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
-import { Lock, Trash2, Upload, LogOut, Loader2 } from "lucide-react";
+import { Lock, Trash2, Upload, LogOut, Loader2, Images, Plus, X } from "lucide-react";
 import {
   listServices,
+  listServiceImages,
   isAdminUnlocked,
   unlockAdmin,
   lockAdmin,
   createService,
   deleteService,
+  addServiceImage,
+  deleteServiceImage,
 } from "@/lib/services.functions";
 import { ICON_NAMES, getServiceIcon } from "@/lib/service-icons";
+import { ServiceImage } from "@/components/service-image";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -257,44 +261,45 @@ function AdminDashboard() {
         </form>
 
         {/* List */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-5">
           {services.map((s) => {
             const Icon = getServiceIcon(s.icon);
             return (
               <div
                 key={s.id}
-                className="glass rounded-lg border border-white/10 overflow-hidden group"
+                className="glass rounded-lg border border-white/10 overflow-hidden"
               >
-                {s.image_url && (
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img
+                <div className="grid grid-cols-1 md:grid-cols-[220px,1fr]">
+                  <div className="aspect-[4/3] md:aspect-auto overflow-hidden bg-black/40">
+                    <ServiceImage
                       src={s.image_url}
                       alt={s.name}
-                      loading="lazy"
                       className="h-full w-full object-cover"
+                      sizes="220px"
                     />
                   </div>
-                )}
-                <div className="p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <Icon className="h-4 w-4 text-magenta" />
-                        <h3 className="font-display text-lg truncate">{s.name}</h3>
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <Icon className="h-4 w-4 text-magenta" />
+                          <h3 className="font-display text-xl truncate">{s.name}</h3>
+                        </div>
+                        <p className="mt-1 text-sm text-metallic line-clamp-2">
+                          {s.description}
+                        </p>
                       </div>
-                      <p className="mt-1 text-sm text-metallic line-clamp-2">
-                        {s.description}
-                      </p>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Delete "${s.name}"?`)) delMut.mutate(s.id);
+                        }}
+                        className="shrink-0 p-2 rounded-md border border-white/10 text-metallic hover:text-red-400 hover:border-red-400/40 transition-colors"
+                        aria-label="Delete service"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        if (confirm(`Delete "${s.name}"?`)) delMut.mutate(s.id);
-                      }}
-                      className="shrink-0 p-2 rounded-md border border-white/10 text-metallic hover:text-red-400 hover:border-red-400/40 transition-colors"
-                      aria-label="Delete service"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <GalleryManager serviceId={s.id} serviceName={s.name} />
                   </div>
                 </div>
               </div>
@@ -302,6 +307,125 @@ function AdminDashboard() {
           })}
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ─────────── Per-service gallery uploader ─────────── */
+function GalleryManager({ serviceId, serviceName }: { serviceId: string; serviceName: string }) {
+  const qc = useQueryClient();
+  const add = useServerFn(addServiceImage);
+  const remove = useServerFn(deleteServiceImage);
+  const [open, setOpen] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [caption, setCaption] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const { data: images = [] } = useQuery({
+    queryKey: ["service-images", serviceId],
+    queryFn: () => listServiceImages({ data: { serviceId } }),
+    enabled: open,
+  });
+
+  const delMut = useMutation({
+    mutationFn: (id: string) => remove({ data: { id } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["service-images", serviceId] }),
+  });
+
+  async function onAdd(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!file) return;
+    setBusy(true);
+    setErr(null);
+    try {
+      const fd = new FormData();
+      fd.set("service_id", serviceId);
+      fd.set("caption", caption);
+      fd.set("image", file);
+      await add({ data: fd });
+      setFile(null);
+      setCaption("");
+      await qc.invalidateQueries({ queryKey: ["service-images", serviceId] });
+    } catch (e) {
+      setErr((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="mt-4 border-t border-white/10 pt-4">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-metallic hover:text-white transition-colors"
+      >
+        <Images className="h-4 w-4 text-magenta" />
+        {open ? "Hide" : "Manage"} gallery ({images.length})
+      </button>
+
+      {open && (
+        <div className="mt-4 space-y-4">
+          {images.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {images.map((img) => (
+                <div key={img.id} className="relative rounded-md overflow-hidden border border-white/10 group">
+                  <div className="aspect-[4/3] bg-black/40">
+                    <ServiceImage
+                      src={img.url}
+                      alt={img.caption ?? serviceName}
+                      className="h-full w-full object-cover"
+                      sizes="200px"
+                    />
+                  </div>
+                  {img.caption && (
+                    <p className="p-2 text-[11px] text-metallic line-clamp-2">{img.caption}</p>
+                  )}
+                  <button
+                    onClick={() => {
+                      if (confirm("Delete this image?")) delMut.mutate(img.id);
+                    }}
+                    className="absolute top-1 right-1 p-1 rounded bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Delete image"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <form onSubmit={onAdd} className="flex flex-col sm:flex-row gap-2 items-stretch">
+            <label className="flex-1 flex items-center gap-2 px-3 py-2 border border-dashed border-white/20 rounded-md cursor-pointer hover:border-magenta transition-colors">
+              <Upload className="h-4 w-4 text-magenta" />
+              <span className="text-sm text-metallic truncate">
+                {file ? file.name : "Add image (JPG/PNG, ≤5 MB)"}
+              </span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                className="hidden"
+              />
+            </label>
+            <input
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              placeholder="Caption (optional)"
+              maxLength={160}
+              className="flex-1 bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white focus:border-magenta focus:outline-none"
+            />
+            <button
+              type="submit"
+              disabled={!file || busy}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-magenta-gradient text-white uppercase tracking-[0.2em] text-xs rounded-md disabled:opacity-50"
+            >
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Plus className="h-3 w-3" /> Upload</>}
+            </button>
+          </form>
+          {err && <p className="text-xs text-red-400">{err}</p>}
+        </div>
+      )}
     </div>
   );
 }

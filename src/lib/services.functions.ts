@@ -13,6 +13,24 @@ export type Service = {
   sort_order: number;
 };
 
+export type ServiceImageRow = {
+  id: string;
+  service_id: string;
+  url: string;
+  caption: string | null;
+  sort_order: number;
+};
+
+const BUCKET = "service-images";
+
+/** Given a public storage URL, extract the object path within the bucket. */
+function pathFromPublicUrl(url: string): string | null {
+  const marker = `/object/public/${BUCKET}/`;
+  const idx = url.indexOf(marker);
+  if (idx === -1) return null;
+  return decodeURIComponent(url.slice(idx + marker.length));
+}
+
 type GateSession = { unlocked?: boolean };
 
 const sessionConfig = () => ({
@@ -69,6 +87,39 @@ export const listServices = createServerFn({ method: "GET" }).handler(
     return data ?? [];
   },
 );
+
+/* ─────────── Public: get one service with gallery ─────────── */
+export const getServiceDetail = createServerFn({ method: "GET" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }): Promise<{ service: Service; images: ServiceImageRow[] } | null> => {
+    const supabase = serverSupabase();
+    const { data: svc, error } = await supabase
+      .from("services")
+      .select("id, name, description, icon, image_url, sort_order")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (error || !svc) return null;
+    const { data: images } = await supabase
+      .from("service_images")
+      .select("id, service_id, url, caption, sort_order")
+      .eq("service_id", data.id)
+      .order("sort_order", { ascending: true });
+    return { service: svc, images: images ?? [] };
+  });
+
+/* ─────────── Public: list gallery images per service (used in admin) ─────────── */
+export const listServiceImages = createServerFn({ method: "GET" })
+  .inputValidator((data: { serviceId: string }) => data)
+  .handler(async ({ data }): Promise<ServiceImageRow[]> => {
+    const supabase = serverSupabase();
+    const { data: rows, error } = await supabase
+      .from("service_images")
+      .select("id, service_id, url, caption, sort_order")
+      .eq("service_id", data.serviceId)
+      .order("sort_order", { ascending: true });
+    if (error) return [];
+    return rows ?? [];
+  });
 
 /* ─────────── Admin gate ─────────── */
 export const unlockAdmin = createServerFn({ method: "POST" })
@@ -163,6 +214,72 @@ export const deleteService = createServerFn({ method: "POST" })
     await requireUnlocked();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("services").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+/* ─────────── Admin: gallery image add / delete ─────────── */
+export const addServiceImage = createServerFn({ method: "POST" })
+  .inputValidator((data: FormData) => {
+    if (!(data instanceof FormData)) throw new Error("Expected FormData");
+    return data;
+  })
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+
+    const service_id = String(data.get("service_id") ?? "").trim();
+    const caption = String(data.get("caption") ?? "").trim().slice(0, 160) || null;
+    const file = data.get("image") as File | null;
+    if (!service_id) throw new Error("Missing service_id");
+    if (!file || typeof file !== "object" || !("arrayBuffer" in file) || file.size === 0) {
+      throw new Error("Please choose an image");
+    }
+    if (file.size > 5 * 1024 * 1024) throw new Error("Image must be under 5 MB");
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const ext = (file.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+    const path = `gallery/${service_id}/${randomUUID()}.${ext}`;
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const { error: upErr } = await supabaseAdmin.storage
+      .from(BUCKET)
+      .upload(path, bytes, { contentType: file.type || "image/jpeg", upsert: false });
+    if (upErr) throw new Error("Image upload failed: " + upErr.message);
+    const { data: pub } = supabaseAdmin.storage.from(BUCKET).getPublicUrl(path);
+
+    const { data: maxRow } = await supabaseAdmin
+      .from("service_images")
+      .select("sort_order")
+      .eq("service_id", service_id)
+      .order("sort_order", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    const sort_order = (maxRow?.sort_order ?? 0) + 10;
+
+    const { error } = await supabaseAdmin.from("service_images").insert({
+      service_id, url: pub.publicUrl, caption, sort_order,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const deleteServiceImage = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: row } = await supabaseAdmin
+      .from("service_images")
+      .select("url")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (row?.url) {
+      const path = pathFromPublicUrl(row.url);
+      if (path && path.startsWith("gallery/")) {
+        await supabaseAdmin.storage.from(BUCKET).remove([path]);
+      }
+    }
+    const { error } = await supabaseAdmin.from("service_images").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true as const };
   });
