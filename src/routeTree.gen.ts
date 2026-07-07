@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SitemapServicesDotxmlRouteImport } from './routes/sitemap-services[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -21,6 +22,11 @@ import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/anal
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapServicesDotxmlRoute = SitemapServicesDotxmlRouteImport.update({
+  id: '/sitemap-services.xml',
+  path: '/sitemap-services.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/projects'
     | '/robots.txt'
+    | '/sitemap-services.xml'
     | '/sitemap.xml'
     | '/projects/$slug'
     | '/services/$id'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/projects'
     | '/robots.txt'
+    | '/sitemap-services.xml'
     | '/sitemap.xml'
     | '/projects/$slug'
     | '/services/$id'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/projects'
     | '/robots.txt'
+    | '/sitemap-services.xml'
     | '/sitemap.xml'
     | '/projects/$slug'
     | '/services/$id'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapServicesDotxmlRoute: typeof SitemapServicesDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ServicesIdRoute: typeof ServicesIdRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
@@ -140,6 +153,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-services.xml': {
+      id: '/sitemap-services.xml'
+      path: '/sitemap-services.xml'
+      fullPath: '/sitemap-services.xml'
+      preLoaderRoute: typeof SitemapServicesDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -211,6 +231,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapServicesDotxmlRoute: SitemapServicesDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ServicesIdRoute: ServicesIdRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,

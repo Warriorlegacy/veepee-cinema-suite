@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { Lock, Trash2, Upload, LogOut, Loader2, Images, Plus, X } from "lucide-react";
 import {
   listServices,
@@ -16,6 +16,11 @@ import {
 } from "@/lib/services.functions";
 import { ICON_NAMES, getServiceIcon } from "@/lib/service-icons";
 import { ServiceImage } from "@/components/service-image";
+import {
+  validateImageFile,
+  resizeToVariants,
+  GALLERY_WIDTHS,
+} from "@/lib/image-resize";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -122,8 +127,25 @@ function AdminDashboard() {
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState(ICON_NAMES[0]);
   const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [fileErr, setFileErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!file) { setPreview(null); return; }
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  function onPickFile(f: File | null) {
+    setFileErr(null);
+    if (!f) { setFile(null); return; }
+    const err = validateImageFile(f);
+    if (err) { setFileErr(err); setFile(null); return; }
+    setFile(f);
+  }
 
   const delMut = useMutation({
     mutationFn: (id: string) => remove({ data: { id } }),
@@ -237,15 +259,23 @@ function AdminDashboard() {
           <label className="flex items-center gap-2 px-3 py-2 border border-dashed border-white/20 rounded-md cursor-pointer hover:border-magenta transition-colors mb-2">
             <Upload className="h-4 w-4 text-magenta" />
             <span className="text-sm text-metallic truncate">
-              {file ? file.name : "Choose an image (JPG/PNG, ≤5 MB)"}
+              {file ? file.name : "Choose an image (JPG/PNG/WebP, ≤5 MB)"}
             </span>
             <input
               type="file"
-              accept="image/*"
-              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(e) => onPickFile(e.target.files?.[0] ?? null)}
               className="hidden"
             />
           </label>
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              className="mb-2 h-32 w-full object-cover rounded-md border border-white/10"
+            />
+          )}
+          {fileErr && <p className="mb-2 text-xs text-red-400">{fileErr}</p>}
 
           {msg && (
             <p className="text-sm text-metallic mb-3">{msg}</p>
@@ -318,9 +348,25 @@ function GalleryManager({ serviceId, serviceName }: { serviceId: string; service
   const remove = useServerFn(deleteServiceImage);
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [caption, setCaption] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!file) { setPreview(null); return; }
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  function onPick(f: File | null) {
+    setErr(null);
+    if (!f) { setFile(null); return; }
+    const v = validateImageFile(f);
+    if (v) { setErr(v); setFile(null); return; }
+    setFile(f);
+  }
 
   const { data: images = [] } = useQuery({
     queryKey: ["service-images", serviceId],
@@ -342,7 +388,16 @@ function GalleryManager({ serviceId, serviceName }: { serviceId: string; service
       const fd = new FormData();
       fd.set("service_id", serviceId);
       fd.set("caption", caption);
-      fd.set("image", file);
+      // Resize client-side into responsive variants so the detail gallery loads fast.
+      try {
+        const variants = await resizeToVariants(file, GALLERY_WIDTHS);
+        for (const v of variants) {
+          fd.set(`image_${v.width}`, new File([v.blob], `${v.width}.jpg`, { type: "image/jpeg" }));
+        }
+      } catch {
+        // Fallback: send original if resize fails (e.g. HEIC via createImageBitmap failure).
+        fd.set("image", file);
+      }
       await add({ data: fd });
       setFile(null);
       setCaption("");
@@ -374,6 +429,7 @@ function GalleryManager({ serviceId, serviceName }: { serviceId: string; service
                     <ServiceImage
                       src={img.url}
                       alt={img.caption ?? serviceName}
+                      responsive
                       className="h-full w-full object-cover"
                       sizes="200px"
                     />
@@ -395,33 +451,42 @@ function GalleryManager({ serviceId, serviceName }: { serviceId: string; service
             </div>
           )}
 
-          <form onSubmit={onAdd} className="flex flex-col sm:flex-row gap-2 items-stretch">
-            <label className="flex-1 flex items-center gap-2 px-3 py-2 border border-dashed border-white/20 rounded-md cursor-pointer hover:border-magenta transition-colors">
-              <Upload className="h-4 w-4 text-magenta" />
-              <span className="text-sm text-metallic truncate">
-                {file ? file.name : "Add image (JPG/PNG, ≤5 MB)"}
-              </span>
+          <form onSubmit={onAdd} className="flex flex-col gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 items-stretch">
+              <label className="flex-1 flex items-center gap-2 px-3 py-2 border border-dashed border-white/20 rounded-md cursor-pointer hover:border-magenta transition-colors">
+                <Upload className="h-4 w-4 text-magenta" />
+                <span className="text-sm text-metallic truncate">
+                  {file ? file.name : "Add image (JPG/PNG/WebP, ≤5 MB)"}
+                </span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={(e) => onPick(e.target.files?.[0] ?? null)}
+                  className="hidden"
+                />
+              </label>
               <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                className="hidden"
+                value={caption}
+                onChange={(e) => setCaption(e.target.value)}
+                placeholder="Caption (optional)"
+                maxLength={160}
+                className="flex-1 bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white focus:border-magenta focus:outline-none"
               />
-            </label>
-            <input
-              value={caption}
-              onChange={(e) => setCaption(e.target.value)}
-              placeholder="Caption (optional)"
-              maxLength={160}
-              className="flex-1 bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white focus:border-magenta focus:outline-none"
-            />
-            <button
-              type="submit"
-              disabled={!file || busy}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-magenta-gradient text-white uppercase tracking-[0.2em] text-xs rounded-md disabled:opacity-50"
-            >
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Plus className="h-3 w-3" /> Upload</>}
-            </button>
+              <button
+                type="submit"
+                disabled={!file || busy}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-magenta-gradient text-white uppercase tracking-[0.2em] text-xs rounded-md disabled:opacity-50"
+              >
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Plus className="h-3 w-3" /> Upload</>}
+              </button>
+            </div>
+            {preview && (
+              <img
+                src={preview}
+                alt="Preview"
+                className="h-24 w-32 object-cover rounded-md border border-white/10"
+              />
+            )}
           </form>
           {err && <p className="text-xs text-red-400">{err}</p>}
         </div>
