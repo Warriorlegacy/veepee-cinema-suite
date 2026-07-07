@@ -1,0 +1,1 @@
+UPDATE public.services s SET image_url = sub.url FROM (SELECT DISTINCT ON (service_id) service_id, url FROM public.service_images ORDER BY service_id, sort_order, created_at) sub WHERE sub.service_id = s.id;
