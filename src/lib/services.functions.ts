@@ -13,6 +13,24 @@ export type Service = {
   sort_order: number;
 };
 
+export type ServiceImageRow = {
+  id: string;
+  service_id: string;
+  url: string;
+  caption: string | null;
+  sort_order: number;
+};
+
+const BUCKET = "service-images";
+
+/** Given a public storage URL, extract the object path within the bucket. */
+function pathFromPublicUrl(url: string): string | null {
+  const marker = `/object/public/${BUCKET}/`;
+  const idx = url.indexOf(marker);
+  if (idx === -1) return null;
+  return decodeURIComponent(url.slice(idx + marker.length));
+}
+
 type GateSession = { unlocked?: boolean };
 
 const sessionConfig = () => ({
