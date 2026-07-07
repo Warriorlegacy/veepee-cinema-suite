@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   ChevronDown, Zap, Cog, Hammer, Shield, Building2, Factory,
   Wrench, Droplets, ArrowRight, MessageCircle, Phone, Mail,
@@ -14,6 +15,8 @@ import productRailing from "@/assets/product-railing.jpg";
 import productIndustrial from "@/assets/product-industrial.jpg";
 import projectHero from "@/assets/project-hero.jpg";
 import { ContactForm } from "@/components/contact-form";
+import { listServices } from "@/lib/services.functions";
+import { getServiceIcon } from "@/lib/service-icons";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
