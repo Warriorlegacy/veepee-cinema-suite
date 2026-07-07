@@ -206,27 +206,29 @@ export function Services() {
                 whileInView="show"
                 viewport={{ once: true, margin: "-50px" }}
                 variants={fadeUp}
-                className="group relative rounded-lg bg-card border border-white/5 hover:border-magenta/50 transition-all cursor-pointer overflow-hidden"
               >
-                {s.image_url && (
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <img
+                <Link
+                  to="/services/$id"
+                  params={{ id: s.id }}
+                  className="group relative rounded-lg bg-card border border-white/5 hover:border-magenta/50 transition-all cursor-pointer overflow-hidden block h-full"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-black/40">
+                    <ServiceImage
                       src={s.image_url}
                       alt={s.name}
-                      loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
                   </div>
-                )}
-                <div className="relative p-6">
-                  <Icon className="h-8 w-8 text-magenta mb-4" strokeWidth={1.5} />
-                  <h3 className="font-display text-xl text-white tracking-wide">{s.name}</h3>
-                  <p className="mt-2 text-sm text-metallic font-body line-clamp-3">{s.description}</p>
-                  <div className="mt-5 flex items-center gap-2 text-magenta font-sans-brand text-xs uppercase tracking-[0.25em] opacity-70 group-hover:opacity-100 transition-opacity">
-                    Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                  <div className="relative p-6">
+                    <Icon className="h-8 w-8 text-magenta mb-4" strokeWidth={1.5} />
+                    <h3 className="font-display text-xl text-white tracking-wide">{s.name}</h3>
+                    <p className="mt-2 text-sm text-metallic font-body line-clamp-3">{s.description}</p>
+                    <div className="mt-5 flex items-center gap-2 text-magenta font-sans-brand text-xs uppercase tracking-[0.25em] opacity-70 group-hover:opacity-100 transition-opacity">
+                      Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                    </div>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             );
           })}
