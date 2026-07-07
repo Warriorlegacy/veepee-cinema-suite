@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { Lock, Trash2, Upload, LogOut, Loader2, Images, Plus, X } from "lucide-react";
 import {
   listServices,
@@ -16,6 +16,11 @@ import {
 } from "@/lib/services.functions";
 import { ICON_NAMES, getServiceIcon } from "@/lib/service-icons";
 import { ServiceImage } from "@/components/service-image";
+import {
+  validateImageFile,
+  resizeToVariants,
+  GALLERY_WIDTHS,
+} from "@/lib/image-resize";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
