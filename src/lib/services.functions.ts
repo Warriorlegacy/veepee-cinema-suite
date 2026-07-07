@@ -297,7 +297,13 @@ export const deleteServiceImage = createServerFn({ method: "POST" })
     if (row?.url) {
       const path = pathFromPublicUrl(row.url);
       if (path && path.startsWith("gallery/")) {
-        await supabaseAdmin.storage.from(BUCKET).remove([path]);
+        // Try to remove all responsive variants (<base>-<w>.jpg) plus the exact file.
+        const paths = new Set<string>([path]);
+        const m = path.match(/^(.+)-(\d+)\.jpg$/);
+        if (m) {
+          for (const w of [400, 800, 1600]) paths.add(`${m[1]}-${w}.jpg`);
+        }
+        await supabaseAdmin.storage.from(BUCKET).remove([...paths]);
       }
     }
     const { error } = await supabaseAdmin.from("service_images").delete().eq("id", data.id);
