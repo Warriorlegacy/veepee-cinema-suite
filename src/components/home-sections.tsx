@@ -645,7 +645,7 @@ export function ContactCTA() {
         <div className="mt-10 rounded-lg overflow-hidden border border-white/10 shadow-lg">
           <iframe
             title="VEEPEE Engineers Location"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.520543354614!2d83.0187!3d25.2695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e2a0000000000%3A0x0!2zMjI1LzEgTWFoZXNocHVyIEluZHVzdHJpYWwgRXN0YXRlLCBWYXJhbmFzaQ!5e0!3m2!1sen!2sin!4v1700000000000"
+            src="https://maps.google.com/maps?q=225%2F1%2C+Maheshpur+Industrial+Estate%2C+Varanasi%2C+Uttar+Pradesh+221106%2C+India&output=embed"
             width="100%"
             height="360"
             style={{ border: 0, filter: "grayscale(100%) invert(92%) contrast(83%)" }}
@@ -657,7 +657,7 @@ export function ContactCTA() {
 
         <div className="mt-4 text-center">
           <a
-            href="https://www.google.com/maps/dir//225/1+Maheshpur+Industrial+Estate,+Varanasi+221106,+Uttar+Pradesh,+India"
+            href="https://www.google.com/maps/dir/?api=1&destination=225%2F1%2C+Maheshpur+Industrial+Estate%2C+Varanasi%2C+Uttar+Pradesh+221106%2C+India"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 text-sm font-sans-brand uppercase tracking-[0.2em] text-magenta hover:text-white transition-colors"
