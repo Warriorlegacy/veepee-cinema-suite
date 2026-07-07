@@ -20,11 +20,28 @@ export const Route = createFileRoute("/services/$id")({
     if (!res) throw notFound();
     return res;
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     const s = loaderData?.service;
     const title = s ? `${s.name} · VEEPEE Engineers` : "Service · VEEPEE Engineers";
     const desc = s?.description ?? "Precision engineering services by VEEPEE Engineers.";
     const image = s?.image_url;
+    const url = `https://veepeeengr.com/services/${params.id}`;
+    const jsonLd = s
+      ? {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: s.name,
+          description: desc,
+          url,
+          ...(image ? { image } : {}),
+          provider: {
+            "@type": "Organization",
+            name: "VEEPEE Engineers",
+            url: "https://veepeeengr.com",
+          },
+          areaServed: "IN",
+        }
+      : null;
     return {
       meta: [
         { title },
@@ -32,6 +49,7 @@ export const Route = createFileRoute("/services/$id")({
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         ...(image ? [
           { property: "og:image", content: image },
           { name: "twitter:image", content: image },
@@ -39,6 +57,10 @@ export const Route = createFileRoute("/services/$id")({
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: desc },
       ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: jsonLd
+        ? [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }]
+        : [],
     };
   },
   component: ServiceDetail,
