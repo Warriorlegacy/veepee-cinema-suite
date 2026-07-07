@@ -127,8 +127,25 @@ function AdminDashboard() {
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState(ICON_NAMES[0]);
   const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [fileErr, setFileErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!file) { setPreview(null); return; }
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  function onPickFile(f: File | null) {
+    setFileErr(null);
+    if (!f) { setFile(null); return; }
+    const err = validateImageFile(f);
+    if (err) { setFileErr(err); setFile(null); return; }
+    setFile(f);
+  }
 
   const delMut = useMutation({
     mutationFn: (id: string) => remove({ data: { id } }),
