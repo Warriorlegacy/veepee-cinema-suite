@@ -88,6 +88,39 @@ export const listServices = createServerFn({ method: "GET" }).handler(
   },
 );
 
+/* ─────────── Public: get one service with gallery ─────────── */
+export const getServiceDetail = createServerFn({ method: "GET" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }): Promise<{ service: Service; images: ServiceImageRow[] } | null> => {
+    const supabase = serverSupabase();
+    const { data: svc, error } = await supabase
+      .from("services")
+      .select("id, name, description, icon, image_url, sort_order")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (error || !svc) return null;
+    const { data: images } = await supabase
+      .from("service_images")
+      .select("id, service_id, url, caption, sort_order")
+      .eq("service_id", data.id)
+      .order("sort_order", { ascending: true });
+    return { service: svc, images: images ?? [] };
+  });
+
+/* ─────────── Public: list gallery images per service (used in admin) ─────────── */
+export const listServiceImages = createServerFn({ method: "GET" })
+  .inputValidator((data: { serviceId: string }) => data)
+  .handler(async ({ data }): Promise<ServiceImageRow[]> => {
+    const supabase = serverSupabase();
+    const { data: rows, error } = await supabase
+      .from("service_images")
+      .select("id, service_id, url, caption, sort_order")
+      .eq("service_id", data.serviceId)
+      .order("sort_order", { ascending: true });
+    if (error) return [];
+    return rows ?? [];
+  });
+
 /* ─────────── Admin gate ─────────── */
 export const unlockAdmin = createServerFn({ method: "POST" })
   .inputValidator((data: { password: string }) => data)
