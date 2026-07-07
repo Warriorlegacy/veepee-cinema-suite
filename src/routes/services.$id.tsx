@@ -107,6 +107,7 @@ function ServiceDetail() {
           src={hero}
           alt={service.name}
           eager
+          responsive
           className="absolute inset-0 h-full w-full object-cover opacity-70"
           sizes="100vw"
         />
