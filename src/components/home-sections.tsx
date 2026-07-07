@@ -166,18 +166,12 @@ export function TrustBar() {
 }
 
 /* ─────────── SERVICES ─────────── */
-const services = [
-  { icon: Zap, name: "Laser Cutting", desc: "Fiber laser precision on MS, SS, GI" },
-  { icon: Cog, name: "CNC Fabrication", desc: "Tight-tolerance machined parts" },
-  { icon: Wrench, name: "Engineering Components", desc: "Custom industrial assemblies" },
-  { icon: Building2, name: "Gates & Railings", desc: "Architectural-grade installations" },
-  { icon: Sparkles, name: "Architectural Metal", desc: "Jaali, facades, signage" },
-  { icon: Factory, name: "Industrial Manufacturing", desc: "Volume production at spec" },
-  { icon: Shield, name: "Hot Dip Galvanized", desc: "Corrosion-proof finishing" },
-  { icon: Droplets, name: "Tubewell Fittings", desc: "Heavy-duty water infrastructure" },
-];
-
 export function Services() {
+  const { data: services = [] } = useQuery({
+    queryKey: ["services"],
+    queryFn: () => listServices(),
+  });
+
   return (
     <section id="services" className="relative py-28 noise overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-6">
@@ -192,31 +186,45 @@ export function Services() {
           We shape <span className="text-magenta">steel</span> into possibilities.
         </motion.h2>
         <p className="mt-5 max-w-2xl text-metallic font-body">
-          Eight integrated capabilities under one roof — from a single laser-cut sheet to full
+          Integrated capabilities under one roof — from a single laser-cut sheet to full
           architectural installations.
         </p>
 
-        <div className="mt-16 flex gap-5 overflow-x-auto no-scrollbar pb-4 lg:grid lg:grid-cols-4 lg:overflow-visible">
-          {services.map((s, i) => (
-            <motion.div
-              key={s.name}
-              custom={i}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={fadeUp}
-              className="group relative min-w-[240px] lg:min-w-0 p-7 rounded-lg bg-card border border-white/5 hover:border-magenta/50 transition-all cursor-pointer overflow-hidden"
-            >
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                   style={{ background: "var(--gradient-magenta-soft)" }} />
-              <s.icon className="relative h-9 w-9 text-magenta mb-6" strokeWidth={1.5} />
-              <h3 className="relative font-display text-2xl text-white tracking-wide">{s.name}</h3>
-              <p className="relative mt-2 text-sm text-metallic font-body">{s.desc}</p>
-              <div className="relative mt-6 flex items-center gap-2 text-magenta font-sans-brand text-xs uppercase tracking-[0.25em] opacity-70 group-hover:opacity-100 transition-opacity">
-                Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-              </div>
-            </motion.div>
-          ))}
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {services.map((s, i) => {
+            const Icon = getServiceIcon(s.icon);
+            return (
+              <motion.div
+                key={s.id}
+                custom={i}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={fadeUp}
+                className="group relative rounded-lg bg-card border border-white/5 hover:border-magenta/50 transition-all cursor-pointer overflow-hidden"
+              >
+                {s.image_url && (
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={s.image_url}
+                      alt={s.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+                  </div>
+                )}
+                <div className="relative p-6">
+                  <Icon className="h-8 w-8 text-magenta mb-4" strokeWidth={1.5} />
+                  <h3 className="font-display text-xl text-white tracking-wide">{s.name}</h3>
+                  <p className="mt-2 text-sm text-metallic font-body line-clamp-3">{s.description}</p>
+                  <div className="mt-5 flex items-center gap-2 text-magenta font-sans-brand text-xs uppercase tracking-[0.25em] opacity-70 group-hover:opacity-100 transition-opacity">
+                    Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
