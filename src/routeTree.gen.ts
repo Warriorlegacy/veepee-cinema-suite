@@ -17,6 +17,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIdRouteImport } from './routes/services.$id'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as DebugImagesRouteImport } from './routes/debug.images'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -59,6 +60,11 @@ const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ProjectsRoute,
 } as any)
+const DebugImagesRoute = DebugImagesRouteImport.update({
+  id: '/debug/images',
+  path: '/debug/images',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAnalyticsRoute = ApiPublicAnalyticsRouteImport.update({
   id: '/api/public/analytics',
   path: '/api/public/analytics',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/debug/images': typeof DebugImagesRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/debug/images': typeof DebugImagesRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/debug/images': typeof DebugImagesRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/debug/images'
     | '/projects/$slug'
     | '/services/$id'
     | '/api/public/analytics'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/debug/images'
     | '/projects/$slug'
     | '/services/$id'
     | '/api/public/analytics'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/debug/images'
     | '/projects/$slug'
     | '/services/$id'
     | '/api/public/analytics'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapServicesDotxmlRoute: typeof SitemapServicesDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  DebugImagesRoute: typeof DebugImagesRoute
   ServicesIdRoute: typeof ServicesIdRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
 }
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsSlugRouteImport
       parentRoute: typeof ProjectsRoute
     }
+    '/debug/images': {
+      id: '/debug/images'
+      path: '/debug/images'
+      fullPath: '/debug/images'
+      preLoaderRoute: typeof DebugImagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/analytics': {
       id: '/api/public/analytics'
       path: '/api/public/analytics'
@@ -233,6 +253,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapServicesDotxmlRoute: SitemapServicesDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  DebugImagesRoute: DebugImagesRoute,
   ServicesIdRoute: ServicesIdRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,
 }
