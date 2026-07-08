@@ -5,9 +5,10 @@ import logo from "@/assets/veepee-logo.png.asset.json";
 
 const links = [
   { label: "Services", href: "/#services" },
-  { label: "Products", href: "/#products" },
-  { label: "Process", href: "/#process" },
   { label: "Projects", href: "/projects" },
+  { label: "Export", href: "/export" },
+  { label: "Architects", href: "/architects" },
+  { label: "Procurement", href: "/procurement" },
   { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },
 ];

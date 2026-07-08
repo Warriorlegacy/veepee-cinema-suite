@@ -13,6 +13,9 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapServicesDotxmlRouteImport } from './routes/sitemap-services[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as ProcurementRouteImport } from './routes/procurement'
+import { Route as ExportRouteImport } from './routes/export'
+import { Route as ArchitectsRouteImport } from './routes/architects'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIdRouteImport } from './routes/services.$id'
@@ -38,6 +41,21 @@ const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProcurementRoute = ProcurementRouteImport.update({
+  id: '/procurement',
+  path: '/procurement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExportRoute = ExportRouteImport.update({
+  id: '/export',
+  path: '/export',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArchitectsRoute = ArchitectsRouteImport.update({
+  id: '/architects',
+  path: '/architects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -74,6 +92,9 @@ const ApiPublicAnalyticsRoute = ApiPublicAnalyticsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/architects': typeof ArchitectsRoute
+  '/export': typeof ExportRoute
+  '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
@@ -86,6 +107,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/architects': typeof ArchitectsRoute
+  '/export': typeof ExportRoute
+  '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
@@ -99,6 +123,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/architects': typeof ArchitectsRoute
+  '/export': typeof ExportRoute
+  '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
@@ -113,6 +140,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/architects'
+    | '/export'
+    | '/procurement'
     | '/projects'
     | '/robots.txt'
     | '/sitemap-services.xml'
@@ -125,6 +155,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/architects'
+    | '/export'
+    | '/procurement'
     | '/projects'
     | '/robots.txt'
     | '/sitemap-services.xml'
@@ -137,6 +170,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/architects'
+    | '/export'
+    | '/procurement'
     | '/projects'
     | '/robots.txt'
     | '/sitemap-services.xml'
@@ -150,6 +186,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  ArchitectsRoute: typeof ArchitectsRoute
+  ExportRoute: typeof ExportRoute
+  ProcurementRoute: typeof ProcurementRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapServicesDotxmlRoute: typeof SitemapServicesDotxmlRoute
@@ -187,6 +226,27 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/procurement': {
+      id: '/procurement'
+      path: '/procurement'
+      fullPath: '/procurement'
+      preLoaderRoute: typeof ProcurementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/export': {
+      id: '/export'
+      path: '/export'
+      fullPath: '/export'
+      preLoaderRoute: typeof ExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/architects': {
+      id: '/architects'
+      path: '/architects'
+      fullPath: '/architects'
+      preLoaderRoute: typeof ArchitectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -249,6 +309,9 @@ const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  ArchitectsRoute: ArchitectsRoute,
+  ExportRoute: ExportRoute,
+  ProcurementRoute: ProcurementRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapServicesDotxmlRoute: SitemapServicesDotxmlRoute,
