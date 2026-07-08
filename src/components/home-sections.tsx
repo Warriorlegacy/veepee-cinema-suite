@@ -81,43 +81,35 @@ export function Hero() {
       {/* Content */}
       <motion.div style={{ opacity }} className="relative z-10 flex h-full items-center">
         <div className="mx-auto w-full max-w-[1400px] px-6 md:px-16">
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={{ show: { transition: { staggerChildren: 0.18 } } }}
-            className="max-w-4xl"
-          >
-            <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
+          <div className="max-w-4xl">
+            <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-8">
               <span className="h-px w-12 bg-magenta" />
               <span className="font-sans-brand text-xs tracking-[0.4em] text-magenta uppercase">
                 Precision Engineering · Since 1976
               </span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              variants={fadeUp}
-              className="font-display text-[14vw] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.85] text-white"
+            <h1
+              className="hero-fade hero-fade-2 font-display text-[14vw] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.85] text-white"
             >
               ENGINEERING
               <br />
               <span className="text-gradient-magenta">PRECISION.</span>
-            </motion.h1>
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-[10vw] md:text-[6vw] lg:text-[5.5rem] leading-[0.9] text-metallic/80 mt-1"
+            </h1>
+            <h2
+              className="hero-fade hero-fade-3 font-display text-[10vw] md:text-[6vw] lg:text-[5.5rem] leading-[0.9] text-metallic/80 mt-1"
             >
               DELIVERING EXCELLENCE.
-            </motion.h2>
+            </h2>
 
-            <motion.p
-              variants={fadeUp}
-              className="mt-8 max-w-2xl font-sans-brand text-base md:text-lg tracking-wide text-metallic"
+            <p
+              className="hero-fade hero-fade-4 mt-8 max-w-2xl font-sans-brand text-base md:text-lg tracking-wide text-metallic"
             >
               Laser Cutting · CNC Fabrication · Industrial Manufacturing · Architectural Metal Works.
               Rooted in the steel heritage of Varanasi, built for India's most demanding projects.
-            </motion.p>
+            </p>
 
-            <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-4">
+            <div className="hero-fade hero-fade-5 mt-10 flex flex-wrap gap-4">
               <a
                 href="#contact"
                 className="group inline-flex items-center gap-3 px-7 py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md shadow-magenta hover:shadow-glow transition-all"
@@ -140,8 +132,8 @@ export function Hero() {
               >
                 <MessageCircle className="h-4 w-4" /> WhatsApp Now
               </a>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </motion.div>
 

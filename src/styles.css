@@ -200,6 +200,20 @@
 }
 .animate-chevron { animation: scroll-chevron 1.8s ease-in-out infinite; }
 
+@keyframes hero-fadeup {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-fade {
+  animation: hero-fadeup 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+.hero-fade-1 { animation-delay: 0s; }
+.hero-fade-2 { animation-delay: 0.18s; }
+.hero-fade-3 { animation-delay: 0.36s; }
+.hero-fade-4 { animation-delay: 0.54s; }
+.hero-fade-5 { animation-delay: 0.72s; }
+
 @keyframes ticker {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
