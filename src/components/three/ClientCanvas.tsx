@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, useRef, type ReactNode } from "react";
 import { SceneCanvas } from "./SceneCanvas";
 
 interface ClientCanvasProps {
@@ -16,26 +16,35 @@ export function ClientCanvas({
   cameraFov,
   performance,
 }: ClientCanvasProps) {
-  const [mounted, setMounted] = useState(false);
+  const [inView, setInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
-  if (!mounted) {
-    return (
-      <div className={`absolute inset-0 bg-black/20 ${className ?? ""}`} />
-    );
-  }
-
   return (
-    <SceneCanvas
-      className={className}
-      cameraPosition={cameraPosition}
-      cameraFov={cameraFov}
-      performance={performance}
-    >
-      {children}
-    </SceneCanvas>
+    <div ref={containerRef} className={`absolute inset-0 ${className ?? ""}`}>
+      {inView ? (
+        <SceneCanvas
+          cameraPosition={cameraPosition}
+          cameraFov={cameraFov}
+          performance={performance}
+        >
+          {children}
+        </SceneCanvas>
+      ) : (
+        <div className="absolute inset-0 bg-black/20" />
+      )}
+    </div>
   );
 }
