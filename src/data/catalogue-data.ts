@@ -2,7 +2,19 @@
  * VEEPEE Engineers — Product Catalogue Data
  * Structured catalogue with categories, products, and pricing.
  * Auto-generated from Google Maps analysis.
+ *
+ * NOTE: The import below ensures Vite tracks all catalogue images as
+ * module dependencies so they are always included in the production build.
+ * Without this, only images explicitly imported by components are bundled.
  */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const _catalogueImages = import.meta.glob("/public/catalogue/**/*.{jpeg,jpg,png}", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export interface CatalogueCategory {
   id: string;
