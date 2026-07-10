@@ -15,6 +15,7 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProcurementRouteImport } from './routes/procurement'
 import { Route as ExportRouteImport } from './routes/export'
+import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as ArchitectsRouteImport } from './routes/architects'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -51,6 +52,11 @@ const ProcurementRoute = ProcurementRouteImport.update({
 const ExportRoute = ExportRouteImport.update({
   id: '/export',
   path: '/export',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogueRoute = CatalogueRouteImport.update({
+  id: '/catalogue',
+  path: '/catalogue',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArchitectsRoute = ArchitectsRouteImport.update({
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/architects': typeof ArchitectsRoute
+  '/catalogue': typeof CatalogueRoute
   '/export': typeof ExportRoute
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/architects': typeof ArchitectsRoute
+  '/catalogue': typeof CatalogueRoute
   '/export': typeof ExportRoute
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/architects': typeof ArchitectsRoute
+  '/catalogue': typeof CatalogueRoute
   '/export': typeof ExportRoute
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/architects'
+    | '/catalogue'
     | '/export'
     | '/procurement'
     | '/projects'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/architects'
+    | '/catalogue'
     | '/export'
     | '/procurement'
     | '/projects'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/architects'
+    | '/catalogue'
     | '/export'
     | '/procurement'
     | '/projects'
@@ -187,6 +199,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   ArchitectsRoute: typeof ArchitectsRoute
+  CatalogueRoute: typeof CatalogueRoute
   ExportRoute: typeof ExportRoute
   ProcurementRoute: typeof ProcurementRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
@@ -240,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/export'
       fullPath: '/export'
       preLoaderRoute: typeof ExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalogue': {
+      id: '/catalogue'
+      path: '/catalogue'
+      fullPath: '/catalogue'
+      preLoaderRoute: typeof CatalogueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/architects': {
@@ -310,6 +330,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   ArchitectsRoute: ArchitectsRoute,
+  CatalogueRoute: CatalogueRoute,
   ExportRoute: ExportRoute,
   ProcurementRoute: ProcurementRoute,
   ProjectsRoute: ProjectsRouteWithChildren,

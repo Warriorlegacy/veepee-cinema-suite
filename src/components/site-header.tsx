@@ -5,6 +5,7 @@ import logo from "@/assets/veepee-logo.png.asset.json";
 
 const links = [
   { label: "Services", href: "/#services" },
+  { label: "Catalogue", href: "/catalogue" },
   { label: "Projects", href: "/projects" },
   { label: "Export", href: "/export" },
   { label: "Architects", href: "/architects" },

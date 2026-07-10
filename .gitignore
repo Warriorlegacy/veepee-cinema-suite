@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Raw Google Maps images
+/Veepee Engineers - Coupling & Dismantling Joint Manufacturer and CNC Laser Cutting. - Google Maps/
+
+# Meta screenshots/design files
+/assets/meta/

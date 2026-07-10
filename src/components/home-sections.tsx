@@ -26,6 +26,7 @@ import { ProductModel } from "@/components/three/ProductModel";
 import { ProcessPipeline } from "@/components/three/ProcessPipeline";
 import { WorkshopScene } from "@/components/three/WorkshopScene";
 import { ContactGear } from "@/components/three/ContactGear";
+import { categories as catalogueCategories, products as catalogueProducts } from "@/data/catalogue-data";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -259,17 +260,18 @@ export function Services() {
 }
 
 /* ─────────── FEATURED PRODUCTS ─────────── */
-const products = [
-  { img: productGate, category: "Gates", name: "Heritage Wrought Gate" },
-  { img: productJaali, category: "Jaali", name: "Mandala Laser Panel" },
-  { img: productRailing, category: "Railings", name: "Stainless Spiral Railing" },
-  { img: productIndustrial, category: "Industrial", name: "Structural Steel Frame" },
-];
-
 export function Products() {
-  const [filter, setFilter] = useState("All");
-  const filters = ["All", "Gates", "Railings", "Jaali", "Industrial"];
-  const visible = filter === "All" ? products : products.filter((p) => p.category === filter);
+  const [filter, setFilter] = useState("all");
+  
+  // Get 1-2 representative products per category for featured display
+  const featuredProducts = catalogueProducts.filter((p) => {
+    const indexInCat = catalogueProducts.filter((x) => x.categoryId === p.categoryId).indexOf(p);
+    return indexInCat < 2;
+  }).slice(0, 12);
+
+  const visible = filter === "all"
+    ? featuredProducts
+    : featuredProducts.filter((p) => p.categoryId === filter);
 
   return (
     <section id="products" className="relative py-28 bg-near-black">
@@ -290,52 +292,70 @@ export function Products() {
             Premium products. <br /><span className="text-gradient-magenta">Precision crafted.</span>
           </h2>
           <div className="flex flex-wrap gap-2">
-            {filters.map((f) => (
+            <button
+              onClick={() => setFilter("all")}
+              className={`px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
+                filter === "all"
+                  ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                  : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+              }`}
+            >
+              All
+            </button>
+            {catalogueCategories.slice(0, 6).map((c) => (
               <button
-                key={f}
-                onClick={() => setFilter(f)}
+                key={c.id}
+                onClick={() => setFilter(c.id)}
                 className={`px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
-                  filter === f
+                  filter === c.id
                     ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
                     : "border-white/15 text-metallic hover:border-magenta hover:text-white"
                 }`}
               >
-                {f}
+                {c.shortName}
               </button>
             ))}
           </div>
         </div>
 
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {visible.map((p, i) => (
-            <motion.a
-              key={p.name}
-              href="#contact"
-              custom={i}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={fadeUp}
-              className="group relative aspect-[4/5] overflow-hidden rounded-lg bg-card"
-            >
-              <img
-                src={p.img}
-                alt={p.name}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-magenta/90 text-white text-[10px] font-sans-brand uppercase tracking-[0.25em]">
-                {p.category}
-              </span>
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h3 className="font-display text-2xl text-white tracking-wide">{p.name}</h3>
-                <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-xs uppercase tracking-[0.25em] opacity-80 group-hover:opacity-100">
-                  Enquire <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+          {visible.map((p, i) => {
+            const cat = catalogueCategories.find((c) => c.id === p.categoryId);
+            return (
+              <motion.a
+                key={p.id}
+                href="/catalogue"
+                custom={i}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={fadeUp}
+                className="group relative aspect-[4/5] overflow-hidden rounded-lg bg-card block"
+              >
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+                {cat && (
+                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-magenta/90 text-white text-[10px] font-sans-brand uppercase tracking-[0.25em]">
+                    {cat.shortName}
+                  </span>
+                )}
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="font-display text-2xl text-white tracking-wide leading-tight">{p.name}</h3>
+                  {p.material && (
+                    <p className="text-[11px] text-metallic font-body mt-1">{p.material}</p>
+                  )}
+                  <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-xs uppercase tracking-[0.25em] opacity-80 group-hover:opacity-100">
+                    Explore Catalogue <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                  </div>
                 </div>
-              </div>
-            </motion.a>
-          ))}
+              </motion.a>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -732,6 +752,84 @@ function SectionLabel({ number, label, center }: { number: string; label: string
       <span className="h-px w-10 bg-magenta" />
       <span className="font-sans-brand text-[11px] tracking-[0.4em] uppercase text-metallic">{label}</span>
     </div>
+  );
+}
+
+/* ─────────── CATALOGUE CTA ─────────── */
+export function CatalogueCTA() {
+  const previewImages = [
+    "/catalogue/jaali-screens/jaali-1.jpeg",
+    "/catalogue/gates/gate-1.jpeg",
+    "/catalogue/shadow-art/shadow-3.jpeg",
+    "/catalogue/pooja-panels/pooja-1.jpeg",
+    "/catalogue/railings/railing-1.jpeg",
+    "/catalogue/mirror-frames/mirror-1.jpeg",
+  ];
+
+  return (
+    <section className="relative py-24 bg-gradient-to-b from-near-black via-[#0D0D0D] to-near-black overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,20,142,0.06),transparent_60%)]" />
+
+      <div className="relative mx-auto max-w-[1400px] px-6">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="text-center"
+        >
+          <SectionLabel number="✦" label="Product Catalogue" center />
+          <h2 className="font-display text-4xl md:text-6xl text-white leading-[0.95]">
+            Explore <span className="text-gradient-magenta">65+ Designs</span>
+          </h2>
+          <p className="mt-4 text-metallic font-body text-base max-w-xl mx-auto">
+            From laser-cut jaali screens to designer gates, pooja panels, and shadow art — browse our
+            full product catalogue with pricing.
+          </p>
+        </motion.div>
+
+        {/* Thumbnail preview strip */}
+        <div className="mt-12 flex justify-center gap-3 overflow-hidden">
+          {previewImages.map((img, i) => (
+            <motion.div
+              key={img}
+              custom={i + 1}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              className="relative w-32 h-40 sm:w-40 sm:h-48 rounded-lg overflow-hidden border border-white/10 shrink-0 group"
+            >
+              <img
+                src={img}
+                alt={`Preview ${i + 1}`}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          custom={3}
+          className="mt-10 text-center"
+        >
+          <a
+            href="/catalogue"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-magenta-gradient text-white font-sans-brand text-sm uppercase tracking-[0.2em] rounded-lg hover:shadow-magenta transition-all group"
+          >
+            Explore Full Catalogue
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </a>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 

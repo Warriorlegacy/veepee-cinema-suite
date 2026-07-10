@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import {
-  Hero, TrustBar, Services, Products, Process,
+  Hero, TrustBar, Services, Products, CatalogueCTA, Process,
   FeaturedProject, Workshop, IndustriesTicker, Testimonials, ContactCTA,
 } from "@/components/home-sections";
 import heroImg from "@/assets/hero-sparks.jpg";
@@ -59,6 +59,7 @@ function Index() {
         <TrustBar />
         <Services />
         <Products />
+        <CatalogueCTA />
         <Process />
         <FeaturedProject />
         <Workshop />
