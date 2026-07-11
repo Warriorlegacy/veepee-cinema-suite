@@ -104,12 +104,14 @@ function DebugCanvas() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white p-6 space-y-6">
+      <FpsOverlay />
       <header>
         <h1 className="text-2xl font-semibold">R3F Canvas regression</h1>
         <p className="text-sm text-neutral-400">
           Mounts the Hero scene at multiple narrow widths and reports whether the
           R3F Canvas mounts without throwing. Watches <code>console.error</code>
-          for R3F / three / eventSource failures.
+          for R3F / three / eventSource failures. The overlay in the top-right
+          shows live FPS and frame time — useful for confirming smooth 3D on mobile.
         </p>
         <p className={`mt-2 text-sm font-medium ${anyError ? "text-red-400" : allDone ? "text-emerald-400" : "text-yellow-400"}`}>
           {anyError ? "FAIL — see failing width below" : allDone ? "PASS — all widths mounted" : "Running..."}
