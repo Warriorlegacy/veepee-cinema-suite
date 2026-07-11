@@ -152,3 +152,45 @@ function DebugCanvas() {
     </div>
   );
 }
+
+function FpsOverlay() {
+  const [stats, setStats] = useState({ fps: 0, ms: 0, min: Infinity, max: 0, avg: 0 });
+  const framesRef = useRef<number[]>([]);
+  const lastRef = useRef<number>(performance.now());
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    const loop = (now: number) => {
+      const dt = now - lastRef.current;
+      lastRef.current = now;
+      const frames = framesRef.current;
+      frames.push(dt);
+      if (frames.length > 120) frames.shift();
+      const sum = frames.reduce((a, b) => a + b, 0);
+      const avgMs = sum / frames.length;
+      setStats({
+        fps: Math.round(1000 / dt),
+        ms: Math.round(dt * 10) / 10,
+        min: Math.round(Math.min(...frames) * 10) / 10,
+        max: Math.round(Math.max(...frames) * 10) / 10,
+        avg: Math.round(avgMs * 10) / 10,
+      });
+      rafRef.current = requestAnimationFrame(loop);
+    };
+    rafRef.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  const color =
+    stats.fps >= 55 ? "text-emerald-400" : stats.fps >= 30 ? "text-yellow-400" : "text-red-400";
+
+  return (
+    <div className="fixed top-3 right-3 z-50 rounded-md border border-white/15 bg-black/80 backdrop-blur px-3 py-2 font-mono text-xs text-white shadow-lg pointer-events-none select-none">
+      <div className={`text-base font-semibold ${color}`}>{stats.fps} fps</div>
+      <div className="text-neutral-300">frame {stats.ms} ms</div>
+      <div className="text-neutral-400">
+        avg {stats.avg} · min {stats.min} · max {stats.max}
+      </div>
+    </div>
+  );
+}
