@@ -90,18 +90,24 @@ export function Hero() {
               </span>
             </div>
 
-            <h1
+            {/* Visually-hidden semantic H1 for SEO — the display heading below is decorative */}
+            <h1 className="sr-only">
+              Metal Fabricator &amp; Laser Cutting Services in Varanasi, Uttar Pradesh | VEEPEE Engineers
+            </h1>
+            <p
+              aria-hidden="true"
               className="hero-fade hero-fade-2 font-display text-[14vw] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.85] text-white"
             >
               ENGINEERING
               <br />
               <span className="text-gradient-magenta">PRECISION.</span>
-            </h1>
-            <h2
+            </p>
+            <p
+              aria-hidden="true"
               className="hero-fade hero-fade-3 font-display text-[10vw] md:text-[6vw] lg:text-[5.5rem] leading-[0.9] text-metallic/80 mt-1"
             >
               DELIVERING EXCELLENCE.
-            </h2>
+            </p>
 
             <p
               className="hero-fade hero-fade-4 mt-8 max-w-2xl font-sans-brand text-base md:text-lg tracking-wide text-metallic"
@@ -828,6 +834,111 @@ export function CatalogueCTA() {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
         </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────── FAQ SECTION ─────────── */
+const faqs = [
+  {
+    q: "What metal fabrication services does VEEPEE Engineers offer?",
+    a: "We offer fiber laser cutting, CNC fabrication, custom steel gates & grilles, jaali screens, decorative railings, architectural metalwork, hot-dip galvanizing, industrial manufacturing, pipe repair clamps, dismantling joints, and tubewell fittings — serving residential, commercial, and industrial clients across Varanasi, Uttar Pradesh, and Eastern India.",
+  },
+  {
+    q: "Where is VEEPEE Engineers located in Varanasi?",
+    a: "Our workshop is at 225/1 Maheshpur Industrial Estate, Varanasi, Uttar Pradesh 221106. Call us at +91-9125142400 or +91-7985759501, or reach us on WhatsApp 24×7.",
+  },
+  {
+    q: "How do I get a quote for laser cutting or fabrication?",
+    a: "Share your drawings, DXF/CAD files, required quantity, and material via WhatsApp (+91-9125142400) or the contact form on this page. We respond within one working day with a detailed quote.",
+  },
+  {
+    q: "Does VEEPEE Engineers supply across India or only in Varanasi?",
+    a: "Our workshop is in Varanasi, but we supply across Uttar Pradesh, Bihar, Jharkhand, and Eastern India — including Prayagraj, Mirzapur, Jaunpur, Ghazipur, Chandauli, Bhadohi, and Lucknow.",
+  },
+  {
+    q: "Is VEEPEE Engineers GST registered and UDYAM certified?",
+    a: "Yes. GSTIN: 09ABTPJ5945P1ZK. UDYAM: UDYAM-UP-75-0001103. We are a certified MSME unit in Uttar Pradesh, also listed on IndiaMART and JustDial.",
+  },
+  {
+    q: "What materials and thicknesses do you cut?",
+    a: "We work with mild steel (MS), stainless steel (SS), aluminium, galvanised iron (GI), and corten steel. Our fiber laser cuts up to 25 mm on mild steel. Finishing options include powder coating, hot-dip galvanizing, and polishing.",
+  },
+];
+
+export function FAQSection() {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <section
+      id="faq"
+      className="relative py-24 bg-near-black border-t border-white/5"
+      itemScope
+      itemType="https://schema.org/FAQPage"
+    >
+      <div className="mx-auto max-w-[900px] px-6">
+        <SectionLabel number="✦" label="FAQ" />
+        <h2 className="font-display text-4xl md:text-6xl text-white leading-[0.95] mb-12">
+          Common <span className="text-gradient-magenta">Questions</span>
+        </h2>
+        <div className="space-y-3">
+          {faqs.map((faq, i) => (
+            <div
+              key={i}
+              className="rounded-lg border border-white/8 bg-card overflow-hidden"
+              itemScope
+              itemProp="mainEntity"
+              itemType="https://schema.org/Question"
+            >
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left group"
+                aria-expanded={open === i}
+              >
+                <span
+                  className="font-sans-brand text-sm md:text-base tracking-wide text-white group-hover:text-magenta transition-colors"
+                  itemProp="name"
+                >
+                  {faq.q}
+                </span>
+                <ChevronDown
+                  className={`h-5 w-5 text-magenta shrink-0 transition-transform duration-300 ${
+                    open === i ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  open === i ? "max-h-[500px]" : "max-h-0"
+                }`}
+                itemScope
+                itemProp="acceptedAnswer"
+                itemType="https://schema.org/Answer"
+              >
+                <p
+                  className="px-6 pb-5 text-sm text-metallic font-body leading-relaxed"
+                  itemProp="text"
+                >
+                  {faq.a}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-12 text-center">
+          <p className="text-metallic font-body text-sm mb-4">
+            Still have questions? We're happy to help.
+          </p>
+          <a
+            href="https://wa.me/919125142400"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md"
+            style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
+          >
+            <MessageCircle className="h-4 w-4" /> Chat on WhatsApp
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -22,11 +22,16 @@ export const Route = createFileRoute("/services/$id")({
   },
   head: ({ loaderData, params }) => {
     const s = loaderData?.service;
-    const title = s ? `${s.name} · VEEPEE Engineers` : "Service · VEEPEE Engineers";
-    const desc = s?.description ?? "Precision engineering services by VEEPEE Engineers.";
+    const title = s
+      ? `${s.name} in Varanasi · VEEPEE Engineers`
+      : "Service · VEEPEE Engineers — Metal Fabrication Varanasi";
+    const desc = s?.description
+      ? `${s.description} — Expert ${s.name} services in Varanasi, Uttar Pradesh by VEEPEE Engineers. Call +91-9125142400 for a free quote.`
+      : "Precision engineering services by VEEPEE Engineers, Varanasi. Call +91-9125142400.";
     const image = s?.image_url;
     const url = `https://veepeeengr.com/services/${params.id}`;
-    const jsonLd = s
+
+    const serviceJsonLd = s
       ? {
           "@context": "https://schema.org",
           "@type": "Service",
@@ -35,13 +40,67 @@ export const Route = createFileRoute("/services/$id")({
           url,
           ...(image ? { image } : {}),
           provider: {
-            "@type": "Organization",
+            "@type": "LocalBusiness",
+            "@id": "https://veepeeengr.com/#business",
             name: "VEEPEE Engineers",
             url: "https://veepeeengr.com",
+            telephone: "+91-9125142400",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "225/1 Maheshpur Industrial Estate",
+              addressLocality: "Varanasi",
+              addressRegion: "Uttar Pradesh",
+              postalCode: "221106",
+              addressCountry: "IN",
+            },
           },
-          areaServed: "IN",
+          areaServed: [
+            { "@type": "City", name: "Varanasi" },
+            { "@type": "City", name: "Prayagraj" },
+            { "@type": "City", name: "Mirzapur" },
+            { "@type": "City", name: "Jaunpur" },
+            { "@type": "City", name: "Ghazipur" },
+            { "@type": "State", name: "Uttar Pradesh" },
+            { "@type": "Country", name: "India" },
+          ],
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "INR",
+            description: "Contact for quote. Custom pricing based on design, material, and quantity.",
+            eligibleRegion: { "@type": "Country", name: "India" },
+          },
         }
       : null;
+
+    const breadcrumbJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://veepeeengr.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Services",
+          item: "https://veepeeengr.com/#services",
+        },
+        ...(s
+          ? [
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: s.name,
+                item: url,
+              },
+            ]
+          : []),
+      ],
+    };
+
     return {
       meta: [
         { title },
@@ -50,17 +109,27 @@ export const Route = createFileRoute("/services/$id")({
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
-        ...(image ? [
-          { property: "og:image", content: image },
-          { name: "twitter:image", content: image },
-        ] : []),
+        { property: "og:locale", content: "en_IN" },
+        ...(image
+          ? [
+              { property: "og:image", content: image },
+              { name: "twitter:image", content: image },
+            ]
+          : []),
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: desc },
+        {
+          name: "robots",
+          content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+        },
       ],
       links: [{ rel: "canonical", href: url }],
-      scripts: jsonLd
-        ? [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }]
-        : [],
+      scripts: [
+        ...(serviceJsonLd
+          ? [{ type: "application/ld+json", children: JSON.stringify(serviceJsonLd) }]
+          : []),
+        { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
+      ],
     };
   },
   component: ServiceDetail,
