@@ -38,7 +38,7 @@ export function SceneCanvas({
     return () => observer.disconnect();
   }, [interactive]);
 
-  const dpr = performance === "high" ? [1, 1.5] : [0.5, 0.75];
+  const dpr: [number, number] = performance === "high" ? [1, 1.5] : [0.5, 0.75];
 
   return (
     <div
