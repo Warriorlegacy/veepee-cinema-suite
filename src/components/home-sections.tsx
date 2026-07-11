@@ -51,9 +51,11 @@ export function Hero() {
         className="absolute inset-0 z-0"
         cameraPosition={[0, 0, 5]}
         cameraFov={60}
+        interactive={false}
       >
         <HeroScene />
       </ClientCanvas>
+
 
       {/* Cinematic background (fallback / overlay) */}
       <motion.div style={{ y }} className="absolute inset-0 z-[1]">
@@ -489,9 +491,11 @@ export function Workshop() {
         cameraPosition={[0, 1, 4]}
         cameraFov={50}
         performance="low"
+        interactive={false}
       >
         <WorkshopScene />
       </ClientCanvas>
+
       <div className="relative z-[1] mx-auto max-w-[1400px] px-6 grid lg:grid-cols-2 gap-14 items-center">
         <motion.div
           initial={{ opacity: 0, scale: 1.05 }}

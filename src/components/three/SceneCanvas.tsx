@@ -9,6 +9,8 @@ interface SceneCanvasProps {
   cameraFov?: number;
   effects?: boolean;
   performance?: "high" | "low";
+  /** When false, disables R3F pointer event wiring entirely (avoids null-eventSource crash on scenes that don't need input). */
+  interactive?: boolean;
 }
 
 export function SceneCanvas({
@@ -17,36 +19,68 @@ export function SceneCanvas({
   cameraPosition = [0, 0, 5],
   cameraFov = 75,
   performance = "high",
+  interactive = true,
 }: SceneCanvasProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const mountedRef = useRef(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    mountedRef.current = true;
+    const el = wrapperRef.current;
+    if (!el || !interactive) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          el.style.pointerEvents = "auto";
-        } else {
-          el.style.pointerEvents = "none";
-        }
+        el.style.pointerEvents = entry.isIntersecting ? "auto" : "none";
       },
       { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [interactive]);
 
-  const dpr = performance === "high" ? [1, 1.5] : [0.5, 0.75];
+  const dpr: [number, number] = performance === "high" ? [1, 1.5] : [0.5, 0.75];
 
   return (
-    <div ref={ref} className={`absolute inset-0 ${className}`}>
+    <div
+      ref={wrapperRef}
+      className={`absolute inset-0 ${className}`}
+      style={interactive ? undefined : { pointerEvents: "none" }}
+    >
       <Canvas
         camera={{ position: cameraPosition, fov: cameraFov, near: 0.1, far: 100 }}
         dpr={dpr}
         frameloop="demand"
         gl={{ antialias: performance === "high", alpha: true }}
         style={{ background: "transparent" }}
+        // Pin eventSource to our wrapper so R3F's connect() never resolves to a null parent
+        // (this was the root cause of the "addEventListener of null" crash in the minified
+        // build on narrow viewports where the Canvas's absolute-positioned parent hadn't
+        // finished mounting when R3F called connect on it).
+        eventSource={interactive ? (wrapperRef as unknown as React.MutableRefObject<HTMLElement>) : undefined}
+        eventPrefix="client"
+        // For non-interactive scenes (hero/workshop) disable event wiring entirely.
+        events={interactive ? undefined : () => ({ enabled: false, priority: 0 })}
+        onCreated={(state) => {
+          if (typeof window !== "undefined") {
+            // Runtime instrumentation for the "eventSource null" crash.
+            // Exposes the resolved event source and gl info; safe to leave in — logs once per mount.
+            // eslint-disable-next-line no-console
+            console.info("[R3F] Canvas mounted", {
+              eventSource: state.events?.connected ?? null,
+              hasWrapper: !!wrapperRef.current,
+              size: state.size,
+              dpr: state.viewport.dpr,
+            });
+          }
+        }}
+        onError={(err) => {
+          // eslint-disable-next-line no-console
+          console.error("[R3F] Canvas error", {
+            error: err,
+            eventSourceRef: wrapperRef.current,
+            interactive,
+          });
+        }}
       >
         <EnvironmentSetup />
         {children}

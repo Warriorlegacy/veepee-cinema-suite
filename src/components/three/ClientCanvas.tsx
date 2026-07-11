@@ -7,6 +7,8 @@ interface ClientCanvasProps {
   cameraPosition?: [number, number, number];
   cameraFov?: number;
   performance?: "high" | "low";
+  /** Disable R3F pointer events for decorative scenes (prevents null-eventSource crash). */
+  interactive?: boolean;
 }
 
 export function ClientCanvas({
@@ -15,6 +17,7 @@ export function ClientCanvas({
   cameraPosition,
   cameraFov,
   performance,
+  interactive = true,
 }: ClientCanvasProps) {
   const [inView, setInView] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -39,6 +42,7 @@ export function ClientCanvas({
           cameraPosition={cameraPosition}
           cameraFov={cameraFov}
           performance={performance}
+          interactive={interactive}
         >
           {children}
         </SceneCanvas>
@@ -48,3 +52,4 @@ export function ClientCanvas({
     </div>
   );
 }
+

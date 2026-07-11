@@ -59,16 +59,19 @@ export function Sparks({
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
+          args={[positions, 3]}
           count={count}
           array={positions}
           itemSize={3}
         />
         <bufferAttribute
           attach="attributes-color"
+          args={[colors, 3]}
           count={count}
           array={colors}
           itemSize={3}
         />
+
       </bufferGeometry>
       <pointsMaterial
         size={size}

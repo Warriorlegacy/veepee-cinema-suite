@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactElement } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import * as THREE from "three";
@@ -14,7 +14,7 @@ function GearTeeth({
   toothHeight: number;
   toothWidth: number;
 }) {
-  const teeth: JSX.Element[] = [];
+  const teeth: ReactElement[] = [];
   for (let i = 0; i < count; i++) {
     const angle = (i / count) * Math.PI * 2;
     const x = Math.cos(angle) * radius;
