@@ -45,7 +45,7 @@ export function Hero() {
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
+    <section ref={ref} className="relative min-h-[100svh] md:min-h-[700px] md:h-screen w-full overflow-hidden bg-black">
       {/* 3D Laser Scene */}
       <ClientCanvas
         className="absolute inset-0 z-0"
