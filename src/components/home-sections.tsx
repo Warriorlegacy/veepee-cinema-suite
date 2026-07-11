@@ -282,7 +282,7 @@ export function Products() {
     : featuredProducts.filter((p) => p.categoryId === filter);
 
   return (
-    <section id="products" className="relative py-28 bg-near-black">
+    <section id="products" className="relative py-20 md:py-28 bg-near-black">
       <ClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-30"
         cameraPosition={[0, 0, 5]}
@@ -293,36 +293,38 @@ export function Products() {
         <ProductModel type="gate" position={[2, -0.5, -4]} />
         <ProductModel type="industrial" position={[-2, -0.8, -5]} />
       </ClientCanvas>
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="02" label="Featured Products" />
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <h2 className="font-display text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
             Premium products. <br /><span className="text-gradient-magenta">Precision crafted.</span>
           </h2>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setFilter("all")}
-              className={`px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
-                filter === "all"
-                  ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                  : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-              }`}
-            >
-              All
-            </button>
-            {catalogueCategories.slice(0, 6).map((c) => (
+          <div className="-mx-5 sm:mx-0 overflow-x-auto no-scrollbar">
+            <div className="flex gap-2 px-5 sm:px-0 min-w-max md:flex-wrap md:min-w-0">
               <button
-                key={c.id}
-                onClick={() => setFilter(c.id)}
-                className={`px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
-                  filter === c.id
+                onClick={() => setFilter("all")}
+                className={`shrink-0 px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
+                  filter === "all"
                     ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
                     : "border-white/15 text-metallic hover:border-magenta hover:text-white"
                 }`}
               >
-                {c.shortName}
+                All
               </button>
-            ))}
+              {catalogueCategories.slice(0, 6).map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setFilter(c.id)}
+                  className={`shrink-0 px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
+                    filter === c.id
+                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                      : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                  }`}
+                >
+                  {c.shortName}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
