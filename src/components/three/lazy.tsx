@@ -27,6 +27,7 @@ export const LazyClientCanvas = wrap(
     cameraFov?: number;
     performance?: "high" | "low";
     interactive?: boolean;
+    disableOnMobile?: boolean;
   }>,
   true,
 );
