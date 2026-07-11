@@ -491,9 +491,11 @@ export function Workshop() {
         cameraPosition={[0, 1, 4]}
         cameraFov={50}
         performance="low"
+        interactive={false}
       >
         <WorkshopScene />
       </ClientCanvas>
+
       <div className="relative z-[1] mx-auto max-w-[1400px] px-6 grid lg:grid-cols-2 gap-14 items-center">
         <motion.div
           initial={{ opacity: 0, scale: 1.05 }}
