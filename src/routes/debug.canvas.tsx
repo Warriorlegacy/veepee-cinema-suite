@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
-import { LazyHeroScene } from "@/components/three/LazyHeroScene";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyHeroScene } from "@/components/three/lazy";
 
 export const Route = createFileRoute("/debug/canvas")({
   head: () => ({

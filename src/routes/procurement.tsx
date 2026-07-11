@@ -9,8 +9,8 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
-import { LazyProcessPipeline } from "@/components/three/LazyProcessPipeline";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyProcessPipeline } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
 
 import productIndustrial from "@/assets/product-industrial.jpg";

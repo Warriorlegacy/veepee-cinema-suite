@@ -19,13 +19,13 @@ import { ContactForm } from "@/components/contact-form";
 import { ServiceImage } from "@/components/service-image";
 import { listServices } from "@/lib/services.functions";
 import { getServiceIcon } from "@/lib/service-icons";
-import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
-import { LazyHeroScene } from "@/components/three/LazyHeroScene";
-import { LazyFloatingIcon } from "@/components/three/LazyFloatingIcon";
-import { LazyProductModel } from "@/components/three/LazyProductModel";
-import { LazyProcessPipeline } from "@/components/three/LazyProcessPipeline";
-import { LazyWorkshopScene } from "@/components/three/LazyWorkshopScene";
-import { LazyContactGear } from "@/components/three/LazyContactGear";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyHeroScene } from "@/components/three/lazy";
+import { LazyFloatingIcon } from "@/components/three/lazy";
+import { LazyProductModel } from "@/components/three/lazy";
+import { LazyProcessPipeline } from "@/components/three/lazy";
+import { LazyWorkshopScene } from "@/components/three/lazy";
+import { LazyContactGear } from "@/components/three/lazy";
 import { categories as catalogueCategories, products as catalogueProducts } from "@/data/catalogue-data";
 
 const fadeUp = {

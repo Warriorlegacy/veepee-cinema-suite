@@ -9,8 +9,8 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
-import { LazyWorkshopScene } from "@/components/three/LazyWorkshopScene";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyWorkshopScene } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
 
 import workshopImg from "@/assets/workshop.jpg";

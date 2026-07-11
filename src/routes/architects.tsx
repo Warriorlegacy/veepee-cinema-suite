@@ -9,8 +9,8 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
-import { LazyProductModel } from "@/components/three/LazyProductModel";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyProductModel } from "@/components/three/lazy";
 import { OrbitControls } from "@react-three/drei";
 import { trackEvent } from "@/lib/analytics";
 
