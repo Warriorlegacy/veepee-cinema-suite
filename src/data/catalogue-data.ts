@@ -849,6 +849,384 @@ export const products: CatalogueProduct[] = [
     "priceRange": "\u20b9250 \u2013 \u20b9450/sq ft",
     "material": "Mild Steel",
     "description": "This laser-cut metal screen features an elegant and flowing swirl design, perfect for decorative room dividers, fa\u00e7ade cladding, or railing inserts. The raw mild steel finish offers a versatile base for various coating options."
+  },
+  {
+      "id": "p_81",
+      "categoryId": "railings",
+      "name": "Modern Flowing Wave Staircase Railing Panel",
+      "image": "/catalogue/railings/cat-main.jpeg",
+      "priceRange": "₹800 – ₹1,800/sq ft",
+      "material": "Mild Steel",
+      "description": "Exquisitely designed staircase railing featuring organic, sweeping wave-like geometric panels. Ideal for premium residential interiors, offering safety with modern sculptural aesthetics."
+  },
+  {
+      "id": "p_82",
+      "categoryId": "gift-decor",
+      "name": "Custom Metal Nameplate with Ornamental Frame (Singh)",
+      "image": "/catalogue/gift-decor/cat-1.jpeg",
+      "priceRange": "₹1,500 – ₹3,500",
+      "material": "Mild Steel (Powder Coated)",
+      "description": "Bespoke metal nameplate featuring the family name in elegant cursive calligraphy, enclosed within a highly detailed classical baroque border frame. Freestanding on a wooden backplate."
+  },
+  {
+      "id": "p_83",
+      "categoryId": "gift-decor",
+      "name": "Classic Custom Script Nameplate Collection",
+      "image": "/catalogue/gift-decor/cat-2.jpeg",
+      "priceRange": "₹1,200 – ₹3,000",
+      "material": "Mild Steel / Brass",
+      "description": "Customized metal script signs showcasing names like 'JAINS' with scrollwork scroll bases, or oval-framed names. Clean CNC profiles finished in weather-resistant paints."
+  },
+  {
+      "id": "p_84",
+      "categoryId": "gift-decor",
+      "name": "Premium Multi-Design Metal House Nameplates",
+      "image": "/catalogue/gift-decor/cat-3.jpeg",
+      "priceRange": "₹1,800 – ₹4,500",
+      "material": "Stainless Steel / Brass Finish",
+      "description": "Elegant collection of customized house plates combining high-precision laser-cut lettering, intricate borders, and traditional motifs like peacocks or flutes."
+  },
+  {
+      "id": "p_85",
+      "categoryId": "gift-decor",
+      "name": "Negative Cut Silhouette Nameplate (Singh)",
+      "image": "/catalogue/gift-decor/cat-4.jpeg",
+      "priceRange": "₹1,400 – ₹3,200",
+      "material": "Mild Steel (Matte Black Finish)",
+      "description": "Solid metal rectangular plate featuring the name 'Singh' in negative space cutout with ornamental corner trims. Perfect for mounting with warm backlighting on stone or wood walls."
+  },
+  {
+      "id": "p_86",
+      "categoryId": "industrial",
+      "name": "Fabricated Heavy-Duty Steel Cylinders",
+      "image": "/catalogue/industrial/cat-7.jpeg",
+      "priceRange": "₹3,000 – ₹8,000/segment",
+      "material": "Mild Steel",
+      "description": "Precisely curved and welded thick-walled steel cylinders, designed as heavy-duty casing segments for tubewells and municipal water supply pipe networks."
+  },
+  {
+      "id": "p_87",
+      "categoryId": "industrial",
+      "name": "Welded Steel Cage Frameworks",
+      "image": "/catalogue/industrial/cat-8.jpeg",
+      "priceRange": "₹2,500 – ₹6,000/piece",
+      "material": "Mild Steel Rods",
+      "description": "Industrial-grade vertical circular cage frameworks fabricated for water well screening, concrete column reinforcement, or heavy industrial filtration."
+  },
+  {
+      "id": "p_88",
+      "categoryId": "industrial",
+      "name": "Industrial Flanged Fittings and Connectors",
+      "image": "/catalogue/industrial/cat-9.jpeg",
+      "priceRange": "₹800 – ₹3,500/piece",
+      "material": "Cast Steel (Epoxy Coated)",
+      "description": "Epoxy-painted flanged pipe bends, couplers, and adaptors for municipal water systems, ensuring long-term resistance to corrosion and high pressure."
+  },
+  {
+      "id": "p_89",
+      "categoryId": "industrial",
+      "name": "CNC Rolled Steel Flat Rings",
+      "image": "/catalogue/industrial/cat-10.jpeg",
+      "priceRange": "₹400 – ₹1,200/piece",
+      "material": "Mild Steel",
+      "description": "Flat rings rolled and welded with high precision for use as industrial pipe flanges, tank gaskets, or structural spacers."
+  },
+  {
+      "id": "p_90",
+      "categoryId": "industrial",
+      "name": "Welded Shuttering Formwork Panels",
+      "image": "/catalogue/industrial/cat-11.jpeg",
+      "priceRange": "₹3,000 – ₹7,500/piece",
+      "material": "Mild Steel Channels & Sheets",
+      "description": "Heavy-duty steel concrete formwork panels reinforced with welded angle frames. Finished in industrial blue paint for long-lasting reuse on civil sites."
+  },
+  {
+      "id": "p_91",
+      "categoryId": "industrial",
+      "name": "Overhead Tank Shuttering Molds",
+      "image": "/catalogue/industrial/cat-12.jpeg",
+      "priceRange": "₹2,500 – ₹8,000/segment",
+      "material": "Mild Steel",
+      "description": "Circular modular shuttering channel molds designed specifically for casting concrete columns and shells of overhead water tanks (OHT)."
+  },
+  {
+      "id": "p_92",
+      "categoryId": "industrial",
+      "name": "Custom Steel Trough Plate Rolling",
+      "image": "/catalogue/industrial/cat-13.jpeg",
+      "priceRange": "₹5,000 – ₹15,000/segment",
+      "material": "Mild Steel (Thick Plate)",
+      "description": "Heavy plate sheets rolled into semi-cylindrical troughs or conduits, customized for industrial material transport or large-diameter pipe shielding."
+  },
+  {
+      "id": "p_93",
+      "categoryId": "industrial",
+      "name": "Welded Flange Pipeline Connectors",
+      "image": "/catalogue/industrial/cat-14.jpeg",
+      "priceRange": "₹1,500 – ₹4,500/piece",
+      "material": "Mild Steel",
+      "description": "Fabricated short pipe connectors welded with dual pre-drilled flanges on each end for fast and secure pipeline integration."
+  },
+  {
+      "id": "p_94",
+      "categoryId": "gates",
+      "name": "MS Flat-Bar Main Gate (Fabrication Phase)",
+      "image": "/catalogue/gates/cat-16.jpeg",
+      "priceRange": "₹40,000 – ₹1,10,000",
+      "material": "Mild Steel",
+      "description": "Modern sliding or double-open main gate constructed with flat-bar horizontal grill inserts and reinforced border columns, shown under welding in our shop."
+  },
+  {
+      "id": "p_95",
+      "categoryId": "gift-decor",
+      "name": "Laser-Cut Water Drop Tap Logo Sign",
+      "image": "/catalogue/gift-decor/cat-17.jpeg",
+      "priceRange": "₹800 – ₹2,200",
+      "material": "Mild Steel (Gray Finish)",
+      "description": "Sleek and creative logo plaque depicting a water droplet silhouette with an integrated tap. Perfect as office decor or branding for plumbing and water solution companies."
+  },
+  {
+      "id": "p_96",
+      "categoryId": "industrial",
+      "name": "Overhead Water Tank (OHT) Shuttering Assembly",
+      "image": "/catalogue/industrial/cat-18.jpeg",
+      "priceRange": "₹12,000 – ₹35,000/module",
+      "material": "Mild Steel (Stiffened)",
+      "description": "Modular circular formwork module reinforced with circular rib rings and flange bolt holes for precise concrete overhead tank fabrication."
+  },
+  {
+      "id": "p_97",
+      "categoryId": "industrial",
+      "name": "Heavy Flanged OHT Shuttering Segments",
+      "image": "/catalogue/industrial/cat-21.jpeg",
+      "priceRange": "₹4,000 – ₹9,000/segment",
+      "material": "Mild Steel",
+      "description": "Heavy-duty semi-circular steel shuttering molds with bolted connection flanges, loaded for shipping to infrastructure sites."
+  },
+  {
+      "id": "p_98",
+      "categoryId": "gift-decor",
+      "name": "Artistic Laser-Cut Metal Logo Plates",
+      "image": "/catalogue/gift-decor/cat-23.jpeg",
+      "priceRange": "₹1,500 – ₹3,800",
+      "material": "Mild Steel / Stainless Steel",
+      "description": "Custom wall logo medallions and script nameplates, including round floral frames, text cutouts, and custom geometric logos."
+  },
+  {
+      "id": "p_99",
+      "categoryId": "gift-decor",
+      "name": "Oval Gold Cursive Script Nameplate (Singh)",
+      "image": "/catalogue/gift-decor/cat-24.jpeg",
+      "priceRange": "₹1,800 – ₹4,000",
+      "material": "Brass / Polished Steel",
+      "description": "A premium polished gold-finish nameplate featuring elegant script lettering inside a sleek oval matching border, ideal for entryways."
+  },
+  {
+      "id": "p_100",
+      "categoryId": "gift-decor",
+      "name": "Backlit Dual-Tone Wooden Nameplates",
+      "image": "/catalogue/gift-decor/cat-25.jpeg",
+      "priceRange": "₹2,500 – ₹5,500",
+      "material": "Mild Steel & Teak Wood Backing",
+      "description": "Sophisticated nameplates combining precision laser-cut metal name text with solid premium wood backings and integrated warm LED backlighting."
+  },
+  {
+      "id": "p_101",
+      "categoryId": "industrial",
+      "name": "Precision Welding of Piping Flanges",
+      "image": "/catalogue/industrial/cat-26.jpeg",
+      "priceRange": "₹500 – ₹1,800/weld",
+      "material": "Mild Steel",
+      "description": "Professional high-durability welding and assembly service for heavy steel pipe flanges and municipal distribution joints."
+  },
+  {
+      "id": "p_102",
+      "categoryId": "shadow-art",
+      "name": "St. Bernard Dog Silhouette Shadow Art",
+      "image": "/catalogue/shadow-art/cat-27.jpeg",
+      "priceRange": "₹1,800 – ₹4,500",
+      "material": "Mild Steel",
+      "description": "High-fidelity laser-cut profile of a St. Bernard dog. When backlit or front-lit against a wall, it casts a beautiful, life-like shadow portrait."
+  },
+  {
+      "id": "p_103",
+      "categoryId": "industrial",
+      "name": "Finished Industrial Pipeline Parts Delivery",
+      "image": "/catalogue/industrial/cat-28.jpeg",
+      "priceRange": "₹25,000 – ₹75,000/batch",
+      "material": "Mild Steel (Epoxy Finished)",
+      "description": "Complete batch of fabricated water supply infrastructure parts, including pipe reducers, couplings, and screen cages, loaded for delivery."
+  },
+  {
+      "id": "p_104",
+      "categoryId": "jaali-screens",
+      "name": "VEEPEE CNC Jaali Design Book Panels",
+      "image": "/catalogue/jaali-screens/cat-29.jpeg",
+      "priceRange": "₹200 – ₹450/sq ft",
+      "material": "Mild Steel / MDF",
+      "description": "Catalog collection of four elegant CNC cutting designs: floral patterns, botanical leaves, radial grids, and traditional paisley shapes."
+  },
+  {
+      "id": "p_105",
+      "categoryId": "gift-decor",
+      "name": "Gable-Roof Silhouette Nameplate (Matri Chhaya)",
+      "image": "/catalogue/gift-decor/cat-30.jpeg",
+      "priceRange": "₹1,500 – ₹3,200",
+      "material": "Mild Steel",
+      "description": "Custom metal plaque featuring a house gable-roof silhouette, with 'MATRI CHHAYA' name beautifully cut out."
+  },
+  {
+      "id": "p_106",
+      "categoryId": "laser-cutting-services",
+      "name": "Precision Fiber Laser Marking Service",
+      "image": "/catalogue/laser-cutting-services/cat-31.jpeg",
+      "priceRange": "₹100 – ₹500/job",
+      "material": "Stainless Steel / Brass / Copper",
+      "description": "High-detail fiber laser surface marking and engraving on metallic sheets for logo panels, labels, or devotional symbols."
+  },
+  {
+      "id": "p_107",
+      "categoryId": "industrial",
+      "name": "Custom Pipeline Tubewell Fitting Assembly",
+      "image": "/catalogue/industrial/cat-32.jpeg",
+      "priceRange": "₹2,000 – ₹6,500",
+      "material": "Mild Steel",
+      "description": "Fabricated heavy pipe connector sleeve with dual flanges, constructed to specifications for tubewell infrastructure."
+  },
+  {
+      "id": "p_108",
+      "categoryId": "industrial",
+      "name": "OHT Shuttering Panel System (Modular)",
+      "image": "/catalogue/industrial/cat-34.jpeg",
+      "priceRange": "₹120/kg",
+      "material": "Mild Steel",
+      "description": "Modular Overhead Tank (OHT) steel shuttering panel set, designed for heavy construction use. Extremely durable and load-resistant."
+  },
+  {
+      "id": "p_109",
+      "categoryId": "gift-decor",
+      "name": "Custom Hindi Script Outdoor Nameplate (Indrajeet Singh)",
+      "image": "/catalogue/gift-decor/cat-35.jpeg",
+      "priceRange": "₹1,600 – ₹3,800",
+      "material": "Mild Steel (Powder Coated)",
+      "description": "Weather-proof outdoor house nameplate in Devanagari script (इन्द्रजीत सिंह), featuring lanes and address details in clean cutouts."
+  },
+  {
+      "id": "p_110",
+      "categoryId": "shadow-art",
+      "name": "Roaring Lion Silhouette Shadow Art Panel",
+      "image": "/catalogue/shadow-art/cat-36.jpeg",
+      "priceRange": "₹2,000 – ₹5,500",
+      "material": "Mild Steel",
+      "description": "Bespoke laser-cut wall panel featuring the intense profile of a roaring lion, casting a strong shadow when backlit."
+  },
+  {
+      "id": "p_111",
+      "categoryId": "industrial",
+      "name": "All types of shuttering panels - raw parts",
+      "image": "/catalogue/industrial/cat-37.jpeg",
+      "priceRange": "₹80 – ₹110/kg",
+      "material": "Mild Steel",
+      "description": "Custom channel segments, flat bar reinforcements, and templates cut and rolled for standard concrete formwork shuttering."
+  },
+  {
+      "id": "p_112",
+      "categoryId": "railings",
+      "name": "Illusionist Geometric Railing Panel (Design 3)",
+      "image": "/catalogue/railings/cat-38.jpeg",
+      "priceRange": "₹850 – ₹1,800/sq ft",
+      "material": "Mild Steel",
+      "description": "Modern staircase railing panel utilizing concentric geometric rectangular lines, creating a clean optical art style."
+  },
+  {
+      "id": "p_113",
+      "categoryId": "industrial",
+      "name": "Red-Painted Steel Couplings Batch",
+      "image": "/catalogue/industrial/cat-40.jpeg",
+      "priceRange": "₹2,000 – ₹5,000/piece",
+      "material": "Mild Steel",
+      "description": "High-durability painted steel couplings and sleeves stacked for transport to municipal water projects."
+  },
+  {
+      "id": "p_114",
+      "categoryId": "industrial",
+      "name": "Black-Painted Reducer Couplings",
+      "image": "/catalogue/industrial/cat-41.jpeg",
+      "priceRange": "₹1,800 – ₹4,500/piece",
+      "material": "Mild Steel",
+      "description": "Welded reducer sleeves finished in black protective coating, designed for transition connections in large diameter pipes."
+  },
+  {
+      "id": "p_115",
+      "categoryId": "industrial",
+      "name": "Welded Heavy Structural Support Frames",
+      "image": "/catalogue/industrial/cat-42.jpeg",
+      "priceRange": "₹8,000 – ₹24,000/frame",
+      "material": "Mild Steel Channels",
+      "description": "Heavy-duty channel frames and brackets welded to serve as machinery support bases or structural wall frameworks."
+  },
+  {
+      "id": "p_116",
+      "categoryId": "industrial",
+      "name": "Boundary Wall Formwork System",
+      "image": "/catalogue/industrial/cat-43.jpeg",
+      "priceRange": "₹15,000 – ₹45,000/set",
+      "material": "Mild Steel Plates & Channels",
+      "description": "Heavy concrete formwork shuttering panel system with manual adjustment jacks, designed for casting precast concrete boundary walls."
+  },
+  {
+      "id": "p_117",
+      "categoryId": "pooja-panels",
+      "name": "Sacred Om Laser-Marked Metal Plate",
+      "image": "/catalogue/pooja-panels/cat-44.jpeg",
+      "priceRange": "₹800 – ₹2,500",
+      "material": "Brass / Stainless Steel",
+      "description": "Sacred Om design etched with high-precision fiber laser on mirror-finish steel or brass plate. Perfect for temple and puja entrances."
+  },
+  {
+      "id": "p_118",
+      "categoryId": "pooja-panels",
+      "name": "Auspicious Hindu Iconography Border Strip",
+      "image": "/catalogue/pooja-panels/cat-45.jpeg",
+      "priceRange": "₹1,200 – ₹3,000/linear ft",
+      "material": "Stainless Steel (Gold Finish)",
+      "description": "Gold-finish border strip detailing auspicious motifs including the Kalash, Sudarshana Chakra, Tilak, and Shankh. Perfect for pooja room doors."
+  },
+  {
+      "id": "p_119",
+      "categoryId": "gift-decor",
+      "name": "Decorative Welded Steel Sphere Frame",
+      "image": "/catalogue/gift-decor/cat-46.jpeg",
+      "priceRange": "₹1,500 – ₹4,000",
+      "material": "Mild Steel",
+      "description": "Artistic spherical cage hand-welded from curved metal flat bars. Ideal as a modern garden ornament or decorative table accent."
+  },
+  {
+      "id": "p_120",
+      "categoryId": "industrial",
+      "name": "Welded Steel Support Jig Structure",
+      "image": "/catalogue/industrial/cat-48.jpeg",
+      "priceRange": "₹6,000 – ₹18,000",
+      "material": "Mild Steel Channel & Hollow Sections",
+      "description": "Heavy structural metal support frame welded from square tubes and channel beams, customized for workshop use."
+  },
+  {
+      "id": "p_121",
+      "categoryId": "shadow-art",
+      "name": "Lord Vishwakarma Divine Silhouette Art",
+      "image": "/catalogue/shadow-art/cat-50.jpeg",
+      "priceRange": "₹3,500 – ₹9,000",
+      "material": "Mild Steel (Matte Finish)",
+      "description": "Sacred wall panel depicting Lord Vishwakarma, the divine architect, surrounded by tools. Designed for offices, workshops, and devotional spaces."
+  },
+  {
+      "id": "p_122",
+      "categoryId": "gift-decor",
+      "name": "Warli & Madhubani Art Custom Nameplates",
+      "image": "/catalogue/gift-decor/cat-61.jpeg",
+      "priceRange": "₹2,000 – ₹4,800",
+      "material": "Mild Steel (Textured Background)",
+      "description": "Exquisite nameplates combining modern laser cutting with traditional Indian art profiles like dancing Warli figures and Madhubani fish motifs."
   }
 ];
 
