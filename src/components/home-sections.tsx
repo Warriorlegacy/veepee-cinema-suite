@@ -118,17 +118,17 @@ export function Hero() {
               Rooted in the steel heritage of Varanasi, built for India's most demanding projects.
             </p>
 
-            <div className="hero-fade hero-fade-5 mt-10 flex flex-wrap gap-4">
+            <div className="hero-fade hero-fade-5 mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-3 px-7 py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md shadow-magenta hover:shadow-glow transition-all"
+                className="group inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md shadow-magenta hover:shadow-glow transition-all"
               >
                 Get a Quote
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#projects"
-                className="inline-flex items-center gap-3 px-7 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta transition-all"
+                className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md hover:bg-white/5 hover:border-magenta transition-all"
               >
                 View Our Work
               </a>
@@ -136,7 +136,7 @@ export function Hero() {
                 href="https://wa.me/919125142400"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-3 px-7 py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md transition-all"
+                className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md transition-all"
                 style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
               >
                 <MessageCircle className="h-4 w-4" /> WhatsApp Now
