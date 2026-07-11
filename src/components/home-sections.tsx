@@ -588,7 +588,7 @@ export function IndustriesTicker() {
       <div className="flex animate-ticker whitespace-nowrap">
         {[...industries, ...industries, ...industries].map((ind, i) => (
           <div key={i} className="flex items-center gap-10 mx-8">
-            <span className="font-display text-5xl md:text-7xl text-white/10 hover:text-magenta transition-colors tracking-wide">
+            <span className="font-display text-4xl sm:text-5xl md:text-7xl text-white/10 hover:text-magenta transition-colors tracking-wide">
               {ind}
             </span>
             <span className="h-3 w-3 rotate-45 bg-magenta/60" />
