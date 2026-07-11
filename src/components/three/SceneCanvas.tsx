@@ -63,7 +63,7 @@ export function SceneCanvas({
       <Canvas
         camera={{ position: cameraPosition, fov: cameraFov, near: 0.1, far: 100 }}
         dpr={dpr}
-        frameloop="demand"
+        frameloop={prefersReducedMotion ? "demand" : "always"}
         gl={{ antialias: performance === "high", alpha: true }}
         style={{ background: "transparent" }}
         // Pin eventSource to our wrapper so R3F's connect() never resolves to a null parent
