@@ -83,11 +83,11 @@ export function Hero() {
 
       {/* Content */}
       <motion.div style={{ opacity }} className="relative z-10 flex h-full items-center">
-        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-16">
+        <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-6 md:px-16">
           <div className="max-w-4xl">
-            <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-8">
-              <span className="h-px w-12 bg-magenta" />
-              <span className="font-sans-brand text-xs tracking-[0.4em] text-magenta uppercase">
+            <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-6 sm:mb-8">
+              <span className="h-px w-8 sm:w-12 bg-magenta" />
+              <span className="font-sans-brand text-[10px] sm:text-xs tracking-[0.35em] sm:tracking-[0.4em] text-magenta uppercase">
                 Precision Engineering · Since 1976
               </span>
             </div>
@@ -98,7 +98,7 @@ export function Hero() {
             </h1>
             <p
               aria-hidden="true"
-              className="hero-fade hero-fade-2 font-display text-[14vw] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.85] text-white"
+              className="hero-fade hero-fade-2 font-display text-[clamp(2.75rem,13vw,8.5rem)] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.88] text-white break-words"
             >
               ENGINEERING
               <br />
@@ -106,13 +106,13 @@ export function Hero() {
             </p>
             <p
               aria-hidden="true"
-              className="hero-fade hero-fade-3 font-display text-[10vw] md:text-[6vw] lg:text-[5.5rem] leading-[0.9] text-metallic/80 mt-1"
+              className="hero-fade hero-fade-3 font-display text-[clamp(1.9rem,9vw,6rem)] md:text-[6vw] lg:text-[5.5rem] leading-[0.95] text-metallic/80 mt-1"
             >
               DELIVERING EXCELLENCE.
             </p>
 
             <p
-              className="hero-fade hero-fade-4 mt-8 max-w-2xl font-sans-brand text-base md:text-lg tracking-wide text-metallic"
+              className="hero-fade hero-fade-4 mt-6 sm:mt-8 max-w-2xl font-sans-brand text-sm sm:text-base md:text-lg tracking-wide text-metallic"
             >
               Laser Cutting · CNC Fabrication · Industrial Manufacturing · Architectural Metal Works.
               Rooted in the steel heritage of Varanasi, built for India's most demanding projects.
