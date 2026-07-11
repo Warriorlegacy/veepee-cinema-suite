@@ -38,7 +38,21 @@ export function SceneCanvas({
     return () => observer.disconnect();
   }, [interactive]);
 
-  const dpr: [number, number] = performance === "high" ? [1, 1.5] : [0.5, 0.75];
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 768px)").matches;
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const dpr: [number, number] =
+    performance === "high"
+      ? isMobile
+        ? [1, 1.25]
+        : [1, 1.75]
+      : isMobile
+        ? [0.5, 0.75]
+        : [0.75, 1];
 
   return (
     <div
