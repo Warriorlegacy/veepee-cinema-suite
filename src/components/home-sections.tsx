@@ -396,7 +396,7 @@ export function Process() {
       </ClientCanvas>
       <div className="relative mx-auto max-w-[1400px] px-6 z-[2]">
         <SectionLabel number="03" label="Process" />
-        <h2 className="font-display text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
+        <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
           From <span className="text-magenta">concept</span> to creation.
         </h2>
 
@@ -431,9 +431,9 @@ export function Process() {
 export function FeaturedProject() {
   return (
     <section id="projects" className="relative py-28 bg-near-black">
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="04" label="Projects" />
-        <h2 className="font-display text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]">
+        <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]">
           Projects that <span className="text-magenta">define</span> spaces.
         </h2>
 
@@ -517,7 +517,7 @@ export function Workshop() {
 
         <div>
           <SectionLabel number="05" label="Inside Veepee" />
-          <h2 className="font-display text-5xl md:text-6xl text-white leading-[0.95]">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-white leading-[0.95]">
             Built on precision. <br /><span className="text-magenta">Rooted in Varanasi.</span>
           </h2>
           <p className="mt-6 text-metallic font-body leading-relaxed">
@@ -627,8 +627,8 @@ export function Testimonials() {
   const t = testimonials[i];
 
   return (
-    <section className="relative py-28">
-      <div className="mx-auto max-w-[1100px] px-6 text-center">
+    <section className="relative py-20 md:py-28">
+      <div className="mx-auto max-w-[1100px] px-5 sm:px-6 text-center">
         <SectionLabel number="06" label="Testimonials" center />
         <div className="flex justify-center gap-1 mb-6">
           {[...Array(5)].map((_, k) => (
@@ -682,10 +682,10 @@ export function ContactCTA() {
       >
         <ContactGear />
       </ClientCanvas>
-      <div className="relative z-[2] mx-auto max-w-[1200px] px-6">
+      <div className="relative z-[2] mx-auto max-w-[1200px] px-5 sm:px-6">
         <div className="text-center">
           <SectionLabel number="07" label="Get In Touch" center />
-          <h2 className="font-display text-5xl md:text-7xl text-white leading-[0.95]">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white leading-[0.95]">
             Get your quote <br /><span className="text-gradient-magenta">within 24 hours.</span>
           </h2>
           <p className="mt-6 max-w-xl mx-auto text-metallic font-body">
@@ -783,7 +783,7 @@ export function CatalogueCTA() {
       {/* Ambient glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,20,142,0.06),transparent_60%)]" />
 
-      <div className="relative mx-auto max-w-[1400px] px-6">
+      <div className="relative mx-auto max-w-[1400px] px-5 sm:px-6">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -882,7 +882,7 @@ export function FAQSection() {
       itemScope
       itemType="https://schema.org/FAQPage"
     >
-      <div className="mx-auto max-w-[900px] px-6">
+      <div className="mx-auto max-w-[900px] px-5 sm:px-6">
         <SectionLabel number="✦" label="FAQ" />
         <h2 className="font-display text-4xl md:text-6xl text-white leading-[0.95] mb-12">
           Common <span className="text-gradient-magenta">Questions</span>
