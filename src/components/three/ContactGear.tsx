@@ -14,7 +14,7 @@ function GearTeeth({
   toothHeight: number;
   toothWidth: number;
 }) {
-  const teeth: JSX.Element[] = [];
+  const teeth: React.ReactElement[] = [];
   for (let i = 0; i < count; i++) {
     const angle = (i / count) * Math.PI * 2;
     const x = Math.cos(angle) * radius;
