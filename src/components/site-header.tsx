@@ -89,7 +89,7 @@ export function SiteHeader() {
             </a>
           ))}
           <a
-            href="#contact"
+            href="/#contact"
             onClick={() => setOpen(false)}
             className="font-sans-brand text-sm uppercase tracking-[0.2em] px-5 py-3 bg-magenta-gradient text-white rounded-md text-center"
           >
