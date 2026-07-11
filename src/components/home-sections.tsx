@@ -51,9 +51,11 @@ export function Hero() {
         className="absolute inset-0 z-0"
         cameraPosition={[0, 0, 5]}
         cameraFov={60}
+        interactive={false}
       >
         <HeroScene />
       </ClientCanvas>
+
 
       {/* Cinematic background (fallback / overlay) */}
       <motion.div style={{ y }} className="absolute inset-0 z-[1]">
