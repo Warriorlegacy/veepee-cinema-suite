@@ -9,8 +9,8 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { ClientCanvas } from "@/components/three/ClientCanvas";
-import { ProcessPipeline } from "@/components/three/ProcessPipeline";
+import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
+import { LazyProcessPipeline } from "@/components/three/LazyProcessPipeline";
 import { trackEvent } from "@/lib/analytics";
 
 import productIndustrial from "@/assets/product-industrial.jpg";
@@ -93,13 +93,13 @@ function ProcurementLandingPage() {
 
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 bg-black">
-        <ClientCanvas
+        <LazyClientCanvas
           className="absolute inset-0 z-0 opacity-45 pointer-events-none"
           cameraPosition={[0, 0, 5.5]}
           cameraFov={45}
         >
-          <ProcessPipeline />
-        </ClientCanvas>
+          <LazyProcessPipeline />
+        </LazyClientCanvas>
 
         <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-transparent to-black" />
         <div className="absolute inset-0 grid-overlay opacity-25 z-[1]" />

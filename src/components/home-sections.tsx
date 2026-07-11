@@ -19,13 +19,13 @@ import { ContactForm } from "@/components/contact-form";
 import { ServiceImage } from "@/components/service-image";
 import { listServices } from "@/lib/services.functions";
 import { getServiceIcon } from "@/lib/service-icons";
-import { ClientCanvas } from "@/components/three/ClientCanvas";
-import { HeroScene } from "@/components/three/HeroScene";
-import { FloatingIcon } from "@/components/three/FloatingIcon";
-import { ProductModel } from "@/components/three/ProductModel";
-import { ProcessPipeline } from "@/components/three/ProcessPipeline";
-import { WorkshopScene } from "@/components/three/WorkshopScene";
-import { ContactGear } from "@/components/three/ContactGear";
+import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
+import { LazyHeroScene } from "@/components/three/LazyHeroScene";
+import { LazyFloatingIcon } from "@/components/three/LazyFloatingIcon";
+import { LazyProductModel } from "@/components/three/LazyProductModel";
+import { LazyProcessPipeline } from "@/components/three/LazyProcessPipeline";
+import { LazyWorkshopScene } from "@/components/three/LazyWorkshopScene";
+import { LazyContactGear } from "@/components/three/LazyContactGear";
 import { categories as catalogueCategories, products as catalogueProducts } from "@/data/catalogue-data";
 
 const fadeUp = {
@@ -47,14 +47,14 @@ export function Hero() {
   return (
     <section ref={ref} className="relative min-h-[100svh] md:min-h-[700px] md:h-screen w-full overflow-hidden bg-black">
       {/* 3D Laser Scene */}
-      <ClientCanvas
+      <LazyClientCanvas
         className="absolute inset-0 z-0"
         cameraPosition={[0, 0, 5]}
         cameraFov={60}
         interactive={false}
       >
-        <HeroScene />
-      </ClientCanvas>
+        <LazyHeroScene />
+      </LazyClientCanvas>
 
 
       {/* Cinematic background (fallback / overlay) */}
@@ -196,18 +196,18 @@ export function Services() {
 
   return (
     <section id="services" className="relative py-20 md:py-28 noise overflow-hidden">
-      <ClientCanvas
+      <LazyClientCanvas
         className="absolute inset-0 z-0 pointer-events-none"
         cameraPosition={[0, 0, 8]}
         cameraFov={60}
         performance="low"
       >
-        <FloatingIcon position={[-3, 2, -2]} shape="torus" speed={0.6} scale={0.8} />
-        <FloatingIcon position={[3, -1, -3]} shape="icosahedron" speed={0.8} scale={0.6} />
-        <FloatingIcon position={[-2, -2, -4]} shape="box" speed={0.4} scale={0.7} />
-        <FloatingIcon position={[4, 1.5, -5]} shape="sphere" speed={0.9} scale={0.5} />
-        <FloatingIcon position={[0, 3, -6]} shape="octahedron" speed={0.7} scale={0.6} />
-      </ClientCanvas>
+        <LazyFloatingIcon position={[-3, 2, -2]} shape="torus" speed={0.6} scale={0.8} />
+        <LazyFloatingIcon position={[3, -1, -3]} shape="icosahedron" speed={0.8} scale={0.6} />
+        <LazyFloatingIcon position={[-2, -2, -4]} shape="box" speed={0.4} scale={0.7} />
+        <LazyFloatingIcon position={[4, 1.5, -5]} shape="sphere" speed={0.9} scale={0.5} />
+        <LazyFloatingIcon position={[0, 3, -6]} shape="octahedron" speed={0.7} scale={0.6} />
+      </LazyClientCanvas>
       <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="01" label="Services" />
         <motion.h2
@@ -283,16 +283,16 @@ export function Products() {
 
   return (
     <section id="products" className="relative py-20 md:py-28 bg-near-black">
-      <ClientCanvas
+      <LazyClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-30"
         cameraPosition={[0, 0, 5]}
         cameraFov={50}
         performance="low"
       >
-        <ProductModel type="jaali" position={[-0.5, 1, -3]} />
-        <ProductModel type="gate" position={[2, -0.5, -4]} />
-        <ProductModel type="industrial" position={[-2, -0.8, -5]} />
-      </ClientCanvas>
+        <LazyProductModel type="jaali" position={[-0.5, 1, -3]} />
+        <LazyProductModel type="gate" position={[2, -0.5, -4]} />
+        <LazyProductModel type="industrial" position={[-2, -0.8, -5]} />
+      </LazyClientCanvas>
       <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="02" label="Featured Products" />
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -386,14 +386,14 @@ export function Process() {
   return (
     <section id="process" className="relative py-28 overflow-hidden">
       <div className="absolute inset-0 grid-overlay opacity-20 z-0" />
-      <ClientCanvas
+      <LazyClientCanvas
         className="absolute inset-0 z-[1] pointer-events-none opacity-40"
         cameraPosition={[0, 0, 8]}
         cameraFov={50}
         performance="low"
       >
-        <ProcessPipeline />
-      </ClientCanvas>
+        <LazyProcessPipeline />
+      </LazyClientCanvas>
       <div className="relative mx-auto max-w-[1400px] px-6 z-[2]">
         <SectionLabel number="03" label="Process" />
         <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
@@ -488,15 +488,15 @@ export function FeaturedProject() {
 export function Workshop() {
   return (
     <section id="about" className="relative py-28 overflow-hidden">
-      <ClientCanvas
+      <LazyClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-20"
         cameraPosition={[0, 1, 4]}
         cameraFov={50}
         performance="low"
         interactive={false}
       >
-        <WorkshopScene />
-      </ClientCanvas>
+        <LazyWorkshopScene />
+      </LazyClientCanvas>
 
       <div className="relative z-[1] mx-auto max-w-[1400px] px-6 grid lg:grid-cols-2 gap-14 items-center">
         <motion.div
@@ -674,14 +674,14 @@ export function ContactCTA() {
         <img src={workshop} alt="" className="h-full w-full object-cover opacity-25" />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
       </div>
-      <ClientCanvas
+      <LazyClientCanvas
         className="absolute inset-0 z-[1] pointer-events-none opacity-30"
         cameraPosition={[0, 0, 3]}
         cameraFov={45}
         performance="low"
       >
-        <ContactGear />
-      </ClientCanvas>
+        <LazyContactGear />
+      </LazyClientCanvas>
       <div className="relative z-[2] mx-auto max-w-[1200px] px-5 sm:px-6">
         <div className="text-center">
           <SectionLabel number="07" label="Get In Touch" center />

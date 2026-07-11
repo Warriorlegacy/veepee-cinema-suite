@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ClientCanvas } from "@/components/three/ClientCanvas";
-import { HeroScene } from "@/components/three/HeroScene";
+import { LazyClientCanvas } from "@/components/three/LazyClientCanvas";
+import { LazyHeroScene } from "@/components/three/LazyHeroScene";
 
 export const Route = createFileRoute("/debug/canvas")({
   head: () => ({
@@ -78,9 +78,9 @@ function Frame({
       style={{ width, height: 240 }}
       className="relative shrink-0 border border-white/20 rounded overflow-hidden bg-black"
     >
-      <ClientCanvas cameraPosition={[0, 0, 5]} cameraFov={60} interactive={false}>
-        <HeroScene />
-      </ClientCanvas>
+      <LazyClientCanvas cameraPosition={[0, 0, 5]} cameraFov={60} interactive={false}>
+        <LazyHeroScene />
+      </LazyClientCanvas>
       {error && (
         <div className="absolute inset-0 z-10 p-2 text-xs text-red-300 bg-black/80 overflow-auto">
           {error}
