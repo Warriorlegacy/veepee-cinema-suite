@@ -38,7 +38,21 @@ export function SceneCanvas({
     return () => observer.disconnect();
   }, [interactive]);
 
-  const dpr: [number, number] = performance === "high" ? [1, 1.5] : [0.5, 0.75];
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 768px)").matches;
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const dpr: [number, number] =
+    performance === "high"
+      ? isMobile
+        ? [1, 1.25]
+        : [1, 1.75]
+      : isMobile
+        ? [0.5, 0.75]
+        : [0.75, 1];
 
   return (
     <div
@@ -49,7 +63,7 @@ export function SceneCanvas({
       <Canvas
         camera={{ position: cameraPosition, fov: cameraFov, near: 0.1, far: 100 }}
         dpr={dpr}
-        frameloop="demand"
+        frameloop={prefersReducedMotion ? "demand" : "always"}
         gl={{ antialias: performance === "high", alpha: true }}
         style={{ background: "transparent" }}
         // Pin eventSource to our wrapper so R3F's connect() never resolves to a null parent

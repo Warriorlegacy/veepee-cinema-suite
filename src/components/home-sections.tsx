@@ -45,7 +45,7 @@ export function Hero() {
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
+    <section ref={ref} className="relative min-h-[100svh] md:min-h-[700px] md:h-screen w-full overflow-hidden bg-black">
       {/* 3D Laser Scene */}
       <ClientCanvas
         className="absolute inset-0 z-0"
@@ -83,11 +83,11 @@ export function Hero() {
 
       {/* Content */}
       <motion.div style={{ opacity }} className="relative z-10 flex h-full items-center">
-        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-16">
+        <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-6 md:px-16">
           <div className="max-w-4xl">
-            <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-8">
-              <span className="h-px w-12 bg-magenta" />
-              <span className="font-sans-brand text-xs tracking-[0.4em] text-magenta uppercase">
+            <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-6 sm:mb-8">
+              <span className="h-px w-8 sm:w-12 bg-magenta" />
+              <span className="font-sans-brand text-[10px] sm:text-xs tracking-[0.35em] sm:tracking-[0.4em] text-magenta uppercase">
                 Precision Engineering · Since 1976
               </span>
             </div>
@@ -98,7 +98,7 @@ export function Hero() {
             </h1>
             <p
               aria-hidden="true"
-              className="hero-fade hero-fade-2 font-display text-[14vw] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.85] text-white"
+              className="hero-fade hero-fade-2 font-display text-[clamp(2.75rem,13vw,8.5rem)] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.88] text-white break-words"
             >
               ENGINEERING
               <br />
@@ -106,29 +106,29 @@ export function Hero() {
             </p>
             <p
               aria-hidden="true"
-              className="hero-fade hero-fade-3 font-display text-[10vw] md:text-[6vw] lg:text-[5.5rem] leading-[0.9] text-metallic/80 mt-1"
+              className="hero-fade hero-fade-3 font-display text-[clamp(1.9rem,9vw,6rem)] md:text-[6vw] lg:text-[5.5rem] leading-[0.95] text-metallic/80 mt-1"
             >
               DELIVERING EXCELLENCE.
             </p>
 
             <p
-              className="hero-fade hero-fade-4 mt-8 max-w-2xl font-sans-brand text-base md:text-lg tracking-wide text-metallic"
+              className="hero-fade hero-fade-4 mt-6 sm:mt-8 max-w-2xl font-sans-brand text-sm sm:text-base md:text-lg tracking-wide text-metallic"
             >
               Laser Cutting · CNC Fabrication · Industrial Manufacturing · Architectural Metal Works.
               Rooted in the steel heritage of Varanasi, built for India's most demanding projects.
             </p>
 
-            <div className="hero-fade hero-fade-5 mt-10 flex flex-wrap gap-4">
+            <div className="hero-fade hero-fade-5 mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-3 px-7 py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md shadow-magenta hover:shadow-glow transition-all"
+                className="group inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md shadow-magenta hover:shadow-glow transition-all"
               >
                 Get a Quote
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#projects"
-                className="inline-flex items-center gap-3 px-7 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta transition-all"
+                className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md hover:bg-white/5 hover:border-magenta transition-all"
               >
                 View Our Work
               </a>
@@ -136,7 +136,7 @@ export function Hero() {
                 href="https://wa.me/919125142400"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-3 px-7 py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md transition-all"
+                className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md transition-all"
                 style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
               >
                 <MessageCircle className="h-4 w-4" /> WhatsApp Now
@@ -195,7 +195,7 @@ export function Services() {
   });
 
   return (
-    <section id="services" className="relative py-28 noise overflow-hidden">
+    <section id="services" className="relative py-20 md:py-28 noise overflow-hidden">
       <ClientCanvas
         className="absolute inset-0 z-0 pointer-events-none"
         cameraPosition={[0, 0, 8]}
@@ -208,18 +208,18 @@ export function Services() {
         <FloatingIcon position={[4, 1.5, -5]} shape="sphere" speed={0.9} scale={0.5} />
         <FloatingIcon position={[0, 3, -6]} shape="octahedron" speed={0.7} scale={0.6} />
       </ClientCanvas>
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="01" label="Services" />
         <motion.h2
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="font-display text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]"
+          className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]"
         >
           We shape <span className="text-magenta">steel</span> into possibilities.
         </motion.h2>
-        <p className="mt-5 max-w-2xl text-metallic font-body">
+        <p className="mt-5 max-w-2xl text-metallic font-body text-sm sm:text-base">
           Integrated capabilities under one roof — from a single laser-cut sheet to full
           architectural installations.
         </p>
@@ -282,7 +282,7 @@ export function Products() {
     : featuredProducts.filter((p) => p.categoryId === filter);
 
   return (
-    <section id="products" className="relative py-28 bg-near-black">
+    <section id="products" className="relative py-20 md:py-28 bg-near-black">
       <ClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-30"
         cameraPosition={[0, 0, 5]}
@@ -293,36 +293,38 @@ export function Products() {
         <ProductModel type="gate" position={[2, -0.5, -4]} />
         <ProductModel type="industrial" position={[-2, -0.8, -5]} />
       </ClientCanvas>
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="02" label="Featured Products" />
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <h2 className="font-display text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
             Premium products. <br /><span className="text-gradient-magenta">Precision crafted.</span>
           </h2>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setFilter("all")}
-              className={`px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
-                filter === "all"
-                  ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                  : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-              }`}
-            >
-              All
-            </button>
-            {catalogueCategories.slice(0, 6).map((c) => (
+          <div className="-mx-5 sm:mx-0 overflow-x-auto no-scrollbar">
+            <div className="flex gap-2 px-5 sm:px-0 min-w-max md:flex-wrap md:min-w-0">
               <button
-                key={c.id}
-                onClick={() => setFilter(c.id)}
-                className={`px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
-                  filter === c.id
+                onClick={() => setFilter("all")}
+                className={`shrink-0 px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
+                  filter === "all"
                     ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
                     : "border-white/15 text-metallic hover:border-magenta hover:text-white"
                 }`}
               >
-                {c.shortName}
+                All
               </button>
-            ))}
+              {catalogueCategories.slice(0, 6).map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setFilter(c.id)}
+                  className={`shrink-0 px-4 py-2 text-xs font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all ${
+                    filter === c.id
+                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                      : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                  }`}
+                >
+                  {c.shortName}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -394,7 +396,7 @@ export function Process() {
       </ClientCanvas>
       <div className="relative mx-auto max-w-[1400px] px-6 z-[2]">
         <SectionLabel number="03" label="Process" />
-        <h2 className="font-display text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
+        <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-3xl leading-[0.95]">
           From <span className="text-magenta">concept</span> to creation.
         </h2>
 
@@ -429,9 +431,9 @@ export function Process() {
 export function FeaturedProject() {
   return (
     <section id="projects" className="relative py-28 bg-near-black">
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="04" label="Projects" />
-        <h2 className="font-display text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]">
+        <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]">
           Projects that <span className="text-magenta">define</span> spaces.
         </h2>
 
@@ -515,7 +517,7 @@ export function Workshop() {
 
         <div>
           <SectionLabel number="05" label="Inside Veepee" />
-          <h2 className="font-display text-5xl md:text-6xl text-white leading-[0.95]">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-white leading-[0.95]">
             Built on precision. <br /><span className="text-magenta">Rooted in Varanasi.</span>
           </h2>
           <p className="mt-6 text-metallic font-body leading-relaxed">
@@ -586,7 +588,7 @@ export function IndustriesTicker() {
       <div className="flex animate-ticker whitespace-nowrap">
         {[...industries, ...industries, ...industries].map((ind, i) => (
           <div key={i} className="flex items-center gap-10 mx-8">
-            <span className="font-display text-5xl md:text-7xl text-white/10 hover:text-magenta transition-colors tracking-wide">
+            <span className="font-display text-4xl sm:text-5xl md:text-7xl text-white/10 hover:text-magenta transition-colors tracking-wide">
               {ind}
             </span>
             <span className="h-3 w-3 rotate-45 bg-magenta/60" />
@@ -625,8 +627,8 @@ export function Testimonials() {
   const t = testimonials[i];
 
   return (
-    <section className="relative py-28">
-      <div className="mx-auto max-w-[1100px] px-6 text-center">
+    <section className="relative py-20 md:py-28">
+      <div className="mx-auto max-w-[1100px] px-5 sm:px-6 text-center">
         <SectionLabel number="06" label="Testimonials" center />
         <div className="flex justify-center gap-1 mb-6">
           {[...Array(5)].map((_, k) => (
@@ -680,10 +682,10 @@ export function ContactCTA() {
       >
         <ContactGear />
       </ClientCanvas>
-      <div className="relative z-[2] mx-auto max-w-[1200px] px-6">
+      <div className="relative z-[2] mx-auto max-w-[1200px] px-5 sm:px-6">
         <div className="text-center">
           <SectionLabel number="07" label="Get In Touch" center />
-          <h2 className="font-display text-5xl md:text-7xl text-white leading-[0.95]">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white leading-[0.95]">
             Get your quote <br /><span className="text-gradient-magenta">within 24 hours.</span>
           </h2>
           <p className="mt-6 max-w-xl mx-auto text-metallic font-body">
@@ -781,7 +783,7 @@ export function CatalogueCTA() {
       {/* Ambient glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,20,142,0.06),transparent_60%)]" />
 
-      <div className="relative mx-auto max-w-[1400px] px-6">
+      <div className="relative mx-auto max-w-[1400px] px-5 sm:px-6">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -880,7 +882,7 @@ export function FAQSection() {
       itemScope
       itemType="https://schema.org/FAQPage"
     >
-      <div className="mx-auto max-w-[900px] px-6">
+      <div className="mx-auto max-w-[900px] px-5 sm:px-6">
         <SectionLabel number="✦" label="FAQ" />
         <h2 className="font-display text-4xl md:text-6xl text-white leading-[0.95] mb-12">
           Common <span className="text-gradient-magenta">Questions</span>
