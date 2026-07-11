@@ -1,4 +1,4 @@
-import { lazy, Suspense, type ComponentProps, type ComponentType, type ReactNode } from "react";
+import { lazy, Suspense, type ComponentProps, type ComponentType, type ReactElement, type ReactNode } from "react";
 
 function DomFallback() {
   return (
@@ -9,12 +9,11 @@ function DomFallback() {
 function wrap<T extends ComponentType<any>>(
   loader: () => Promise<T>,
   domFallback: boolean,
-): (props: ComponentProps<T>) => JSX.Element {
+): (props: ComponentProps<T>) => ReactElement {
   const Lazy = lazy(async () => ({ default: await loader() }));
   return (props: ComponentProps<T>) => (
     <Suspense fallback={domFallback ? <DomFallback /> : null}>
-      {/* @ts-expect-error lazy props are structurally the same */}
-      <Lazy {...props} />
+      <Lazy {...(props as ComponentProps<typeof Lazy>)} />
     </Suspense>
   );
 }
