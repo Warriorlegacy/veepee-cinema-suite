@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ClientCanvas } from "@/components/three/ClientCanvas";
-import { HeroScene } from "@/components/three/HeroScene";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyHeroScene } from "@/components/three/lazy";
 
 export const Route = createFileRoute("/debug/canvas")({
   head: () => ({
@@ -78,9 +78,9 @@ function Frame({
       style={{ width, height: 240 }}
       className="relative shrink-0 border border-white/20 rounded overflow-hidden bg-black"
     >
-      <ClientCanvas cameraPosition={[0, 0, 5]} cameraFov={60} interactive={false}>
-        <HeroScene />
-      </ClientCanvas>
+      <LazyClientCanvas cameraPosition={[0, 0, 5]} cameraFov={60} interactive={false}>
+        <LazyHeroScene />
+      </LazyClientCanvas>
       {error && (
         <div className="absolute inset-0 z-10 p-2 text-xs text-red-300 bg-black/80 overflow-auto">
           {error}
@@ -104,12 +104,14 @@ function DebugCanvas() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white p-6 space-y-6">
+      <FpsOverlay />
       <header>
         <h1 className="text-2xl font-semibold">R3F Canvas regression</h1>
         <p className="text-sm text-neutral-400">
           Mounts the Hero scene at multiple narrow widths and reports whether the
           R3F Canvas mounts without throwing. Watches <code>console.error</code>
-          for R3F / three / eventSource failures.
+          for R3F / three / eventSource failures. The overlay in the top-right
+          shows live FPS and frame time — useful for confirming smooth 3D on mobile.
         </p>
         <p className={`mt-2 text-sm font-medium ${anyError ? "text-red-400" : allDone ? "text-emerald-400" : "text-yellow-400"}`}>
           {anyError ? "FAIL — see failing width below" : allDone ? "PASS — all widths mounted" : "Running..."}
@@ -146,6 +148,48 @@ function DebugCanvas() {
             <Frame width={w} onResult={record} />
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function FpsOverlay() {
+  const [stats, setStats] = useState({ fps: 0, ms: 0, min: Infinity, max: 0, avg: 0 });
+  const framesRef = useRef<number[]>([]);
+  const lastRef = useRef<number>(performance.now());
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    const loop = (now: number) => {
+      const dt = now - lastRef.current;
+      lastRef.current = now;
+      const frames = framesRef.current;
+      frames.push(dt);
+      if (frames.length > 120) frames.shift();
+      const sum = frames.reduce((a, b) => a + b, 0);
+      const avgMs = sum / frames.length;
+      setStats({
+        fps: Math.round(1000 / dt),
+        ms: Math.round(dt * 10) / 10,
+        min: Math.round(Math.min(...frames) * 10) / 10,
+        max: Math.round(Math.max(...frames) * 10) / 10,
+        avg: Math.round(avgMs * 10) / 10,
+      });
+      rafRef.current = requestAnimationFrame(loop);
+    };
+    rafRef.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  const color =
+    stats.fps >= 55 ? "text-emerald-400" : stats.fps >= 30 ? "text-yellow-400" : "text-red-400";
+
+  return (
+    <div className="fixed top-3 right-3 z-50 rounded-md border border-white/15 bg-black/80 backdrop-blur px-3 py-2 font-mono text-xs text-white shadow-lg pointer-events-none select-none">
+      <div className={`text-base font-semibold ${color}`}>{stats.fps} fps</div>
+      <div className="text-neutral-300">frame {stats.ms} ms</div>
+      <div className="text-neutral-400">
+        avg {stats.avg} · min {stats.min} · max {stats.max}
       </div>
     </div>
   );

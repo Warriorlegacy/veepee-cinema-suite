@@ -9,8 +9,8 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { ClientCanvas } from "@/components/three/ClientCanvas";
-import { ProductModel } from "@/components/three/ProductModel";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyProductModel } from "@/components/three/lazy";
 import { OrbitControls } from "@react-three/drei";
 import { trackEvent } from "@/lib/analytics";
 
@@ -96,7 +96,7 @@ function ArchitectsLandingPage() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 bg-black">
         <div className="absolute inset-0 z-0 opacity-40 pointer-events-auto">
-          <ClientCanvas
+          <LazyClientCanvas
             className="w-full h-full"
             cameraPosition={[0, 0, 3.5]}
             cameraFov={45}
@@ -104,9 +104,9 @@ function ArchitectsLandingPage() {
             <ambientLight intensity={1.5} />
             <directionalLight position={[5, 5, 5]} intensity={2.5} />
             <pointLight position={[-5, -5, -5]} intensity={1.5} />
-            <ProductModel type={activeModel} position={[0, 0, 0]} />
+            <LazyProductModel type={activeModel} position={[0, 0, 0]} />
             <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
-          </ClientCanvas>
+          </LazyClientCanvas>
         </div>
 
         <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-transparent to-black" />

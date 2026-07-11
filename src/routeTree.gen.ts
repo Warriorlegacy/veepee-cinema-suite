@@ -21,6 +21,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIdRouteImport } from './routes/services.$id'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as DebugResponsivenessRouteImport } from './routes/debug.responsiveness'
 import { Route as DebugImagesRouteImport } from './routes/debug.images'
 import { Route as DebugCanvasRouteImport } from './routes/debug.canvas'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
@@ -85,6 +86,11 @@ const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ProjectsRoute,
 } as any)
+const DebugResponsivenessRoute = DebugResponsivenessRouteImport.update({
+  id: '/debug/responsiveness',
+  path: '/debug/responsiveness',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DebugImagesRoute = DebugImagesRouteImport.update({
   id: '/debug/images',
   path: '/debug/images',
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
+  '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
+  '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
+  '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/debug/canvas'
     | '/debug/images'
+    | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
     | '/api/public/analytics'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/debug/canvas'
     | '/debug/images'
+    | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
     | '/api/public/analytics'
@@ -202,6 +213,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/debug/canvas'
     | '/debug/images'
+    | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
     | '/api/public/analytics'
@@ -220,6 +232,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   DebugCanvasRoute: typeof DebugCanvasRoute
   DebugImagesRoute: typeof DebugImagesRoute
+  DebugResponsivenessRoute: typeof DebugResponsivenessRoute
   ServicesIdRoute: typeof ServicesIdRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
 }
@@ -310,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsSlugRouteImport
       parentRoute: typeof ProjectsRoute
     }
+    '/debug/responsiveness': {
+      id: '/debug/responsiveness'
+      path: '/debug/responsiveness'
+      fullPath: '/debug/responsiveness'
+      preLoaderRoute: typeof DebugResponsivenessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/debug/images': {
       id: '/debug/images'
       path: '/debug/images'
@@ -359,19 +379,10 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   DebugCanvasRoute: DebugCanvasRoute,
   DebugImagesRoute: DebugImagesRoute,
+  DebugResponsivenessRoute: DebugResponsivenessRoute,
   ServicesIdRoute: ServicesIdRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

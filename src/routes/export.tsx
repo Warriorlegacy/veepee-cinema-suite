@@ -9,8 +9,8 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { ClientCanvas } from "@/components/three/ClientCanvas";
-import { WorkshopScene } from "@/components/three/WorkshopScene";
+import { LazyClientCanvas } from "@/components/three/lazy";
+import { LazyWorkshopScene } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
 
 import workshopImg from "@/assets/workshop.jpg";
@@ -96,13 +96,13 @@ function ExportLandingPage() {
 
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 bg-black">
-        <ClientCanvas
+        <LazyClientCanvas
           className="absolute inset-0 z-0 opacity-30 pointer-events-none"
           cameraPosition={[0, 1.5, 4.5]}
           cameraFov={50}
         >
-          <WorkshopScene />
-        </ClientCanvas>
+          <LazyWorkshopScene />
+        </LazyClientCanvas>
 
         <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-transparent to-black" />
         <div className="absolute inset-0 grid-overlay opacity-25 z-[1]" />
