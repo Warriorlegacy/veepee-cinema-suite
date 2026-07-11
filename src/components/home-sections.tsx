@@ -201,6 +201,7 @@ export function Services() {
         cameraPosition={[0, 0, 8]}
         cameraFov={60}
         performance="low"
+        disableOnMobile
       >
         <LazyFloatingIcon position={[-3, 2, -2]} shape="torus" speed={0.6} scale={0.8} />
         <LazyFloatingIcon position={[3, -1, -3]} shape="icosahedron" speed={0.8} scale={0.6} />
@@ -288,6 +289,7 @@ export function Products() {
         cameraPosition={[0, 0, 5]}
         cameraFov={50}
         performance="low"
+        disableOnMobile
       >
         <LazyProductModel type="jaali" position={[-0.5, 1, -3]} />
         <LazyProductModel type="gate" position={[2, -0.5, -4]} />
@@ -391,6 +393,7 @@ export function Process() {
         cameraPosition={[0, 0, 8]}
         cameraFov={50}
         performance="low"
+        disableOnMobile
       >
         <LazyProcessPipeline />
       </LazyClientCanvas>
@@ -494,6 +497,7 @@ export function Workshop() {
         cameraFov={50}
         performance="low"
         interactive={false}
+        disableOnMobile
       >
         <LazyWorkshopScene />
       </LazyClientCanvas>
@@ -679,6 +683,7 @@ export function ContactCTA() {
         cameraPosition={[0, 0, 3]}
         cameraFov={45}
         performance="low"
+        disableOnMobile
       >
         <LazyContactGear />
       </LazyClientCanvas>
