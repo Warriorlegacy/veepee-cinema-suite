@@ -198,6 +198,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Misc
       { name: "format-detection", content: "telephone=yes" },
       { name: "rating", content: "general" },
+      { name: "google-site-verification", content: "e3FLQs9U1GLu_HhiFvzBJNB-zZLy3fF95icx3guCMBM" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
