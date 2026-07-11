@@ -195,7 +195,7 @@ export function Services() {
   });
 
   return (
-    <section id="services" className="relative py-28 noise overflow-hidden">
+    <section id="services" className="relative py-20 md:py-28 noise overflow-hidden">
       <ClientCanvas
         className="absolute inset-0 z-0 pointer-events-none"
         cameraPosition={[0, 0, 8]}
@@ -208,18 +208,18 @@ export function Services() {
         <FloatingIcon position={[4, 1.5, -5]} shape="sphere" speed={0.9} scale={0.5} />
         <FloatingIcon position={[0, 3, -6]} shape="octahedron" speed={0.7} scale={0.6} />
       </ClientCanvas>
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="01" label="Services" />
         <motion.h2
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="font-display text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]"
+          className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]"
         >
           We shape <span className="text-magenta">steel</span> into possibilities.
         </motion.h2>
-        <p className="mt-5 max-w-2xl text-metallic font-body">
+        <p className="mt-5 max-w-2xl text-metallic font-body text-sm sm:text-base">
           Integrated capabilities under one roof — from a single laser-cut sheet to full
           architectural installations.
         </p>
