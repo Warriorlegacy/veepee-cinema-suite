@@ -82,9 +82,21 @@ export const listServices = createServerFn({ method: "GET" }).handler(
       .order("sort_order", { ascending: true });
     if (error) {
       console.error("[listServices]", error);
-      return [];
     }
-    return data ?? [];
+    const servicesList = data ?? [];
+    const facadeServiceId = "7a00f135-e63d-4c38-89c5-842211bbcc01";
+    if (!servicesList.some(s => s.id === facadeServiceId)) {
+      servicesList.push({
+        id: facadeServiceId,
+        name: "Self-Designing Facades",
+        description: "Highly artistic metal mesh and lace fencing designs, seamlessly integrating traditional patterns with modern architecture for residential, commercial and security applications.",
+        icon: "Building2",
+        image_url: "/catalogue/self-designing-facades/facade-sample.png",
+        sort_order: 110,
+      });
+      servicesList.sort((a, b) => a.sort_order - b.sort_order);
+    }
+    return servicesList;
   },
 );
 
@@ -98,7 +110,54 @@ export const getServiceDetail = createServerFn({ method: "GET" })
       .select("id, name, description, icon, image_url, sort_order")
       .eq("id", data.id)
       .maybeSingle();
-    if (error || !svc) return null;
+
+    if (error || !svc) {
+      const facadeServiceId = "7a00f135-e63d-4c38-89c5-842211bbcc01";
+      if (data.id === facadeServiceId) {
+        return {
+          service: {
+            id: facadeServiceId,
+            name: "Self-Designing Facades",
+            description: "Highly artistic metal mesh and lace fencing designs, seamlessly integrating traditional patterns with modern architecture for residential, commercial and security applications.",
+            icon: "Building2",
+            image_url: "/catalogue/self-designing-facades/facade-sample.png",
+            sort_order: 110,
+          },
+          images: [
+            {
+              id: "facade-img-sample",
+              service_id: facadeServiceId,
+              url: "/catalogue/self-designing-facades/facade-sample.png",
+              caption: "Parametric CNC Laser-Cut Facade Screen",
+              sort_order: 5,
+            },
+            {
+              id: "facade-img-1",
+              service_id: facadeServiceId,
+              url: "/catalogue/self-designing-facades/facade-1.jpg",
+              caption: "Artistic Lace Pattern Fencing in public park",
+              sort_order: 10,
+            },
+            {
+              id: "facade-img-2",
+              service_id: facadeServiceId,
+              url: "/catalogue/self-designing-facades/facade-2.jpg",
+              caption: "Intricate lace mesh privacy screen on deck balcony",
+              sort_order: 20,
+            },
+            {
+              id: "facade-img-3",
+              service_id: facadeServiceId,
+              url: "/catalogue/self-designing-facades/facade-3.jpg",
+              caption: "Lace-woven residential security gate panel",
+              sort_order: 30,
+            },
+          ],
+        };
+      }
+      return null;
+    }
+
     const { data: images } = await supabase
       .from("service_images")
       .select("id, service_id, url, caption, sort_order")

@@ -13,6 +13,7 @@ import tubewellFittings from "@/assets/service-tubewell-fittings.png";
 import powderCoating from "@/assets/service-powder-coating.jpg";
 import plateBending from "@/assets/service-plate-bending.jpg";
 import pipeRolling from "@/assets/service-pipe-rolling.jpg";
+import selfDesigningFacades from "@/assets/service-self-designing-facades.png";
 
 type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "onError"> & {
   src?: string | null;
@@ -36,6 +37,7 @@ const LOCAL_MAPPINGS: Record<string, string> = {
   "900e626e-7e2e-4353-a716-2c31298091a4": powderCoating,
   "28eb02f4-6388-4b01-b649-234cdfbcc5c2": plateBending,
   "d89a6998-dc01-4b8d-893b-acf5571d3214": pipeRolling,
+  "7a00f135-e63d-4c38-89c5-842211bbcc01": selfDesigningFacades,
 
   // Mapping by service name (lowercased)
   "laser cutting": laserCutting,
@@ -49,6 +51,7 @@ const LOCAL_MAPPINGS: Record<string, string> = {
   "powder coating": powderCoating,
   "plate bending": plateBending,
   "pipe rolling": pipeRolling,
+  "self-designing facades": selfDesigningFacades,
 };
 
 const RESPONSIVE_WIDTHS = [400, 800, 1600];

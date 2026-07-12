@@ -126,6 +126,15 @@ export const categories: CatalogueCategory[] = [
     icon: "cog",
     priceLabel: "Starting ₹50",
     priceUnit: "/sq ft",
+  },
+  {
+    id: "self-designing-facades",
+    name: "Self-Designing Facades",
+    shortName: "Facades",
+    description: "Highly artistic metal mesh and lace fencing designs, seamlessly integrating traditional patterns with modern architecture.",
+    icon: "facade",
+    priceLabel: "Starting ₹650",
+    priceUnit: "/sq ft",
   }
 ];
 
@@ -1227,6 +1236,42 @@ export const products: CatalogueProduct[] = [
       "priceRange": "₹2,000 – ₹4,800",
       "material": "Mild Steel (Textured Background)",
       "description": "Exquisite nameplates combining modern laser cutting with traditional Indian art profiles like dancing Warli figures and Madhubani fish motifs."
+  },
+  {
+      "id": "p_123",
+      "categoryId": "self-designing-facades",
+      "name": "Parametric Laser-Cut Facade Screen",
+      "image": "/catalogue/self-designing-facades/facade-sample.png",
+      "priceRange": "₹900 – ₹2,500/sq ft",
+      "material": "Aluminum / Stainless Steel",
+      "description": "Bespoke architectural facade panel featuring parametric computational patterns. Precision laser-cut to optimize natural light diffusion, solar shading, and building aesthetics."
+  },
+  {
+      "id": "p_124",
+      "categoryId": "self-designing-facades",
+      "name": "Artistic Lace Pattern Fencing",
+      "image": "/catalogue/self-designing-facades/facade-1.jpg",
+      "priceRange": "₹650 – ₹1,200/sq ft",
+      "material": "Galvanized Mild Steel with Nylon/Steel Lace Inserts",
+      "description": "A unique fusion of security fencing and artistic lace design. Features intricate animal and floral patterns woven directly into heavy-duty chain-link panels for public spaces, schools, and parks."
+  },
+  {
+      "id": "p_125",
+      "categoryId": "self-designing-facades",
+      "name": "Bespoke Lace Mesh Privacy Partition",
+      "image": "/catalogue/self-designing-facades/facade-2.jpg",
+      "priceRange": "₹800 – ₹1,500/sq ft",
+      "material": "Stainless Steel Wire & Chain-Link Mesh",
+      "description": "High-end decorative partition screen woven with custom lace patterns. Designed for interior dividers, restaurant partitions, and balcony railings, offering privacy without blocking airflow."
+  },
+  {
+      "id": "p_126",
+      "categoryId": "self-designing-facades",
+      "name": "Lace-Woven Security Gate Panel",
+      "image": "/catalogue/self-designing-facades/facade-3.jpg",
+      "priceRange": "₹1,200 – ₹2,800/sq ft",
+      "material": "Powder-Coated Steel Frame & Woven Mesh",
+      "description": "Architectural gateway featuring heavy-duty steel framing combined with exquisite hand-woven lace mesh infill. Ideal for contemporary residential entrances and luxury estates."
   }
 ];
 

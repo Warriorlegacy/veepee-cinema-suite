@@ -4,7 +4,7 @@ import { useState, useRef, useCallback } from "react";
 import {
   X, ArrowRight, Grid3X3, DoorOpen, Fence,
   Church, Paintbrush, CircleDot, Wind, Cog, Gift,
-  ChevronLeft, ChevronRight, IndianRupee, Phone,
+  ChevronLeft, ChevronRight, IndianRupee, Phone, Building,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -45,6 +45,7 @@ const iconMap: Record<string, React.ReactNode> = {
   vent: <Wind className="h-4 w-4" />,
   cog: <Cog className="h-4 w-4" />,
   gift: <Gift className="h-4 w-4" />,
+  facade: <Building className="h-4 w-4" />,
 };
 
 /* ─── animation variants ─── */

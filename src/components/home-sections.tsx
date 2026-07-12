@@ -313,7 +313,7 @@ export function Products() {
               >
                 All
               </button>
-              {catalogueCategories.slice(0, 6).map((c) => (
+              {catalogueCategories.map((c) => (
                 <button
                   key={c.id}
                   onClick={() => setFilter(c.id)}
