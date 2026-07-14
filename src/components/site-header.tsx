@@ -32,17 +32,17 @@ export function SiteHeader() {
       }`}
     >
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0">
           <img
             src={logo.url}
             alt="VEEPEE Engineers"
             width={40}
             height={40}
-            className="h-10 w-10 object-contain drop-shadow-[0_4px_18px_rgba(212,20,142,0.45)]"
+            className="h-8 w-8 sm:h-10 sm:w-10 shrink-0 object-contain drop-shadow-[0_4px_18px_rgba(212,20,142,0.45)]"
           />
-          <div className="leading-none hidden sm:block">
-            <div className="font-display text-lg tracking-[0.18em] text-white">VEEPEE</div>
-            <div className="font-sans-brand text-[10px] tracking-[0.3em] text-metallic">ENGINEERS</div>
+          <div className="leading-none min-w-0">
+            <div className="font-display text-base sm:text-lg tracking-[0.16em] sm:tracking-[0.18em] text-white">VEEPEE</div>
+            <div className="font-sans-brand text-[9px] sm:text-[10px] tracking-[0.28em] sm:tracking-[0.3em] text-metallic">ENGINEERS</div>
           </div>
         </Link>
 
