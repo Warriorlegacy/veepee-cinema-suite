@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Float, MeshDistortMaterial } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,17 +9,90 @@ export function HeroScene() {
   const plateRef = useRef<THREE.Mesh>(null);
   const headRef = useRef<THREE.Group>(null);
   const groupRef = useRef<THREE.Group>(null);
-  const { pointer, camera, size } = useThree();
+  const { pointer, camera, size, gl } = useThree();
+
+  // Drag-to-orbit state — feels consistent across mouse + touch. Velocity is
+  // integrated with damping for inertial coast-out after release.
+  const drag = useRef({
+    active: false,
+    lastX: 0,
+    lastY: 0,
+    velX: 0,
+    velY: 0,
+    yaw: 0,
+    pitch: 0,
+  });
+
+  // Attach pointer/touch listeners to the WebGL canvas element. Using
+  // pointer events unifies mouse + finger + pen; touchAction: none prevents
+  // the page from scroll-hijacking a horizontal drag on mobile.
+  useEffect(() => {
+    const el = gl.domElement;
+    // Ensure the canvas can capture touches and has an adequate hit area.
+    // The canvas already fills the hero (100svh) so touch-target size is met.
+    el.style.touchAction = "none";
+    el.style.cursor = "grab";
+
+    const onDown = (e: PointerEvent) => {
+      drag.current.active = true;
+      drag.current.lastX = e.clientX;
+      drag.current.lastY = e.clientY;
+      drag.current.velX = 0;
+      drag.current.velY = 0;
+      el.style.cursor = "grabbing";
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+    };
+
+    const onMove = (e: PointerEvent) => {
+      if (!drag.current.active) return;
+      const dx = e.clientX - drag.current.lastX;
+      const dy = e.clientY - drag.current.lastY;
+      drag.current.lastX = e.clientX;
+      drag.current.lastY = e.clientY;
+      // Normalize by viewport so drag feels the same on any screen size.
+      // Touch pointers are ~1.5x less sensitive on small screens so the
+      // scene doesn't spin from a small thumb swipe.
+      const isTouch = e.pointerType === "touch";
+      const scale = isTouch ? 0.006 : 0.008;
+      drag.current.velX = dy * scale;
+      drag.current.velY = dx * scale;
+    };
+
+    const onUp = (e: PointerEvent) => {
+      drag.current.active = false;
+      el.style.cursor = "grab";
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+    };
+
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerup", onUp);
+    el.addEventListener("pointercancel", onUp);
+    el.addEventListener("pointerleave", onUp);
+    return () => {
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerup", onUp);
+      el.removeEventListener("pointercancel", onUp);
+      el.removeEventListener("pointerleave", onUp);
+    };
+  }, [gl]);
 
   // Keep the desktop composition on mobile: portrait viewports crop the
   // plate/head/beam horizontally at FOV 60, so we pull the camera back and
   // widen FOV proportionally to the aspect ratio. Also nudge the whole group
   // down slightly so it stays vertically centered under the hero headline.
-  useFrame(() => {
+  useFrame((_, delta) => {
     const aspect = size.width / Math.max(1, size.height);
     const persp = camera as THREE.PerspectiveCamera;
-    // Base: fov 60 @ z 5 on wide. Below aspect 1.2, ramp fov to ~78 and
-    // dolly the camera back so the same world extents stay in frame.
     const targetFov = aspect < 1.2 ? Math.min(80, 60 + (1.2 - aspect) * 22) : 60;
     const targetZ = aspect < 1.2 ? 5 + (1.2 - aspect) * 1.8 : 5;
     if (Math.abs(persp.fov - targetFov) > 0.05) {
@@ -31,20 +104,42 @@ export function HeroScene() {
     if (groupRef.current) {
       const targetY = aspect < 1 ? -0.35 : aspect < 1.2 ? -0.15 : 0;
       groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.15;
+
+      // Integrate drag velocity → yaw/pitch with clamps + inertial damping.
+      // When not actively dragging, velocity decays exponentially (~60fps
+      // damping factor 0.92 → coast for ~0.8s). While dragging, velocity is
+      // the delta from onMove, so rotation matches finger movement 1:1.
+      drag.current.yaw += drag.current.velY;
+      drag.current.pitch += drag.current.velX;
+      // Clamp pitch so the plate doesn't flip past horizontal.
+      drag.current.pitch = Math.max(-0.5, Math.min(0.5, drag.current.pitch));
+
+      groupRef.current.rotation.y +=
+        (drag.current.yaw - groupRef.current.rotation.y) * Math.min(1, delta * 12);
+      groupRef.current.rotation.x +=
+        (drag.current.pitch - groupRef.current.rotation.x) * Math.min(1, delta * 12);
+
+      if (!drag.current.active) {
+        drag.current.velX *= 0.92;
+        drag.current.velY *= 0.92;
+        // Gentle recentring so idle state returns to hero composition.
+        drag.current.yaw *= 0.985;
+        drag.current.pitch *= 0.985;
+      }
     }
   });
 
   const beamPoints = useMemo(() => {
-    const pts = [];
+    const pts: THREE.Vector3[] = [];
     for (let i = 0; i <= 20; i++) {
       const t = i / 20;
       pts.push(new THREE.Vector3(0, -2 + t * 4, 0));
     }
     return pts;
   }, []);
-
   const curve = useMemo(() => new THREE.CatmullRomCurve3(beamPoints), [beamPoints]);
 
+  // Subtle pointer follow on the laser head — layered on top of drag orbit.
   useFrame((_, delta) => {
     if (headRef.current) {
       headRef.current.position.x +=
@@ -53,6 +148,9 @@ export function HeroScene() {
         (-pointer.y * 0.1 - headRef.current.position.y) * delta * 0.5;
     }
   });
+
+
+
 
   return (
     <group ref={groupRef}>

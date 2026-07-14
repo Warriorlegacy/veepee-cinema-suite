@@ -60,10 +60,11 @@ export function Hero() {
         className="absolute inset-0 z-0"
         cameraPosition={[0, 0, 5]}
         cameraFov={60}
-        interactive={false}
+        interactive={true}
       >
         <LazyHeroScene />
       </LazyClientCanvas>
+
 
 
       {/* Cinematic background (fallback / overlay) */}
@@ -90,9 +91,11 @@ export function Hero() {
         <span className="font-sans-brand text-[10px] tracking-[0.4em] text-metallic [writing-mode:vertical-rl]">REC ● 00:00:42</span>
       </div>
 
-      {/* Content */}
-      <motion.div style={{ opacity }} className="relative z-10 flex h-full items-center">
-        <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-6 md:px-16">
+      {/* Content — pointer-events pass through empty areas so drag reaches the canvas;
+          interactive children re-enable events. */}
+      <motion.div style={{ opacity }} className="relative z-10 flex h-full items-center pointer-events-none">
+        <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-6 md:px-16 [&_a]:pointer-events-auto">
+
           <div className="max-w-4xl">
             <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-6 sm:mb-8">
               <span className="h-px w-8 sm:w-12 bg-magenta" />
