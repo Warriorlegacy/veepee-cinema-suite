@@ -55,7 +55,7 @@ export function HeroScene() {
   });
 
   return (
-    <group>
+    <group ref={groupRef}>
       <Sparks count={1200} spread={6} speed={0.2} size={0.05} />
 
       {/* Steel Plate */}
