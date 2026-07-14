@@ -234,13 +234,39 @@ export const createService = createServerFn({ method: "POST" })
     let image_url: string | null = null;
     if (file && typeof file === "object" && "arrayBuffer" in file && file.size > 0) {
       if (file.size > 5 * 1024 * 1024) throw new Error("Image must be under 5 MB");
-      const ext = (file.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
-      const path = `uploads/${randomUUID()}.${ext}`;
+      // Validate MIME type server-side against a strict allowlist and derive
+      // the stored extension from the validated MIME (never trust filename).
+      const MIME_TO_EXT: Record<string, string> = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp",
+      };
       const bytes = new Uint8Array(await file.arrayBuffer());
+      // Sniff magic bytes to confirm the actual content matches an allowed image type.
+      const sniff = (b: Uint8Array): string | null => {
+        if (b.length >= 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return "image/jpeg";
+        if (
+          b.length >= 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 &&
+          b[4] === 0x0d && b[5] === 0x0a && b[6] === 0x1a && b[7] === 0x0a
+        ) return "image/png";
+        if (
+          b.length >= 12 && b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 &&
+          b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50
+        ) return "image/webp";
+        return null;
+      };
+      const sniffed = sniff(bytes);
+      const declared = (file.type || "").toLowerCase();
+      if (!sniffed || !(declared === sniffed || declared === "")) {
+        throw new Error("Only JPEG, PNG or WebP images are allowed");
+      }
+      const contentType = sniffed;
+      const ext = MIME_TO_EXT[contentType];
+      const path = `uploads/${randomUUID()}.${ext}`;
       const { error: upErr } = await supabaseAdmin.storage
         .from("service-images")
         .upload(path, bytes, {
-          contentType: file.type || "image/jpeg",
+          contentType,
           upsert: false,
         });
       if (upErr) throw new Error("Image upload failed: " + upErr.message);
