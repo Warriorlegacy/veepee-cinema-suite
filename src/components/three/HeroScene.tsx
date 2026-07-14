@@ -129,6 +129,28 @@ export function HeroScene() {
     }
   });
 
+  const beamPoints = useMemo(() => {
+    const pts: THREE.Vector3[] = [];
+    for (let i = 0; i <= 20; i++) {
+      const t = i / 20;
+      pts.push(new THREE.Vector3(0, -2 + t * 4, 0));
+    }
+    return pts;
+  }, []);
+  const curve = useMemo(() => new THREE.CatmullRomCurve3(beamPoints), [beamPoints]);
+
+  // Subtle pointer follow on the laser head — layered on top of drag orbit.
+  useFrame((_, delta) => {
+    if (headRef.current) {
+      headRef.current.position.x +=
+        (pointer.x * 0.15 - headRef.current.position.x) * delta * 0.5;
+      headRef.current.position.y +=
+        (-pointer.y * 0.1 - headRef.current.position.y) * delta * 0.5;
+    }
+  });
+
+
+
 
   return (
     <group ref={groupRef}>
