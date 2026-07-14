@@ -97,10 +97,11 @@ export function Hero() {
         <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-6 md:px-16 [&_a]:pointer-events-auto">
 
           <div className="max-w-4xl">
-            <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-6 sm:mb-8">
-              <span className="h-px w-8 sm:w-12 bg-magenta" />
-              <span className="font-sans-brand text-[10px] sm:text-xs tracking-[0.35em] sm:tracking-[0.4em] text-magenta uppercase">
-                Precision Engineering · Since 1976
+            <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-5 sm:mb-8 mt-16 sm:mt-0">
+              <span className="h-px w-6 sm:w-12 bg-magenta shrink-0" />
+              <span className="font-sans-brand text-[9px] sm:text-xs tracking-[0.25em] sm:tracking-[0.4em] text-magenta uppercase whitespace-nowrap">
+                <span className="sm:hidden">Since 1976 · Varanasi</span>
+                <span className="hidden sm:inline">Precision Engineering · Since 1976</span>
               </span>
             </div>
 
@@ -110,7 +111,7 @@ export function Hero() {
             </h1>
             <p
               aria-hidden="true"
-              className="hero-fade hero-fade-2 font-display text-[clamp(2.75rem,13vw,8.5rem)] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.88] text-white break-words"
+              className="hero-fade hero-fade-2 font-display text-[clamp(2.25rem,12vw,8.5rem)] md:text-[8.5vw] lg:text-[7.5rem] leading-[0.9] text-white break-words"
             >
               ENGINEERING
               <br />
@@ -118,7 +119,7 @@ export function Hero() {
             </p>
             <p
               aria-hidden="true"
-              className="hero-fade hero-fade-3 font-display text-[clamp(1.9rem,9vw,6rem)] md:text-[6vw] lg:text-[5.5rem] leading-[0.95] text-metallic/80 mt-1"
+              className="hero-fade hero-fade-3 font-display text-[clamp(1.5rem,8vw,6rem)] md:text-[6vw] lg:text-[5.5rem] leading-[0.95] text-metallic/80 mt-1"
             >
               DELIVERING EXCELLENCE.
             </p>
