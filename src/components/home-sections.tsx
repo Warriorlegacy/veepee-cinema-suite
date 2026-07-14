@@ -60,10 +60,11 @@ export function Hero() {
         className="absolute inset-0 z-0"
         cameraPosition={[0, 0, 5]}
         cameraFov={60}
-        interactive={false}
+        interactive={true}
       >
         <LazyHeroScene />
       </LazyClientCanvas>
+
 
 
       {/* Cinematic background (fallback / overlay) */}
