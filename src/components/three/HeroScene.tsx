@@ -8,7 +8,31 @@ export function HeroScene() {
   const beamRef = useRef<THREE.Mesh>(null);
   const plateRef = useRef<THREE.Mesh>(null);
   const headRef = useRef<THREE.Group>(null);
-  const { pointer } = useThree();
+  const groupRef = useRef<THREE.Group>(null);
+  const { pointer, camera, size } = useThree();
+
+  // Keep the desktop composition on mobile: portrait viewports crop the
+  // plate/head/beam horizontally at FOV 60, so we pull the camera back and
+  // widen FOV proportionally to the aspect ratio. Also nudge the whole group
+  // down slightly so it stays vertically centered under the hero headline.
+  useFrame(() => {
+    const aspect = size.width / Math.max(1, size.height);
+    const persp = camera as THREE.PerspectiveCamera;
+    // Base: fov 60 @ z 5 on wide. Below aspect 1.2, ramp fov to ~78 and
+    // dolly the camera back so the same world extents stay in frame.
+    const targetFov = aspect < 1.2 ? Math.min(80, 60 + (1.2 - aspect) * 22) : 60;
+    const targetZ = aspect < 1.2 ? 5 + (1.2 - aspect) * 1.8 : 5;
+    if (Math.abs(persp.fov - targetFov) > 0.05) {
+      persp.fov = targetFov;
+      persp.updateProjectionMatrix();
+    }
+    persp.position.z += (targetZ - persp.position.z) * 0.15;
+
+    if (groupRef.current) {
+      const targetY = aspect < 1 ? -0.35 : aspect < 1.2 ? -0.15 : 0;
+      groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.15;
+    }
+  });
 
   const beamPoints = useMemo(() => {
     const pts = [];
