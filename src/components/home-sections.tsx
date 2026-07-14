@@ -149,7 +149,7 @@ export function Hero() {
                 href="https://wa.me/919125142400"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md transition-all"
+                className="hidden sm:inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md transition-all"
                 style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
               >
                 <MessageCircle className="h-4 w-4" /> WhatsApp Now
