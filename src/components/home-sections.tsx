@@ -26,7 +26,7 @@ import { LazyProductModel } from "@/components/three/lazy";
 import { LazyProcessPipeline } from "@/components/three/lazy";
 import { LazyWorkshopScene } from "@/components/three/lazy";
 import { LazyContactGear } from "@/components/three/lazy";
-import { categories as catalogueCategories, products as catalogueProducts } from "@/data/catalogue-data";
+import { categories as catalogueCategories, products as catalogueProducts, resolveCategoryId } from "@/data/catalogue-data";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
