@@ -546,82 +546,51 @@ function CataloguePage() {
       <section className="py-12 bg-[#0A0A0A]">
 
         <div className="mx-auto max-w-[1400px] px-6">
-          <div className="mb-6 text-metallic font-body text-sm">
-            Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
+          <div className="mb-6 text-metallic font-body text-sm flex items-center gap-2 flex-wrap">
+            <span>Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}</span>
+            {q && (
+              <span className="text-metallic/70">
+                for “<span className="text-white">{query}</span>”
+              </span>
+            )}
           </div>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-            layout
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProducts.map((product, idx) => {
-                const cat = categories.find((c) => c.id === product.categoryId);
-                return (
-                  <motion.div
-                    key={product.id}
-                    layout
-                    custom={idx}
-                    variants={fadeUp}
-                    initial="hidden"
-                    animate="show"
-                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
-                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card cursor-pointer border border-white/5 hover:border-magenta/30 transition-all duration-500"
-                    onClick={() => openLightbox(idx)}
-                  >
-                    {/* Image */}
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
+          {filteredProducts.length > 0 ? (
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+              layout
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredProducts.map((product, idx) => {
+                  const cat = categories.find((c) => c.id === product.categoryId);
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      category={cat}
+                      idx={idx}
+                      onOpen={() => openLightbox(idx)}
                     />
-
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-
-                    {/* Category badge */}
-                    {cat && (
-                      <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
-                        {iconMap[cat.icon]}
-                        {cat.shortName}
-                      </span>
-                    )}
-
-                    {/* Price badge */}
-                    <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-sm text-white/90 text-[10px] font-sans-brand tracking-wider border border-white/10">
-                      {product.priceRange.split("–")[0]}
-                    </span>
-
-                    {/* Bottom info */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-display text-lg text-white tracking-wide leading-tight">
-                        {product.name}
-                      </h3>
-                      {product.material && (
-                        <p className="text-[11px] text-metallic font-body mt-1">{product.material}</p>
-                      )}
-                      <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.25em] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        View Details <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                      </div>
-                    </div>
-
-                    {/* Hover glow */}
-                    <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/5 group-hover:ring-magenta/20 transition-all duration-500" />
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
-
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-20 text-metallic font-body">
-              No products found in this category.
-            </div>
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
+          ) : (
+            <EmptyState
+              title={q ? "No products match your search" : "No products in this category yet"}
+              message={
+                q
+                  ? `We couldn't find any product matching "${query}". Try a different keyword or clear filters.`
+                  : "This category is being catalogued. Check back soon or reach out for custom work — we build to spec."
+              }
+              onReset={q ? () => setQuery("") : () => { setActiveCategory("all"); setActiveGroup("all"); }}
+              resetLabel={q ? "Clear search" : "View all products"}
+            />
           )}
         </div>
       </section>
       )}
+
 
       {/* ── CTA BANNER ── */}
 
