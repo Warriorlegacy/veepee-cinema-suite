@@ -7,23 +7,60 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { facilities } from "@/data/catalogue-data";
 
 export const Route = createFileRoute("/facilities")({
-  head: () => ({
-    meta: [
-      { title: "Plant & Machinery · VEEPEE Engineers — Maheshpur Industrial Estate, Varanasi" },
-      {
-        name: "description",
-        content:
-          "Our manufacturing capabilities: 5 kW fiber laser, CNC press brake, three-roll pipe bender, CNC machining cell, powder coating, galvanizing partner line and multi-station welding bays.",
-      },
-      { property: "og:title", content: "VEEPEE Engineers — Plant & Machinery" },
-      {
-        property: "og:description",
-        content:
-          "Inside the Maheshpur workshop: fiber laser cutting, press-brake forming, three-roll bending, CNC machining, powder coating and welding.",
-      },
-    ],
-    links: [{ rel: "canonical", href: "/facilities" }],
-  }),
+  head: () => {
+    const title =
+      "Plant & Machinery — 5kW Fiber Laser, CNC Press Brake, Pipe Bending | VEEPEE Engineers, Varanasi";
+    const description =
+      "Inside VEEPEE Engineers' Maheshpur (Varanasi) plant: 5 kW fiber laser (3000×1500 bed), CNC press brake, three-roll pipe bender, CNC turning & milling cell, powder coating line, galvanizing partner and multi-station MIG/TIG welding — process, capacity, tolerances and materials for every machine.";
+    const url = "https://veepeeengr.com/facilities";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        {
+          name: "keywords",
+          content:
+            "fiber laser cutting, CNC press brake, pipe bending, CNC machining, powder coating, galvanizing, MIG TIG welding, sheet metal fabrication, Varanasi manufacturing",
+        },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            name: "Plant & Machinery — VEEPEE Engineers",
+            url,
+            description,
+            isPartOf: {
+              "@type": "WebSite",
+              name: "VEEPEE Engineers",
+              url: "https://veepeeengr.com",
+            },
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://veepeeengr.com" },
+              { "@type": "ListItem", position: 2, name: "Facilities", item: url },
+            ],
+          }),
+        },
+      ],
+    };
+  },
   component: FacilitiesPage,
 });
 
