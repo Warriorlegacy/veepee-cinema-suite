@@ -322,78 +322,126 @@ function CataloguePage() {
       {/* ── PRIMARY TOGGLE: Product Catalog vs Infrastructure & Facilities ── */}
       <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5">
         <div className="mx-auto max-w-[1400px] px-6 py-3 flex flex-col gap-3">
-          {/* Toggle */}
-          <div className="flex items-center gap-2">
-            <div className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.02]">
+          {/* Toggle + Search */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <div
+              role="tablist"
+              aria-label="Catalogue view"
+              className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.03] shadow-inner"
+            >
               <button
+                role="tab"
+                aria-selected={view === "products"}
                 onClick={() => setView("products")}
                 className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "products" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
+                  view === "products"
+                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
+                    : "text-metallic hover:text-white hover:bg-white/5"
                 }`}
               >
                 <Grid3X3 className="h-3.5 w-3.5" /> Product Catalog
               </button>
               <button
+                role="tab"
+                aria-selected={view === "facilities"}
                 onClick={() => setView("facilities")}
                 className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "facilities" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
+                  view === "facilities"
+                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
+                    : "text-metallic hover:text-white hover:bg-white/5"
                 }`}
               >
                 <Factory className="h-3.5 w-3.5" /> Infrastructure & Facilities
               </button>
+            </div>
+
+            {/* Live search */}
+            <div className="relative flex-1 min-w-[200px] max-w-md ml-auto">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-metallic/60 pointer-events-none" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={view === "products" ? "Search products, materials, categories…" : "Search machines, capacities…"}
+                aria-label="Search catalogue"
+                className="w-full pl-9 pr-9 py-2 rounded-full bg-white/[0.04] border border-white/10 focus:border-magenta/60 focus:ring-2 focus:ring-magenta/20 outline-none text-sm text-white placeholder:text-metallic/50 font-body transition-all"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-metallic hover:text-white hover:bg-white/10"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
             </div>
           </div>
 
           {view === "products" && (
             <>
               {/* Group tabs */}
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                {groups.map((g) => (
-                  <button
-                    key={g.id}
-                    onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
-                    className={`shrink-0 px-3 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
-                      activeGroup === g.id
-                        ? "border-magenta/60 text-white bg-magenta/10"
-                        : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25"
-                    }`}
-                  >
-                    {g.label}
-                  </button>
-                ))}
+              <div role="tablist" aria-label="Product group" className="flex gap-2 overflow-x-auto scrollbar-hide">
+                {groups.map((g) => {
+                  const active = activeGroup === g.id;
+                  return (
+                    <button
+                      key={g.id}
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
+                      className={`relative shrink-0 px-3.5 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
+                        active
+                          ? "border-magenta text-white bg-magenta/15 shadow-[0_0_0_1px_rgba(212,20,142,0.4)]"
+                          : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25 hover:bg-white/[0.03]"
+                      }`}
+                    >
+                      {g.label}
+                      {active && (
+                        <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 h-[2px] w-6 bg-magenta rounded-full" />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Sub-category chips */}
               <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                 <button
                   onClick={() => setActiveCategory("all")}
+                  aria-pressed={activeCategory === "all"}
                   className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
                     activeCategory === "all"
-                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
                       : "border-white/15 text-metallic hover:border-magenta hover:text-white"
                   }`}
                 >
                   All in Group
                 </button>
-                {visibleCategories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
-                    className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                      activeCategory === cat.id
-                        ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                        : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-                    }`}
-                  >
-                    {iconMap[cat.icon]}
-                    {cat.shortName}
-                  </button>
-                ))}
+                {visibleCategories.map((cat) => {
+                  const active = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveCategory(cat.id)}
+                      aria-pressed={active}
+                      className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                        active
+                          ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
+                          : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                      }`}
+                    >
+                      {iconMap[cat.icon]}
+                      {cat.shortName}
+                    </button>
+                  );
+                })}
               </div>
             </>
           )}
         </div>
       </section>
+
 
 
       {/* ── Category Description ── */}
