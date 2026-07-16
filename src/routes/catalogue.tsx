@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import {
   X, ArrowRight, Grid3X3, DoorOpen, Fence,
   Church, Paintbrush, CircleDot, Wind, Cog, Gift,
-  ChevronLeft, ChevronRight, IndianRupee, Phone, Building,
+  ChevronLeft, ChevronRight, IndianRupee, Phone, Building, Factory,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -12,10 +12,13 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import {
   categories,
   products,
+  facilities,
+  resolveCategoryId,
   getProductsByCategory,
   type CatalogueProduct,
   type CatalogueCategory,
 } from "@/data/catalogue-data";
+
 
 export const Route = createFileRoute("/catalogue")({
   head: () => ({
