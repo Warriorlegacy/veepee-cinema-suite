@@ -81,7 +81,107 @@ const scaleIn = {
   exit: { opacity: 0, scale: 0.92, transition: { duration: 0.3 } },
 };
 
-/* ─── Lightbox ─── */
+/* ─── Empty state ─── */
+function EmptyState({
+  title,
+  message,
+  onReset,
+  resetLabel = "Clear search",
+}: {
+  title: string;
+  message: string;
+  onReset?: () => void;
+  resetLabel?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="mx-auto max-w-lg text-center py-16 px-6 rounded-2xl border border-dashed border-white/10 bg-white/[0.02]"
+    >
+      <div className="mx-auto mb-4 h-14 w-14 grid place-items-center rounded-full bg-magenta/10 border border-magenta/20 text-magenta">
+        <PackageSearch className="h-6 w-6" />
+      </div>
+      <h3 className="font-display text-xl text-white tracking-wide">{title}</h3>
+      <p className="mt-2 text-metallic font-body text-sm leading-relaxed">{message}</p>
+      {onReset && (
+        <button
+          onClick={onReset}
+          className="mt-5 inline-flex items-center gap-2 px-4 py-2 text-[11px] font-sans-brand uppercase tracking-[0.22em] rounded-full bg-magenta-gradient text-white hover:shadow-magenta transition-all"
+        >
+          {resetLabel} <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+      )}
+    </motion.div>
+  );
+}
+
+/* ─── Product card (with image loading skeleton) ─── */
+function ProductCard({
+  product,
+  category,
+  idx,
+  onOpen,
+}: {
+  product: CatalogueProduct;
+  category?: CatalogueCategory;
+  idx: number;
+  onOpen: () => void;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <motion.div
+      layout
+      custom={idx}
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
+      className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card cursor-pointer border border-white/5 hover:border-magenta/30 transition-all duration-500"
+      onClick={onOpen}
+    >
+      {/* Shimmer skeleton while image loads */}
+      {!loaded && (
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-white/[0.08] to-white/[0.02] animate-pulse" />
+      )}
+      <img
+        src={product.image}
+        alt={product.name}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+        className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1.2s] group-hover:scale-110 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+      {category && (
+        <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
+          {iconMap[category.icon]}
+          {category.shortName}
+        </span>
+      )}
+      <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-sm text-white/90 text-[10px] font-sans-brand tracking-wider border border-white/10">
+        {product.priceRange.split("–")[0]}
+      </span>
+      <div className="absolute bottom-0 left-0 right-0 p-4">
+        <h3 className="font-display text-lg text-white tracking-wide leading-tight">
+          {product.name}
+        </h3>
+        {product.material && (
+          <p className="text-[11px] text-metallic font-body mt-1">{product.material}</p>
+        )}
+        <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.25em] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          View Details <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+        </div>
+      </div>
+      <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/5 group-hover:ring-magenta/20 transition-all duration-500" />
+    </motion.div>
+  );
+}
+
+
 function Lightbox({
   product,
   category,
