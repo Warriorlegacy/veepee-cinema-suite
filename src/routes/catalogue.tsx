@@ -20,22 +20,29 @@ import {
 } from "@/data/catalogue-data";
 
 
+type CatalogueSearch = { cat?: string; view?: "products" | "facilities" };
+
 export const Route = createFileRoute("/catalogue")({
+  validateSearch: (s: Record<string, unknown>): CatalogueSearch => ({
+    cat: typeof s.cat === "string" ? s.cat : undefined,
+    view: s.view === "facilities" ? "facilities" : "products",
+  }),
   head: () => ({
     meta: [
-      { title: "Product Catalogue — VEEPEE Engineers · CNC Laser Cut Designs" },
+      { title: "Product Catalogue — VEEPEE Engineers · Pipeline · Fabricated · Loco · Architectural" },
       {
         name: "description",
         content:
-          "Explore 65+ CNC laser-cut products: jaali screens, gates, railings, pooja panels, shadow art, mirror frames & more. Premium metalwork from Varanasi.",
+          "Pipeline Products, Fabricated Products, Loco & Railway Components and CNC laser-cut architectural metalwork — plus a full view of our machinery and processing capacities.",
       },
       { property: "og:title", content: "VEEPEE Engineers — Product Catalogue" },
-      { property: "og:description", content: "65+ premium CNC laser-cut products. Jaali screens · Gates · Railings · Shadow Art · Pooja Panels & more." },
+      { property: "og:description", content: "Pipeline · Fabricated · Loco · Gates · Railings · Balustrades · Facades & Grills · Custom Industrial Art." },
     ],
     links: [{ rel: "canonical", href: "/catalogue" }],
   }),
   component: CataloguePage,
 });
+
 
 /* ─── icon map ─── */
 const iconMap: Record<string, React.ReactNode> = {
