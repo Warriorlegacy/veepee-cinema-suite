@@ -37,19 +37,66 @@ export const Route = createFileRoute("/catalogue")({
     };
 
   },
-  head: () => ({
-    meta: [
-      { title: "Product Catalogue — VEEPEE Engineers · Pipeline · Fabricated · Loco · Architectural" },
-      {
-        name: "description",
-        content:
-          "Pipeline Products, Fabricated Products, Loco & Railway Components and CNC laser-cut architectural metalwork — plus a full view of our machinery and processing capacities.",
-      },
-      { property: "og:title", content: "VEEPEE Engineers — Product Catalogue" },
-      { property: "og:description", content: "Pipeline · Fabricated · Loco · Gates · Railings · Balustrades · Facades & Grills · Custom Industrial Art." },
-    ],
-    links: [{ rel: "canonical", href: "/catalogue" }],
-  }),
+  head: () => {
+    const title =
+      "Product Catalogue — Pipeline, Fabricated, Loco & Architectural Metalwork | VEEPEE Engineers";
+    const description =
+      "Browse VEEPEE Engineers' full catalogue: Pipeline Products (elbows, flanges, tees, reducers), Fabricated Products (skids, hoppers, tanks), Loco & Railway components, and CNC laser-cut architectural gates, railings, jaalis, facades and grilles. Manufactured in Varanasi to tight tolerances.";
+    const url = "https://veepeeengr.com/catalogue";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        {
+          name: "keywords",
+          content:
+            "pipeline products, fabricated products, locomotive components, railway components, CNC laser cutting, architectural metalwork, laser cut gates, laser cut jaali, MS pipe fittings, industrial fabrication Varanasi",
+        },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "VEEPEE Engineers — Product Catalogue",
+            url,
+            description,
+            about: [
+              "Pipeline Products",
+              "Fabricated Products",
+              "Loco & Railway Components",
+              "CNC Laser-Cut Architectural Metalwork",
+            ],
+            isPartOf: {
+              "@type": "WebSite",
+              name: "VEEPEE Engineers",
+              url: "https://veepeeengr.com",
+            },
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://veepeeengr.com" },
+              { "@type": "ListItem", position: 2, name: "Catalogue", item: url },
+            ],
+          }),
+        },
+      ],
+    };
+  },
   component: CataloguePage,
 });
 
