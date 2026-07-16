@@ -25,8 +25,8 @@ import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as DebugResponsivenessRouteImport } from './routes/debug.responsiveness'
 import { Route as DebugImagesRouteImport } from './routes/debug.images'
 import { Route as DebugCanvasRouteImport } from './routes/debug.canvas'
+import { Route as ApiBrochureDotpdfRouteImport } from './routes/api/brochure[.]pdf'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
-import { Route as ApiBrochurePdfRouteImport } from './routes/api/brochure.pdf'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -108,14 +108,14 @@ const DebugCanvasRoute = DebugCanvasRouteImport.update({
   path: '/debug/canvas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiBrochureDotpdfRoute = ApiBrochureDotpdfRouteImport.update({
+  id: '/api/brochure.pdf',
+  path: '/api/brochure.pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAnalyticsRoute = ApiPublicAnalyticsRouteImport.update({
   id: '/api/public/analytics',
   path: '/api/public/analytics',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiBrochurePdfRoute = ApiBrochurePdfRouteImport.update({
-  id: '/api/brochure/pdf',
-  path: '/api/brochure/pdf',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -131,12 +131,12 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
   '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
-  '/api/brochure/pdf': typeof ApiBrochurePdfRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
 }
 export interface FileRoutesByTo {
@@ -151,12 +151,12 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
   '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
-  '/api/brochure/pdf': typeof ApiBrochurePdfRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
 }
 export interface FileRoutesById {
@@ -172,12 +172,12 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
   '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
-  '/api/brochure/pdf': typeof ApiBrochurePdfRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
 }
 export interface FileRouteTypes {
@@ -194,12 +194,12 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/api/brochure.pdf'
     | '/debug/canvas'
     | '/debug/images'
     | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
-    | '/api/brochure/pdf'
     | '/api/public/analytics'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -214,12 +214,12 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/api/brochure.pdf'
     | '/debug/canvas'
     | '/debug/images'
     | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
-    | '/api/brochure/pdf'
     | '/api/public/analytics'
   id:
     | '__root__'
@@ -234,12 +234,12 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/api/brochure.pdf'
     | '/debug/canvas'
     | '/debug/images'
     | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
-    | '/api/brochure/pdf'
     | '/api/public/analytics'
   fileRoutesById: FileRoutesById
 }
@@ -255,11 +255,11 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapServicesDotxmlRoute: typeof SitemapServicesDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiBrochureDotpdfRoute: typeof ApiBrochureDotpdfRoute
   DebugCanvasRoute: typeof DebugCanvasRoute
   DebugImagesRoute: typeof DebugImagesRoute
   DebugResponsivenessRoute: typeof DebugResponsivenessRoute
   ServicesIdRoute: typeof ServicesIdRoute
-  ApiBrochurePdfRoute: typeof ApiBrochurePdfRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
 }
 
@@ -377,18 +377,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DebugCanvasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/brochure.pdf': {
+      id: '/api/brochure.pdf'
+      path: '/api/brochure.pdf'
+      fullPath: '/api/brochure.pdf'
+      preLoaderRoute: typeof ApiBrochureDotpdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/analytics': {
       id: '/api/public/analytics'
       path: '/api/public/analytics'
       fullPath: '/api/public/analytics'
       preLoaderRoute: typeof ApiPublicAnalyticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/brochure/pdf': {
-      id: '/api/brochure/pdf'
-      path: '/api/brochure/pdf'
-      fullPath: '/api/brochure/pdf'
-      preLoaderRoute: typeof ApiBrochurePdfRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -418,13 +418,23 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapServicesDotxmlRoute: SitemapServicesDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiBrochureDotpdfRoute: ApiBrochureDotpdfRoute,
   DebugCanvasRoute: DebugCanvasRoute,
   DebugImagesRoute: DebugImagesRoute,
   DebugResponsivenessRoute: DebugResponsivenessRoute,
   ServicesIdRoute: ServicesIdRoute,
-  ApiBrochurePdfRoute: ApiBrochurePdfRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -11,7 +11,7 @@ import { categories, products, facilities, HIDDEN_FROM_CATALOGUE } from "@/data/
  * stale. Includes Pipeline, Fabricated, Loco product summaries and the
  * Plant & Machinery capability sheet.
  */
-export const Route = createFileRoute("/api/brochure/pdf")({
+export const Route = createFileRoute("/api/brochure.pdf")({
   server: {
     handlers: {
       GET: async () => {
