@@ -277,40 +277,82 @@ function CataloguePage() {
         </div>
       </section>
 
-      {/* ── FILTER BAR ── */}
-      <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5 py-4">
-        <div className="mx-auto max-w-[1400px] px-6">
-          <div
-            ref={filterRef}
-            className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide"
-          >
-            <button
-              onClick={() => setActiveCategory("all")}
-              className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                activeCategory === "all"
-                  ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                  : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-              }`}
-            >
-              All Products
-            </button>
-            {categories.map((cat) => (
+      {/* ── PRIMARY TOGGLE: Product Catalog vs Infrastructure & Facilities ── */}
+      <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5">
+        <div className="mx-auto max-w-[1400px] px-6 py-3 flex flex-col gap-3">
+          {/* Toggle */}
+          <div className="flex items-center gap-2">
+            <div className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.02]">
               <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                  activeCategory === cat.id
-                    ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                    : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                onClick={() => setView("products")}
+                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
+                  view === "products" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
                 }`}
               >
-                {iconMap[cat.icon]}
-                {cat.shortName}
+                <Grid3X3 className="h-3.5 w-3.5" /> Product Catalog
               </button>
-            ))}
+              <button
+                onClick={() => setView("facilities")}
+                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
+                  view === "facilities" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
+                }`}
+              >
+                <Factory className="h-3.5 w-3.5" /> Infrastructure & Facilities
+              </button>
+            </div>
           </div>
+
+          {view === "products" && (
+            <>
+              {/* Group tabs */}
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                {groups.map((g) => (
+                  <button
+                    key={g.id}
+                    onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
+                    className={`shrink-0 px-3 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
+                      activeGroup === g.id
+                        ? "border-magenta/60 text-white bg-magenta/10"
+                        : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25"
+                    }`}
+                  >
+                    {g.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Sub-category chips */}
+              <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                <button
+                  onClick={() => setActiveCategory("all")}
+                  className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                    activeCategory === "all"
+                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                      : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                  }`}
+                >
+                  All in Group
+                </button>
+                {visibleCategories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                      activeCategory === cat.id
+                        ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                        : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                    }`}
+                  >
+                    {iconMap[cat.icon]}
+                    {cat.shortName}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
+
 
       {/* ── Category Description ── */}
       <AnimatePresence mode="wait">
