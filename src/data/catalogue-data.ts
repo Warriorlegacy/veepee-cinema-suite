@@ -97,6 +97,17 @@ export const categories: CatalogueCategory[] = [
     group: "architectural",
   },
   {
+    id: "metal-furniture",
+    name: "Customized Metal Furniture",
+    shortName: "Furniture",
+    description: "Bespoke metal and wood furniture — dining tables, study desks, coffee tables, modern shelving units, and custom metal seating. Engineered for durability and style.",
+    icon: "chair",
+    priceLabel: "Starting ₹5,000",
+    priceUnit: "/piece",
+    type: "product",
+    group: "architectural",
+  },
+  {
     id: "jaali-screens",
     name: "Jaali, Partition & Privacy Screens",
     shortName: "Jaalis & Partitions",
@@ -302,6 +313,42 @@ export const facilities: FacilityItem[] = [
 
 export const products: CatalogueProduct[] = [
   {
+    "id": "p_furniture_1",
+    "categoryId": "metal-furniture",
+    "name": "Geometric Laser-Cut Coffee Table",
+    "image": "/catalogue/metal-furniture/furniture-1.png",
+    "priceRange": "₹12,500 – ₹18,000",
+    "material": "Mild Steel & Solid Walnut",
+    "description": "Premium coffee table featuring an intricate geometric laser-cut steel base with a polished solid walnut wood top. Offers a stunning minimalist designer look for modern living spaces."
+  },
+  {
+    "id": "p_furniture_2",
+    "categoryId": "metal-furniture",
+    "name": "Modern Industrial Bookshelf / Shelving Unit",
+    "image": "/catalogue/metal-furniture/furniture-2.png",
+    "priceRange": "₹15,000 – ₹24,000",
+    "material": "Heavy-Duty Steel & Solid Teak",
+    "description": "Heavy-duty steel framed shelving unit with floating solid teak wood shelves. A perfect fusion of industrial strength and organic warmth, ideal for modern offices and living rooms."
+  },
+  {
+    "id": "p_furniture_3",
+    "categoryId": "metal-furniture",
+    "name": "Bespoke Spider-Leg Metal Dining Table Base",
+    "image": "/catalogue/metal-furniture/furniture-3.png",
+    "priceRange": "₹18,000 – ₹32,000",
+    "material": "Heavy-Gauge Structural Steel",
+    "description": "Sturdy spider-leg metal base for heavy dining tables, precision-fabricated with heavy-gauge structural steel and finished in a matte black powder coat for ultimate wear resistance."
+  },
+  {
+    "id": "p_furniture_4",
+    "categoryId": "metal-furniture",
+    "name": "Art Deco Laser-Cut Accent Chair",
+    "image": "/catalogue/metal-furniture/furniture-4.png",
+    "priceRange": "₹9,500 – ₹14,500",
+    "material": "Stainless Steel (Gold PVD) & Premium Velvet",
+    "description": "Elegant lounge accent chair featuring an intricate laser-cut metal frame with geometric Art Deco styling, finished in a luxurious gold PVD coating and fitted with premium cushions."
+  },
+  {
     "id": "p_1",
     "categoryId": "gift-decor",
     "name": "Romantic Rings Laser-Cut Heart Decor Stand",
@@ -368,7 +415,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_8",
     "categoryId": "gates",
     "name": "Divine Laser-Cut Designer Gates",
-    "image": "/catalogue/gates/imgi_46_apnqkaglm_ngnkwuvwmshoofw7qgru9wbsthfckl4yr_x0cchu5hyiew0nagjzct85qo44etj8aaoo6v7bbjminrztmf5e4olsjvkrquru9qkzv7fbmpjlh7.png",
+    "image": "/catalogue/gates/designer-gate-peacock.png",
     "priceRange": "\u20b975,000 \u2013 \u20b92,50,000",
     "material": "Mild Steel with powder coating and acrylic inserts",
     "description": "Exquisite laser-cut designer gates featuring intricate Radha Krishna and vibrant peacock motifs, ideal for adding a luxurious and artistic statement to any residential or commercial entrance. Crafted with precision and finished with durable, multi-color coatings to ensure lasting beauty and elegance."

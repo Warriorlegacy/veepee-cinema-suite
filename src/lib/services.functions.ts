@@ -94,8 +94,19 @@ export const listServices = createServerFn({ method: "GET" }).handler(
         image_url: "/catalogue/self-designing-facades/facade-sample.png",
         sort_order: 110,
       });
-      servicesList.sort((a, b) => a.sort_order - b.sort_order);
     }
+    const furnitureServiceId = "e0d37651-789a-41f2-ba2c-29a3a1f9ee01";
+    if (!servicesList.some(s => s.id === furnitureServiceId)) {
+      servicesList.push({
+        id: furnitureServiceId,
+        name: "Customized Metal Furniture",
+        description: "Bespoke metal and wood furniture — dining tables, study desks, coffee tables, modern shelving units, and custom metal seating. Engineered for durability and style.",
+        icon: "Armchair",
+        image_url: "/catalogue/metal-furniture/furniture-1.png",
+        sort_order: 120,
+      });
+    }
+    servicesList.sort((a, b) => a.sort_order - b.sort_order);
     return servicesList;
   },
 );
@@ -150,6 +161,49 @@ export const getServiceDetail = createServerFn({ method: "GET" })
               service_id: facadeServiceId,
               url: "/catalogue/self-designing-facades/facade-3.jpg",
               caption: "Lace-woven residential security gate panel",
+              sort_order: 30,
+            },
+          ],
+        };
+      }
+      const furnitureServiceId = "e0d37651-789a-41f2-ba2c-29a3a1f9ee01";
+      if (data.id === furnitureServiceId) {
+        return {
+          service: {
+            id: furnitureServiceId,
+            name: "Customized Metal Furniture",
+            description: "Bespoke metal and wood furniture — dining tables, study desks, coffee tables, modern shelving units, and custom metal seating. Engineered for durability and style.",
+            icon: "Armchair",
+            image_url: "/catalogue/metal-furniture/furniture-1.png",
+            sort_order: 120,
+          },
+          images: [
+            {
+              id: "furniture-img-1",
+              service_id: furnitureServiceId,
+              url: "/catalogue/metal-furniture/furniture-1.png",
+              caption: "Modern Geometric Laser-Cut Coffee Table",
+              sort_order: 5,
+            },
+            {
+              id: "furniture-img-2",
+              service_id: furnitureServiceId,
+              url: "/catalogue/metal-furniture/furniture-2.png",
+              caption: "Modern Industrial Shelving Unit",
+              sort_order: 10,
+            },
+            {
+              id: "furniture-img-3",
+              service_id: furnitureServiceId,
+              url: "/catalogue/metal-furniture/furniture-3.png",
+              caption: "Bespoke Spider-Leg Dining Table Base",
+              sort_order: 20,
+            },
+            {
+              id: "furniture-img-4",
+              service_id: furnitureServiceId,
+              url: "/catalogue/metal-furniture/furniture-4.png",
+              caption: "Art Deco Laser-Cut Accent Chair",
               sort_order: 30,
             },
           ],
