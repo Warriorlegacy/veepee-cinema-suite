@@ -24,6 +24,10 @@ export interface CatalogueCategory {
   icon: string;
   priceLabel: string;
   priceUnit: string;
+  /** "product" for finished sellable goods, "facility" for machinery / workshop capacities. */
+  type?: "product" | "facility";
+  /** Group heading for filter bar organisation. */
+  group?: "architectural" | "industrial" | "decor" | "services" | "facility";
 }
 
 export interface CatalogueProduct {
@@ -34,6 +38,17 @@ export interface CatalogueProduct {
   priceRange: string;
   material?: string;
   description?: string;
+}
+
+export interface FacilityItem {
+  id: string;
+  name: string;
+  shortName: string;
+  spec: string;
+  capacity: string;
+  description: string;
+  image?: string;
+  icon: string;
 }
 
 export const categories: CatalogueCategory[] = [
