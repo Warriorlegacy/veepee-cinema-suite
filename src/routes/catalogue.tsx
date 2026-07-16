@@ -430,41 +430,17 @@ function CataloguePage() {
         </div>
       </section>
 
-      {/* ── PRIMARY TOGGLE: Product Catalog vs Infrastructure & Facilities ── */}
+      {/* ── FILTER BAR ── */}
       <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5">
         <div className="mx-auto max-w-[1400px] px-6 py-3 flex flex-col gap-3">
-          {/* Toggle + Search */}
           <div className="flex items-center gap-3 flex-wrap">
-            <div
-              role="tablist"
-              aria-label="Catalogue view"
-              className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.03] shadow-inner"
+            <Link
+              to="/facilities"
+              className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full border border-magenta/40 text-magenta hover:bg-magenta/10 transition-all"
             >
-              <button
-                role="tab"
-                aria-selected={view === "products"}
-                onClick={() => setView("products")}
-                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "products"
-                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
-                    : "text-metallic hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <Grid3X3 className="h-3.5 w-3.5" /> Product Catalog
-              </button>
-              <button
-                role="tab"
-                aria-selected={view === "facilities"}
-                onClick={() => setView("facilities")}
-                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "facilities"
-                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
-                    : "text-metallic hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <Factory className="h-3.5 w-3.5" /> Infrastructure & Facilities
-              </button>
-            </div>
+              <Factory className="h-3.5 w-3.5" /> View Our Plant & Machinery
+            </Link>
+
 
             {/* Live search */}
             <div className="relative flex-1 min-w-[200px] max-w-md ml-auto">
