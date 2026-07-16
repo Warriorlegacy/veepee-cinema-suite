@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import {
   ChevronDown, Zap, Cog, Hammer, Shield, Building2, Factory,
   Wrench, Droplets, ArrowRight, MessageCircle, Phone, Mail,
-  Star, MapPin, CheckCircle2, Sparkles,
+  Star, MapPin, CheckCircle2, Sparkles, FileDown,
 } from "lucide-react";
 
 import hero from "@/assets/hero-sparks.jpg";
