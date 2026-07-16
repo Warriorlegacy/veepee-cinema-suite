@@ -772,6 +772,15 @@ export function ContactCTA() {
             <a href="mailto:veepeeengr@gmail.com" className="flex items-center gap-3 px-5 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta">
               <Mail className="h-4 w-4" /> Email
             </a>
+            <a
+              href="/api/brochure.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              download="VEEPEE-Engineers-Brochure.pdf"
+              className="flex items-center gap-3 px-5 py-4 border border-magenta/50 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-magenta/10 transition-colors"
+            >
+              <FileDown className="h-4 w-4 text-magenta" /> Download Brochure (PDF)
+            </a>
 
             {[
               { icon: MapPin, label: "Workshop", value: "225/1 Maheshpur Industrial Estate, Varanasi 221106, Uttar Pradesh, India" },
