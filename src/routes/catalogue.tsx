@@ -1,11 +1,11 @@
-import { createFileRoute, useSearch } from "@tanstack/react-router";
+import { createFileRoute, useSearch, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import {
   X, ArrowRight, Grid3X3, DoorOpen, Fence,
   Church, Paintbrush, CircleDot, Wind, Cog, Gift,
-  ChevronLeft, ChevronRight, IndianRupee, Phone, Building, Factory,
-  Search, PackageSearch,
+  ChevronLeft, ChevronRight, IndianRupee, Phone, Building,
+  Search, PackageSearch, Factory,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -13,15 +13,17 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import {
   categories,
   products,
-  facilities,
   resolveCategoryId,
   getProductsByCategory,
+  getVisibleProducts,
+  HIDDEN_FROM_CATALOGUE,
   type CatalogueProduct,
   type CatalogueCategory,
 } from "@/data/catalogue-data";
 
 
-type CatalogueSearch = { cat?: string; view?: "products" | "facilities"; q?: string };
+type CatalogueSearch = { cat?: string; q?: string };
+
 
 const validCategoryIds = new Set(categories.map((c) => c.id));
 
