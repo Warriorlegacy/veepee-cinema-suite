@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import {
   X, ArrowRight, Grid3X3, DoorOpen, Fence,
   Church, Paintbrush, CircleDot, Wind, Cog, Gift,
-  ChevronLeft, ChevronRight, IndianRupee, Phone, Building,
+  ChevronLeft, ChevronRight, IndianRupee, Phone, Building, Factory,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -12,27 +12,37 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import {
   categories,
   products,
+  facilities,
+  resolveCategoryId,
   getProductsByCategory,
   type CatalogueProduct,
   type CatalogueCategory,
 } from "@/data/catalogue-data";
 
+
+type CatalogueSearch = { cat?: string; view?: "products" | "facilities" };
+
 export const Route = createFileRoute("/catalogue")({
+  validateSearch: (s: Record<string, unknown>): CatalogueSearch => ({
+    cat: typeof s.cat === "string" ? s.cat : undefined,
+    view: s.view === "facilities" ? "facilities" : "products",
+  }),
   head: () => ({
     meta: [
-      { title: "Product Catalogue — VEEPEE Engineers · CNC Laser Cut Designs" },
+      { title: "Product Catalogue — VEEPEE Engineers · Pipeline · Fabricated · Loco · Architectural" },
       {
         name: "description",
         content:
-          "Explore 65+ CNC laser-cut products: jaali screens, gates, railings, pooja panels, shadow art, mirror frames & more. Premium metalwork from Varanasi.",
+          "Pipeline Products, Fabricated Products, Loco & Railway Components and CNC laser-cut architectural metalwork — plus a full view of our machinery and processing capacities.",
       },
       { property: "og:title", content: "VEEPEE Engineers — Product Catalogue" },
-      { property: "og:description", content: "65+ premium CNC laser-cut products. Jaali screens · Gates · Railings · Shadow Art · Pooja Panels & more." },
+      { property: "og:description", content: "Pipeline · Fabricated · Loco · Gates · Railings · Balustrades · Facades & Grills · Custom Industrial Art." },
     ],
     links: [{ rel: "canonical", href: "/catalogue" }],
   }),
   component: CataloguePage,
 });
+
 
 /* ─── icon map ─── */
 const iconMap: Record<string, React.ReactNode> = {
@@ -166,13 +176,39 @@ function Lightbox({
 
 /* ─── Main Page ─── */
 function CataloguePage() {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const search = useSearch({ from: "/catalogue" });
+  const [view, setView] = useState<"products" | "facilities">(search.view ?? "products");
+  const [activeCategory, setActiveCategory] = useState<string>(search.cat ?? "all");
+  const [activeGroup, setActiveGroup] = useState<"all" | "architectural" | "industrial" | "decor" | "services">("all");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
 
+  // React to nav-driven ?cat= changes.
+  useEffect(() => {
+    if (search.cat) {
+      setView("products");
+      setActiveCategory(search.cat);
+      const cat = categories.find((c) => c.id === search.cat);
+      if (cat?.group) setActiveGroup(cat.group as typeof activeGroup);
+    }
+    if (search.view === "facilities") setView("facilities");
+  }, [search.cat, search.view]);
+
+  // Product-only categories, filtered by the active group.
+  const productCategories = categories.filter((c) => (c.type ?? "product") === "product");
+  const visibleCategories = activeGroup === "all"
+    ? productCategories
+    : productCategories.filter((c) => c.group === activeGroup);
+
   const filteredProducts =
     activeCategory === "all"
-      ? products
+      ? (activeGroup === "all"
+          ? products
+          : products.filter((p) => {
+              const cid = resolveCategoryId(p);
+              const cat = categories.find((c) => c.id === cid);
+              return cat?.group === activeGroup;
+            }))
       : getProductsByCategory(activeCategory);
 
   const openLightbox = useCallback((idx: number) => setLightboxIdx(idx), []);
@@ -188,6 +224,15 @@ function CataloguePage() {
   );
 
   const activeCat = categories.find((c) => c.id === activeCategory);
+
+  const groups: { id: typeof activeGroup; label: string }[] = [
+    { id: "all", label: "All" },
+    { id: "architectural", label: "Architectural & Laser-Cut" },
+    { id: "industrial", label: "Pipeline · Fabricated · Loco" },
+    { id: "decor", label: "Décor & Art" },
+    { id: "services", label: "Services" },
+  ];
+
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
@@ -232,44 +277,86 @@ function CataloguePage() {
         </div>
       </section>
 
-      {/* ── FILTER BAR ── */}
-      <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5 py-4">
-        <div className="mx-auto max-w-[1400px] px-6">
-          <div
-            ref={filterRef}
-            className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide"
-          >
-            <button
-              onClick={() => setActiveCategory("all")}
-              className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                activeCategory === "all"
-                  ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                  : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-              }`}
-            >
-              All Products
-            </button>
-            {categories.map((cat) => (
+      {/* ── PRIMARY TOGGLE: Product Catalog vs Infrastructure & Facilities ── */}
+      <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5">
+        <div className="mx-auto max-w-[1400px] px-6 py-3 flex flex-col gap-3">
+          {/* Toggle */}
+          <div className="flex items-center gap-2">
+            <div className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.02]">
               <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                  activeCategory === cat.id
-                    ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                    : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                onClick={() => setView("products")}
+                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
+                  view === "products" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
                 }`}
               >
-                {iconMap[cat.icon]}
-                {cat.shortName}
+                <Grid3X3 className="h-3.5 w-3.5" /> Product Catalog
               </button>
-            ))}
+              <button
+                onClick={() => setView("facilities")}
+                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
+                  view === "facilities" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
+                }`}
+              >
+                <Factory className="h-3.5 w-3.5" /> Infrastructure & Facilities
+              </button>
+            </div>
           </div>
+
+          {view === "products" && (
+            <>
+              {/* Group tabs */}
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                {groups.map((g) => (
+                  <button
+                    key={g.id}
+                    onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
+                    className={`shrink-0 px-3 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
+                      activeGroup === g.id
+                        ? "border-magenta/60 text-white bg-magenta/10"
+                        : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25"
+                    }`}
+                  >
+                    {g.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Sub-category chips */}
+              <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                <button
+                  onClick={() => setActiveCategory("all")}
+                  className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                    activeCategory === "all"
+                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                      : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                  }`}
+                >
+                  All in Group
+                </button>
+                {visibleCategories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                      activeCategory === cat.id
+                        ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                        : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                    }`}
+                  >
+                    {iconMap[cat.icon]}
+                    {cat.shortName}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
 
+
       {/* ── Category Description ── */}
       <AnimatePresence mode="wait">
-        {activeCat && (
+        {view === "products" && activeCat && (
           <motion.section
             key={activeCat.id}
             initial={{ opacity: 0, height: 0 }}
@@ -297,8 +384,68 @@ function CataloguePage() {
         )}
       </AnimatePresence>
 
+      {/* ── FACILITIES GRID (Infrastructure & Facilities view) ── */}
+      {view === "facilities" && (
+        <section className="py-12 bg-[#0A0A0A]">
+          <div className="mx-auto max-w-[1400px] px-6">
+            <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <h2 className="font-display text-3xl md:text-4xl text-white">
+                  Infrastructure & <span className="text-gradient-magenta">Facilities</span>
+                </h2>
+                <p className="mt-2 text-metallic font-body text-sm max-w-2xl">
+                  Our machinery and processing capacities. These are capabilities — not products for sale — so we keep them cleanly separated from the product catalogue.
+                </p>
+              </div>
+              <span className="px-3 py-1.5 border border-magenta/30 rounded text-[10px] font-sans-brand uppercase tracking-[0.22em] text-magenta">
+                Maheshpur Industrial Estate · Varanasi
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {facilities.map((f, i) => (
+                <motion.div
+                  key={f.id}
+                  custom={i}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: "-50px" }}
+                  className="group relative rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
+                      <Factory className="h-5 w-5" />
+                    </div>
+                    <span className="text-[10px] font-sans-brand uppercase tracking-[0.25em] text-magenta">
+                      {f.shortName}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl text-white tracking-wide leading-tight">
+                    {f.name}
+                  </h3>
+                  <p className="mt-2 text-[11px] font-sans-brand uppercase tracking-[0.2em] text-white/70">
+                    {f.spec}
+                  </p>
+                  <p className="mt-3 text-sm text-metallic font-body leading-relaxed">
+                    {f.description}
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-white/5 text-xs font-body text-white/60">
+                    <span className="text-white/40 uppercase tracking-[0.2em] text-[9px] font-sans-brand block mb-1">Capacity</span>
+                    {f.capacity}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+
       {/* ── PRODUCT GRID ── */}
+      {view === "products" && (
       <section className="py-12 bg-[#0A0A0A]">
+
         <div className="mx-auto max-w-[1400px] px-6">
           <div className="mb-6 text-metallic font-body text-sm">
             Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
@@ -375,8 +522,10 @@ function CataloguePage() {
           )}
         </div>
       </section>
+      )}
 
       {/* ── CTA BANNER ── */}
+
       <section className="py-20 bg-gradient-to-b from-[#0A0A0A] to-near-black">
         <div className="mx-auto max-w-[1400px] px-6 text-center">
           <motion.div

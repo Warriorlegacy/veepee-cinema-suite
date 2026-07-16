@@ -26,7 +26,7 @@ import { LazyProductModel } from "@/components/three/lazy";
 import { LazyProcessPipeline } from "@/components/three/lazy";
 import { LazyWorkshopScene } from "@/components/three/lazy";
 import { LazyContactGear } from "@/components/three/lazy";
-import { categories as catalogueCategories, products as catalogueProducts } from "@/data/catalogue-data";
+import { categories as catalogueCategories, products as catalogueProducts, resolveCategoryId } from "@/data/catalogue-data";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -127,9 +127,25 @@ export function Hero() {
             <p
               className="hero-fade hero-fade-4 mt-6 sm:mt-8 max-w-2xl font-sans-brand text-sm sm:text-base md:text-lg tracking-wide text-metallic"
             >
-              Laser Cutting · CNC Fabrication · Industrial Manufacturing · Architectural Metal Works.
-              Rooted in the steel heritage of Varanasi, built for India's most demanding projects.
+              Laser Cutting · CNC Fabrication · Pipeline · Fabricated & Loco Products · Architectural Metal.
+              Built on precision. Rooted in Varanasi.
             </p>
+
+            {/* Facility & machine spec strip */}
+            <div className="hero-fade hero-fade-4 mt-5 sm:mt-6 max-w-2xl">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] sm:text-xs font-sans-brand uppercase tracking-[0.22em] sm:tracking-[0.28em] text-white/80">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-magenta shadow-[0_0_10px_2px_rgba(212,20,142,0.7)]" />
+                  Maheshpur Industrial Estate
+                </span>
+                <span className="hidden sm:inline text-white/30">/</span>
+                <span className="text-metallic">5&nbsp;kW Fiber Laser</span>
+                <span className="hidden sm:inline text-white/30">/</span>
+                <span className="text-metallic">3000&nbsp;×&nbsp;1500 Bed</span>
+                <span className="hidden sm:inline text-white/30">/</span>
+                <span className="text-metallic">CNC Press Brake</span>
+              </div>
+            </div>
 
             <div className="hero-fade hero-fade-5 mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
               <a
@@ -234,8 +250,9 @@ export function Services() {
           We shape <span className="text-magenta">steel</span> into possibilities.
         </motion.h2>
         <p className="mt-5 max-w-2xl text-metallic font-body text-sm sm:text-base">
-          Integrated capabilities under one roof — from a single laser-cut sheet to full
-          architectural installations.
+          Integrated capabilities under one roof — from a single laser-cut sheet to full architectural installations.{" "}
+          <span className="text-white/90 font-medium">Tight-tolerance machined parts is our core domain</span> —
+          the backbone of our CNC Fabrication line for pipeline, fabricated and loco components.
         </p>
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -285,15 +302,16 @@ export function Services() {
 export function Products() {
   const [filter, setFilter] = useState("all");
   
-  // Get 1-2 representative products per category for featured display
+  // Get 1-2 representative products per resolved category for featured display
   const featuredProducts = catalogueProducts.filter((p) => {
-    const indexInCat = catalogueProducts.filter((x) => x.categoryId === p.categoryId).indexOf(p);
+    const cid = resolveCategoryId(p);
+    const indexInCat = catalogueProducts.filter((x) => resolveCategoryId(x) === cid).indexOf(p);
     return indexInCat < 2;
   }).slice(0, 12);
 
   const visible = filter === "all"
     ? featuredProducts
-    : featuredProducts.filter((p) => p.categoryId === filter);
+    : featuredProducts.filter((p) => resolveCategoryId(p) === filter);
 
   return (
     <section id="products" className="relative py-20 md:py-28 bg-near-black">

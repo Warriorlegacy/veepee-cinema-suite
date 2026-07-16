@@ -24,6 +24,10 @@ export interface CatalogueCategory {
   icon: string;
   priceLabel: string;
   priceUnit: string;
+  /** "product" for finished sellable goods, "facility" for machinery / workshop capacities. */
+  type?: "product" | "facility";
+  /** Group heading for filter bar organisation. */
+  group?: "architectural" | "industrial" | "decor" | "services" | "facility";
 }
 
 export interface CatalogueProduct {
@@ -36,16 +40,18 @@ export interface CatalogueProduct {
   description?: string;
 }
 
+export interface FacilityItem {
+  id: string;
+  name: string;
+  shortName: string;
+  spec: string;
+  capacity: string;
+  description: string;
+  image?: string;
+  icon: string;
+}
+
 export const categories: CatalogueCategory[] = [
-  {
-    id: "jaali-screens",
-    name: "Laser-Cut Jaali & Privacy Screens",
-    shortName: "Jaali Screens",
-    description: "Geometric, floral, Islamic & nature-inspired decorative panels for partitions, window screens, and façade cladding.",
-    icon: "grid",
-    priceLabel: "Starting ₹200",
-    priceUnit: "/sq ft",
-  },
   {
     id: "gates",
     name: "Designer Gates & Main Doors",
@@ -54,6 +60,8 @@ export const categories: CatalogueCategory[] = [
     icon: "door",
     priceLabel: "Starting ₹600",
     priceUnit: "/sq ft",
+    type: "product",
+    group: "architectural",
   },
   {
     id: "railings",
@@ -63,6 +71,96 @@ export const categories: CatalogueCategory[] = [
     icon: "railing",
     priceLabel: "Starting ₹600",
     priceUnit: "/sq ft",
+    type: "product",
+    group: "architectural",
+  },
+  {
+    id: "balustrades-staircases",
+    name: "Balustrades & Staircases",
+    shortName: "Balustrades",
+    description: "Sculptural balustrade panels and staircase infills — op-art, geometric and floral patterns in mild and stainless steel.",
+    icon: "railing",
+    priceLabel: "Starting ₹850",
+    priceUnit: "/sq ft",
+    type: "product",
+    group: "architectural",
+  },
+  {
+    id: "self-designing-facades",
+    name: "Facades & Grills",
+    shortName: "Facades & Grills",
+    description: "Parametric facade panels, lace mesh grills and ventilation screens engineered for scale.",
+    icon: "facade",
+    priceLabel: "Starting ₹650",
+    priceUnit: "/sq ft",
+    type: "product",
+    group: "architectural",
+  },
+  {
+    id: "jaali-screens",
+    name: "Jaali & Privacy Screens",
+    shortName: "Jaali Screens",
+    description: "Geometric, floral, Islamic & nature-inspired decorative panels for partitions, window screens, and façade cladding.",
+    icon: "grid",
+    priceLabel: "Starting ₹200",
+    priceUnit: "/sq ft",
+    type: "product",
+    group: "architectural",
+  },
+  {
+    id: "industrial-art",
+    name: "Custom Industrial Art",
+    shortName: "Industrial Art",
+    description: "Bespoke laser-cut installations, sculptural signage and large-format metal artwork for lobbies, hotels and public spaces.",
+    icon: "art",
+    priceLabel: "On Enquiry",
+    priceUnit: "",
+    type: "product",
+    group: "architectural",
+  },
+  {
+    id: "pipeline-products",
+    name: "Pipeline Products",
+    shortName: "Pipeline",
+    description: "Large-diameter pipeline segments, flange adapters, dismantling joints and coated MS pipe sections for water and industrial infrastructure.",
+    icon: "cog",
+    priceLabel: "Starting ₹800",
+    priceUnit: "/piece",
+    type: "product",
+    group: "industrial",
+  },
+  {
+    id: "fabricated-products",
+    name: "Fabricated Products",
+    shortName: "Fabricated",
+    description: "Precision-fabricated couplings, clamps, brackets and custom structural assemblies engineered to drawing.",
+    icon: "cog",
+    priceLabel: "Starting ₹4,000",
+    priceUnit: "/piece",
+    type: "product",
+    group: "industrial",
+  },
+  {
+    id: "loco-products",
+    name: "Loco & Railway Products",
+    shortName: "Loco",
+    description: "Locomotive and railway components — bogie fittings, brake gear brackets, coach hardware and rolling-stock fabrications built to spec.",
+    icon: "cog",
+    priceLabel: "On Enquiry",
+    priceUnit: "",
+    type: "product",
+    group: "industrial",
+  },
+  {
+    id: "industrial",
+    name: "Legacy Industrial Fittings",
+    shortName: "Legacy Industrial",
+    description: "Pipe couplings, dismantling joints and industrial fittings — see Pipeline / Fabricated / Loco for the current grouping.",
+    icon: "cog",
+    priceLabel: "Starting ₹4,000",
+    priceUnit: "/piece",
+    type: "product",
+    group: "industrial",
   },
   {
     id: "pooja-panels",
@@ -72,6 +170,8 @@ export const categories: CatalogueCategory[] = [
     icon: "temple",
     priceLabel: "Starting ₹250",
     priceUnit: "/sq ft",
+    type: "product",
+    group: "decor",
   },
   {
     id: "shadow-art",
@@ -81,6 +181,8 @@ export const categories: CatalogueCategory[] = [
     icon: "art",
     priceLabel: "Starting ₹1,500",
     priceUnit: "/piece",
+    type: "product",
+    group: "decor",
   },
   {
     id: "mirror-frames",
@@ -90,6 +192,8 @@ export const categories: CatalogueCategory[] = [
     icon: "mirror",
     priceLabel: "Starting ₹2,000",
     priceUnit: "/piece",
+    type: "product",
+    group: "decor",
   },
   {
     id: "vent-grilles",
@@ -99,15 +203,8 @@ export const categories: CatalogueCategory[] = [
     icon: "vent",
     priceLabel: "Starting ₹150",
     priceUnit: "/sq ft",
-  },
-  {
-    id: "industrial",
-    name: "Couplings & Industrial Fittings",
-    shortName: "Industrial",
-    description: "Pipe couplings, dismantling joints, flange adapters & industrial fittings for water supply infrastructure.",
-    icon: "cog",
-    priceLabel: "Starting ₹4,000",
-    priceUnit: "/piece",
+    type: "product",
+    group: "decor",
   },
   {
     id: "gift-decor",
@@ -117,26 +214,91 @@ export const categories: CatalogueCategory[] = [
     icon: "gift",
     priceLabel: "Starting ₹300",
     priceUnit: "/piece",
+    type: "product",
+    group: "decor",
   },
   {
     id: "laser-cutting-services",
     name: "CNC Laser Cutting & Job Work",
     shortName: "Job Work",
-    description: "High-precision fiber laser cutting services for Mild Steel, Stainless Steel, Brass, and Aluminum sheet metal.",
+    description: "High-precision fiber laser cutting for MS, SS, brass and aluminium.",
     icon: "cog",
     priceLabel: "Starting ₹50",
     priceUnit: "/sq ft",
+    type: "product",
+    group: "services",
+  },
+];
+
+/* ─── Infrastructure & Facilities ─────────────────────────────────
+   Machinery and processing capacities — kept separate from sellable
+   goods so the catalogue never mixes capabilities with products. */
+export const facilities: FacilityItem[] = [
+  {
+    id: "fiber-laser",
+    name: "5 kW Fiber Laser Cutting Line",
+    shortName: "Fiber Laser",
+    spec: "5 kW · 3000 × 1500 mm bed",
+    capacity: "MS up to 20 mm · SS up to 12 mm · Aluminium up to 8 mm",
+    description: "Our flagship high-power fiber laser handles heavy-plate contour cutting and fine-artistic work on the same machine — the backbone of every architectural and industrial job.",
+    icon: "cog",
   },
   {
-    id: "self-designing-facades",
-    name: "Self-Designing Facades",
-    shortName: "Facades",
-    description: "Highly artistic metal mesh and lace fencing designs, seamlessly integrating traditional patterns with modern architecture.",
-    icon: "facade",
-    priceLabel: "Starting ₹650",
-    priceUnit: "/sq ft",
-  }
+    id: "cnc-press-brake",
+    name: "CNC Press Brake",
+    shortName: "Press Brake",
+    spec: "Hydraulic · CNC back-gauge",
+    capacity: "Cold-forming heavy plate — no thermal deformation, no sparks.",
+    description: "Precision cold-forming of steel plate for enclosures, structural sections and pipeline components. Tight-tolerance bends, repeat accuracy across production runs.",
+    icon: "cog",
+  },
+  {
+    id: "three-roll-bender",
+    name: "Three-Roll Pipe & Section Bender",
+    shortName: "Three-Roll Bender",
+    spec: "Pyramid three-roll configuration",
+    capacity: "Pipe, tube, angle, channel and flat section — controlled radii for pipeline & structural work.",
+    description: "Precision three-roll bending machine processing pipes and structural sections into large-radius curves — the correct process for pipeline segments, arches and structural rings.",
+    icon: "cog",
+  },
+  {
+    id: "cnc-machining",
+    name: "CNC Machining Cell",
+    shortName: "CNC Machining",
+    spec: "Turning · Milling · Boring",
+    capacity: "Tight-tolerance machined parts — our core domain.",
+    description: "Tight-tolerance machined parts is our core domain. Turned, milled and bored components for pipeline fittings, loco hardware and fabricated assemblies.",
+    icon: "cog",
+  },
+  {
+    id: "powder-coating",
+    name: "Powder Coating Line",
+    shortName: "Powder Coating",
+    spec: "Pre-treatment · Oven-cured",
+    capacity: "Architectural finishes across gates, railings, facades and industrial components.",
+    description: "In-house pre-treatment and oven-cured powder coating gives a durable, colour-consistent finish across large architectural batches.",
+    icon: "cog",
+  },
+  {
+    id: "hot-dip-galv",
+    name: "Hot-Dip Galvanizing (Partner Line)",
+    shortName: "Galvanizing",
+    spec: "Zinc immersion",
+    capacity: "Pipeline segments and structural work for outdoor / buried applications.",
+    description: "Coordinated hot-dip galvanizing for corrosion-critical pipeline and structural fabrications.",
+    icon: "cog",
+  },
+  {
+    id: "welding-fab",
+    name: "Welding & Fabrication Bays",
+    shortName: "Welding & Fab",
+    spec: "MIG · TIG · Arc",
+    capacity: "Multi-station bays for structural, pipeline and loco assemblies.",
+    description: "Dedicated welding stations for heavy pipeline segments, fabricated components and locomotive / railway hardware.",
+    icon: "cog",
+  },
 ];
+
 
 export const products: CatalogueProduct[] = [
   {
@@ -645,12 +807,12 @@ export const products: CatalogueProduct[] = [
   },
   {
     "id": "p_57",
-    "categoryId": "gates",
-    "name": "Op-Art Geometric Staircase Gate",
+    "categoryId": "balustrades-staircases",
+    "name": "Op-Art Geometric Staircase Railing",
     "image": "/catalogue/gates/catalogue-55.jpeg",
     "priceRange": "\u20b915,000 \u2013 \u20b935,000",
     "material": "Mild Steel",
-    "description": "A striking laser-cut metal gate featuring a dynamic optical art geometric pattern, perfect for adding a sophisticated and modern touch to residential or commercial staircase entrances. Finished in a matte black, it provides a secure yet visually engaging barrier."
+    "description": "A striking laser-cut metal staircase railing/balustrade featuring a dynamic optical-art geometric pattern. Finished in matte black, it provides a sophisticated, modern balustrade for residential and commercial staircases."
   },
   {
     "id": "p_58",
@@ -1275,12 +1437,29 @@ export const products: CatalogueProduct[] = [
   }
 ];
 
-/** Get all products in a category */
+/**
+ * Resolve a product's effective category. Some historical products live under
+ * the generic "industrial" bucket — reclassify them at read-time into the new
+ * Pipeline / Fabricated / Loco taxonomy so the UI never mixes them.
+ */
+export function resolveCategoryId(p: CatalogueProduct): string {
+  const name = `${p.name} ${p.description ?? ""}`.toLowerCase();
+  if (p.categoryId === "industrial") {
+    if (/\b(loco|locomotive|rail(?:way)?|bogie|coach|wagon|brake gear)\b/.test(name)) return "loco-products";
+    if (/\b(pipeline|pipe segment|large[- ]diameter|culvert|conduit|dismantling|flange adapter|pipe section|penstock)\b/.test(name)) return "pipeline-products";
+    if (/\b(coupling|clamp|bracket|fitting|adapter|fabricated|assembly|structural)\b/.test(name)) return "fabricated-products";
+    return "fabricated-products";
+  }
+  return p.categoryId;
+}
+
+/** Get all products in a category (respects virtual reclassification). */
 export function getProductsByCategory(categoryId: string): CatalogueProduct[] {
-  return products.filter((p) => p.categoryId === categoryId);
+  return products.filter((p) => resolveCategoryId(p) === categoryId);
 }
 
 /** Get a category by its ID */
 export function getCategoryById(id: string): CatalogueCategory | undefined {
   return categories.find((c) => c.id === id);
 }
+
