@@ -301,15 +301,16 @@ export function Services() {
 export function Products() {
   const [filter, setFilter] = useState("all");
   
-  // Get 1-2 representative products per category for featured display
+  // Get 1-2 representative products per resolved category for featured display
   const featuredProducts = catalogueProducts.filter((p) => {
-    const indexInCat = catalogueProducts.filter((x) => x.categoryId === p.categoryId).indexOf(p);
+    const cid = resolveCategoryId(p);
+    const indexInCat = catalogueProducts.filter((x) => resolveCategoryId(x) === cid).indexOf(p);
     return indexInCat < 2;
   }).slice(0, 12);
 
   const visible = filter === "all"
     ? featuredProducts
-    : featuredProducts.filter((p) => p.categoryId === filter);
+    : featuredProducts.filter((p) => resolveCategoryId(p) === filter);
 
   return (
     <section id="products" className="relative py-20 md:py-28 bg-near-black">
