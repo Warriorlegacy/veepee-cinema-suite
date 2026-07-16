@@ -7,24 +7,69 @@ import { categories, products, facilities, HIDDEN_FROM_CATALOGUE } from "@/data/
  *
  * GET /api/brochure.pdf
  *
- * Rebuilt from the current catalogue on every request — no static asset to
- * stale. Includes Pipeline, Fabricated, Loco product summaries and the
- * Plant & Machinery capability sheet.
+ * Cached in-memory keyed by a catalogue-content version hash. The bytes are
+ * rebuilt only when catalogue/facilities data changes; otherwise served from
+ * cache with a strong ETag so browsers and CDNs can 304 repeat downloads.
  */
+
+// Module-scope cache — persists across requests within the same Worker isolate.
+let cached: { etag: string; bytes: Uint8Array } | null = null;
+
+/** Stable content version derived from catalogue + facilities data. */
+function computeVersion(): string {
+  // Include only fields that materially affect the PDF output.
+  const shape = {
+    categories: categories.map((c) => [c.id, c.name, c.shortName, c.description, c.group]),
+    products: products
+      .filter((p) => !HIDDEN_FROM_CATALOGUE.has(p.categoryId))
+      .map((p) => [p.id, p.categoryId, p.name, p.priceRange, p.material ?? "", p.description ?? ""]),
+    facilities: facilities.map((f) => [f.id, f.name, f.spec, f.capacity, f.description]),
+  };
+  // FNV-1a 32-bit — fast, dependency-free, adequate for cache-buster ETag.
+  let h = 0x811c9dc5;
+  const s = JSON.stringify(shape);
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+  }
+  return h.toString(16).padStart(8, "0");
+}
+
 export const Route = createFileRoute("/api/brochure.pdf")({
   server: {
     handlers: {
-      GET: async () => {
-        const pdf = await buildBrochure();
-        const bytes = await pdf.save();
-        // pdf-lib returns Uint8Array; wrap in a fresh ArrayBuffer for Response.
-        const body = new Uint8Array(bytes);
-        return new Response(body, {
+      GET: async ({ request }) => {
+        const version = computeVersion();
+        const etag = `"brochure-v1-${version}"`;
+
+        // Conditional request — 304 if the client already has this version.
+        const ifNoneMatch = request.headers.get("if-none-match");
+        if (ifNoneMatch && ifNoneMatch.split(",").map((s) => s.trim()).includes(etag)) {
+          return new Response(null, {
+            status: 304,
+            headers: {
+              ETag: etag,
+              "Cache-Control": "public, max-age=300, must-revalidate",
+            },
+          });
+        }
+
+        // Serve from cache when version matches.
+        if (!cached || cached.etag !== etag) {
+          const pdf = await buildBrochure();
+          const bytes = await pdf.save();
+          cached = { etag, bytes: new Uint8Array(bytes) };
+        }
+
+        // Return a fresh copy of the buffer so the cached one isn't consumed.
+        return new Response(new Uint8Array(cached.bytes), {
           status: 200,
           headers: {
             "Content-Type": "application/pdf",
             "Content-Disposition": 'inline; filename="VEEPEE-Engineers-Brochure.pdf"',
-            "Cache-Control": "public, max-age=300",
+            "Cache-Control": "public, max-age=300, must-revalidate",
+            ETag: etag,
+            "X-Brochure-Version": version,
           },
         });
       },
