@@ -522,8 +522,10 @@ function CataloguePage() {
           )}
         </div>
       </section>
+      )}
 
       {/* ── CTA BANNER ── */}
+
       <section className="py-20 bg-gradient-to-b from-[#0A0A0A] to-near-black">
         <div className="mx-auto max-w-[1400px] px-6 text-center">
           <motion.div
