@@ -473,6 +473,18 @@ function CataloguePage() {
                 Custom Orders Welcome
               </span>
             </div>
+            <div className="mt-6">
+              <a
+                href="/api/brochure.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download="VEEPEE-Engineers-Brochure.pdf"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-magenta/50 bg-magenta/5 hover:bg-magenta/15 text-white font-sans-brand text-xs uppercase tracking-[0.22em] transition-all"
+              >
+                <PackageSearch className="h-4 w-4 text-magenta" />
+                Download Full Brochure (PDF)
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
