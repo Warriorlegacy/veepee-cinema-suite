@@ -707,12 +707,17 @@ function CataloguePage() {
                     whileInView="show"
                     viewport={{ once: true, margin: "-40px" }}
                     onClick={() => setActiveCategory(cat.id)}
-                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card border border-white/5 hover:border-magenta/40 text-left"
+                    aria-label={`Open ${cat.name} gallery — ${info.count} items`}
+                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card border border-white/5 hover:border-magenta/40 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
                   >
                     <img
                       src={info.cover}
-                      alt={cat.name}
+                      alt={`${cat.name} — sample product from VEEPEE Engineers laser-cut catalogue`}
                       loading="lazy"
+                      decoding="async"
+                      width={640}
+                      height={800}
+                      sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
