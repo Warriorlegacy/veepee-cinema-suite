@@ -1,11 +1,11 @@
-import { createFileRoute, useSearch } from "@tanstack/react-router";
+import { createFileRoute, useSearch, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import {
   X, ArrowRight, Grid3X3, DoorOpen, Fence,
   Church, Paintbrush, CircleDot, Wind, Cog, Gift,
-  ChevronLeft, ChevronRight, IndianRupee, Phone, Building, Factory,
-  Search, PackageSearch,
+  ChevronLeft, ChevronRight, IndianRupee, Phone, Building,
+  Search, PackageSearch, Factory,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -13,15 +13,17 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import {
   categories,
   products,
-  facilities,
   resolveCategoryId,
   getProductsByCategory,
+  getVisibleProducts,
+  HIDDEN_FROM_CATALOGUE,
   type CatalogueProduct,
   type CatalogueCategory,
 } from "@/data/catalogue-data";
 
 
-type CatalogueSearch = { cat?: string; view?: "products" | "facilities"; q?: string };
+type CatalogueSearch = { cat?: string; q?: string };
+
 
 const validCategoryIds = new Set(categories.map((c) => c.id));
 
@@ -31,9 +33,9 @@ export const Route = createFileRoute("/catalogue")({
     const cat = rawCat && (rawCat === "all" || validCategoryIds.has(rawCat)) ? rawCat : undefined;
     return {
       cat,
-      view: s.view === "facilities" ? "facilities" : "products",
       q: typeof s.q === "string" ? s.q.slice(0, 80) : undefined,
     };
+
   },
   head: () => ({
     meta: [
@@ -285,7 +287,6 @@ function Lightbox({
 /* ─── Main Page ─── */
 function CataloguePage() {
   const search = useSearch({ from: "/catalogue" });
-  const [view, setView] = useState<"products" | "facilities">(search.view ?? "products");
   const [activeCategory, setActiveCategory] = useState<string>(search.cat ?? "all");
   const [activeGroup, setActiveGroup] = useState<"all" | "architectural" | "industrial" | "decor" | "services">("all");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
@@ -295,13 +296,11 @@ function CataloguePage() {
   // React to nav-driven ?cat= changes.
   useEffect(() => {
     if (search.cat) {
-      setView("products");
       setActiveCategory(search.cat);
       const cat = categories.find((c) => c.id === search.cat);
       if (cat?.group) setActiveGroup(cat.group as typeof activeGroup);
     }
-    if (search.view === "facilities") setView("facilities");
-  }, [search.cat, search.view]);
+  }, [search.cat]);
 
   // Product-only categories, filtered by the active group.
   const productCategories = categories.filter((c) => (c.type ?? "product") === "product");
@@ -311,19 +310,28 @@ function CataloguePage() {
 
   const q = query.trim().toLowerCase();
 
+  const visibleAll = useMemo(() => getVisibleProducts(), []);
+
   const baseProducts = useMemo(
     () =>
       activeCategory === "all"
         ? (activeGroup === "all"
-            ? products
-            : products.filter((p) => {
+            ? visibleAll
+            : visibleAll.filter((p) => {
                 const cid = resolveCategoryId(p);
+                if (cid === HIDDEN_FROM_CATALOGUE) return false;
                 const cat = categories.find((c) => c.id === cid);
                 return cat?.group === activeGroup;
               }))
         : getProductsByCategory(activeCategory),
-    [activeCategory, activeGroup],
+    [activeCategory, activeGroup, visibleAll],
   );
+
+  // Landing-tile mode: architectural group has many sub-categories with
+  // very different aesthetics — show category tiles instead of one giant
+  // wall of mixed products. Prevents the "laser-cut mashup" chaos.
+  const showLandingTiles =
+    activeCategory === "all" && (activeGroup === "architectural" || activeGroup === "decor");
 
   const filteredProducts = useMemo(() => {
     if (!q) return baseProducts;
@@ -339,16 +347,19 @@ function CataloguePage() {
     });
   }, [baseProducts, q]);
 
-  const filteredFacilities = useMemo(() => {
-    if (!q) return facilities;
-    return facilities.filter(
-      (f) =>
-        f.name.toLowerCase().includes(q) ||
-        f.shortName.toLowerCase().includes(q) ||
-        f.spec.toLowerCase().includes(q) ||
-        f.description.toLowerCase().includes(q),
-    );
-  }, [q]);
+  // Category tile counts (only among visible / non-hidden products).
+  const categoryCounts = useMemo(() => {
+    const map = new Map<string, { count: number; cover?: string }>();
+    for (const p of visibleAll) {
+      const cid = resolveCategoryId(p);
+      const entry = map.get(cid) ?? { count: 0, cover: undefined };
+      entry.count += 1;
+      if (!entry.cover) entry.cover = p.image;
+      map.set(cid, entry);
+    }
+    return map;
+  }, [visibleAll]);
+
 
   const openLightbox = useCallback((idx: number) => setLightboxIdx(idx), []);
   const closeLightbox = useCallback(() => setLightboxIdx(null), []);
@@ -419,41 +430,17 @@ function CataloguePage() {
         </div>
       </section>
 
-      {/* ── PRIMARY TOGGLE: Product Catalog vs Infrastructure & Facilities ── */}
+      {/* ── FILTER BAR ── */}
       <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5">
         <div className="mx-auto max-w-[1400px] px-6 py-3 flex flex-col gap-3">
-          {/* Toggle + Search */}
           <div className="flex items-center gap-3 flex-wrap">
-            <div
-              role="tablist"
-              aria-label="Catalogue view"
-              className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.03] shadow-inner"
+            <Link
+              to="/facilities"
+              className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full border border-magenta/40 text-magenta hover:bg-magenta/10 transition-all"
             >
-              <button
-                role="tab"
-                aria-selected={view === "products"}
-                onClick={() => setView("products")}
-                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "products"
-                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
-                    : "text-metallic hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <Grid3X3 className="h-3.5 w-3.5" /> Product Catalog
-              </button>
-              <button
-                role="tab"
-                aria-selected={view === "facilities"}
-                onClick={() => setView("facilities")}
-                className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "facilities"
-                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
-                    : "text-metallic hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <Factory className="h-3.5 w-3.5" /> Infrastructure & Facilities
-              </button>
-            </div>
+              <Factory className="h-3.5 w-3.5" /> View Our Plant & Machinery
+            </Link>
+
 
             {/* Live search */}
             <div className="relative flex-1 min-w-[200px] max-w-md ml-auto">
@@ -462,7 +449,7 @@ function CataloguePage() {
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={view === "products" ? "Search products, materials, categories…" : "Search machines, capacities…"}
+                placeholder="Search products, materials, categories…"
                 aria-label="Search catalogue"
                 className="w-full pl-9 pr-9 py-2 rounded-full bg-white/[0.04] border border-white/10 focus:border-magenta/60 focus:ring-2 focus:ring-magenta/20 outline-none text-sm text-white placeholder:text-metallic/50 font-body transition-all"
               />
@@ -478,67 +465,64 @@ function CataloguePage() {
             </div>
           </div>
 
-          {view === "products" && (
-            <>
-              {/* Group tabs */}
-              <div role="tablist" aria-label="Product group" className="flex gap-2 overflow-x-auto scrollbar-hide">
-                {groups.map((g) => {
-                  const active = activeGroup === g.id;
-                  return (
-                    <button
-                      key={g.id}
-                      role="tab"
-                      aria-selected={active}
-                      onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
-                      className={`relative shrink-0 px-3.5 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
-                        active
-                          ? "border-magenta text-white bg-magenta/15 shadow-[0_0_0_1px_rgba(212,20,142,0.4)]"
-                          : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25 hover:bg-white/[0.03]"
-                      }`}
-                    >
-                      {g.label}
-                      {active && (
-                        <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 h-[2px] w-6 bg-magenta rounded-full" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Sub-category chips */}
-              <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          {/* Group tabs */}
+          <div role="tablist" aria-label="Product group" className="flex gap-2 overflow-x-auto scrollbar-hide">
+            {groups.map((g) => {
+              const active = activeGroup === g.id;
+              return (
                 <button
-                  onClick={() => setActiveCategory("all")}
-                  aria-pressed={activeCategory === "all"}
-                  className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                    activeCategory === "all"
+                  key={g.id}
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
+                  className={`relative shrink-0 px-3.5 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
+                    active
+                      ? "border-magenta text-white bg-magenta/15 shadow-[0_0_0_1px_rgba(212,20,142,0.4)]"
+                      : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25 hover:bg-white/[0.03]"
+                  }`}
+                >
+                  {g.label}
+                  {active && (
+                    <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 h-[2px] w-6 bg-magenta rounded-full" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Sub-category chips */}
+          <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <button
+              onClick={() => setActiveCategory("all")}
+              aria-pressed={activeCategory === "all"}
+              className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                activeCategory === "all"
+                  ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
+                  : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+              }`}
+            >
+              All in Group
+            </button>
+            {visibleCategories.map((cat) => {
+              const active = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  aria-pressed={active}
+                  className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                    active
                       ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
                       : "border-white/15 text-metallic hover:border-magenta hover:text-white"
                   }`}
                 >
-                  All in Group
+                  {iconMap[cat.icon]}
+                  {cat.shortName}
                 </button>
-                {visibleCategories.map((cat) => {
-                  const active = activeCategory === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => setActiveCategory(cat.id)}
-                      aria-pressed={active}
-                      className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                        active
-                          ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
-                          : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-                      }`}
-                    >
-                      {iconMap[cat.icon]}
-                      {cat.shortName}
-                    </button>
-                  );
-                })}
-              </div>
-            </>
-          )}
+              );
+            })}
+          </div>
+
         </div>
       </section>
 
@@ -546,7 +530,7 @@ function CataloguePage() {
 
       {/* ── Category Description ── */}
       <AnimatePresence mode="wait">
-        {view === "products" && activeCat && (
+        {activeCat && (
           <motion.section
             key={activeCat.id}
             initial={{ opacity: 0, height: 0 }}
@@ -574,75 +558,66 @@ function CataloguePage() {
         )}
       </AnimatePresence>
 
-      {/* ── FACILITIES GRID (Infrastructure & Facilities view) ── */}
-      {view === "facilities" && (
+      {/* ── LANDING TILES: shown for Architectural / Décor groups when no
+             specific sub-category is picked. Prevents laser-cut chaos. ── */}
+      {showLandingTiles && !q && (
         <section className="py-12 bg-[#0A0A0A]">
           <div className="mx-auto max-w-[1400px] px-6">
-            <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <h2 className="font-display text-3xl md:text-4xl text-white">
-                  Infrastructure & <span className="text-gradient-magenta">Facilities</span>
-                </h2>
-                <p className="mt-2 text-metallic font-body text-sm max-w-2xl">
-                  Our machinery and processing capacities. These are capabilities — not products for sale — so we keep them cleanly separated from the product catalogue.
-                </p>
-              </div>
-              <span className="px-3 py-1.5 border border-magenta/30 rounded text-[10px] font-sans-brand uppercase tracking-[0.22em] text-magenta">
-                Maheshpur Industrial Estate · Varanasi
-              </span>
+            <div className="mb-8">
+              <h2 className="font-display text-3xl md:text-4xl text-white">
+                {activeGroup === "architectural" ? "Laser-Cut Designs" : "Décor & Art"}
+                <span className="text-gradient-magenta"> · Segregated by Item</span>
+              </h2>
+              <p className="mt-2 text-metallic font-body text-sm max-w-2xl">
+                Each item type has its own gallery — no mashup. Tap a tile to see the full sub-category.
+              </p>
             </div>
-
-            {filteredFacilities.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {filteredFacilities.map((f, i) => (
-                  <motion.div
-                    key={f.id}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {visibleCategories.map((cat, i) => {
+                const info = categoryCounts.get(cat.id);
+                if (!info || info.count === 0) return null;
+                return (
+                  <motion.button
+                    key={cat.id}
                     custom={i}
                     variants={fadeUp}
                     initial="hidden"
                     whileInView="show"
-                    viewport={{ once: true, margin: "-50px" }}
-                    className="group relative rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                    viewport={{ once: true, margin: "-40px" }}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card border border-white/5 hover:border-magenta/40 text-left"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
-                        <Factory className="h-5 w-5" />
+                    <img
+                      src={info.cover}
+                      alt={cat.name}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
+                      {iconMap[cat.icon]} {info.count} items
+                    </span>
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 className="font-display text-lg text-white tracking-wide leading-tight">
+                        {cat.shortName}
+                      </h3>
+                      <p className="mt-1 text-[10px] font-sans-brand uppercase tracking-[0.22em] text-magenta">
+                        {cat.priceLabel}{cat.priceUnit}
+                      </p>
+                      <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.25em] opacity-0 group-hover:opacity-100 transition-opacity">
+                        Open gallery <ArrowRight className="h-3 w-3" />
                       </div>
-                      <span className="text-[10px] font-sans-brand uppercase tracking-[0.25em] text-magenta">
-                        {f.shortName}
-                      </span>
                     </div>
-                    <h3 className="font-display text-xl text-white tracking-wide leading-tight">
-                      {f.name}
-                    </h3>
-                    <p className="mt-2 text-[11px] font-sans-brand uppercase tracking-[0.2em] text-white/70">
-                      {f.spec}
-                    </p>
-                    <p className="mt-3 text-sm text-metallic font-body leading-relaxed">
-                      {f.description}
-                    </p>
-                    <div className="mt-4 pt-4 border-t border-white/5 text-xs font-body text-white/60">
-                      <span className="text-white/40 uppercase tracking-[0.2em] text-[9px] font-sans-brand block mb-1">Capacity</span>
-                      {f.capacity}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
-              <EmptyState
-                title={q ? "No facilities match your search" : "No facilities to show"}
-                message={q ? `We couldn't find any machine matching "${query}". Try a different keyword.` : "Facilities will appear here once configured."}
-                onReset={q ? () => setQuery("") : undefined}
-              />
-            )}
-
+                  </motion.button>
+                );
+              })}
+            </div>
           </div>
         </section>
       )}
 
-
       {/* ── PRODUCT GRID ── */}
-      {view === "products" && (
+      {!showLandingTiles && (
       <section className="py-12 bg-[#0A0A0A]">
 
         <div className="mx-auto max-w-[1400px] px-6">
@@ -690,6 +665,7 @@ function CataloguePage() {
         </div>
       </section>
       )}
+
 
 
       {/* ── CTA BANNER ── */}
