@@ -189,6 +189,7 @@ function CataloguePage() {
   const [activeCategory, setActiveCategory] = useState<string>(search.cat ?? "all");
   const [activeGroup, setActiveGroup] = useState<"all" | "architectural" | "industrial" | "decor" | "services">("all");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const [query, setQuery] = useState<string>(search.q ?? "");
   const filterRef = useRef<HTMLDivElement>(null);
 
   // React to nav-driven ?cat= changes.
@@ -208,16 +209,46 @@ function CataloguePage() {
     ? productCategories
     : productCategories.filter((c) => c.group === activeGroup);
 
-  const filteredProducts =
-    activeCategory === "all"
-      ? (activeGroup === "all"
-          ? products
-          : products.filter((p) => {
-              const cid = resolveCategoryId(p);
-              const cat = categories.find((c) => c.id === cid);
-              return cat?.group === activeGroup;
-            }))
-      : getProductsByCategory(activeCategory);
+  const q = query.trim().toLowerCase();
+
+  const baseProducts = useMemo(
+    () =>
+      activeCategory === "all"
+        ? (activeGroup === "all"
+            ? products
+            : products.filter((p) => {
+                const cid = resolveCategoryId(p);
+                const cat = categories.find((c) => c.id === cid);
+                return cat?.group === activeGroup;
+              }))
+        : getProductsByCategory(activeCategory),
+    [activeCategory, activeGroup],
+  );
+
+  const filteredProducts = useMemo(() => {
+    if (!q) return baseProducts;
+    return baseProducts.filter((p) => {
+      const cid = resolveCategoryId(p);
+      const cat = categories.find((c) => c.id === cid);
+      return (
+        p.name.toLowerCase().includes(q) ||
+        (p.material?.toLowerCase().includes(q) ?? false) ||
+        (cat?.name.toLowerCase().includes(q) ?? false) ||
+        (cat?.shortName.toLowerCase().includes(q) ?? false)
+      );
+    });
+  }, [baseProducts, q]);
+
+  const filteredFacilities = useMemo(() => {
+    if (!q) return facilities;
+    return facilities.filter(
+      (f) =>
+        f.name.toLowerCase().includes(q) ||
+        f.shortName.toLowerCase().includes(q) ||
+        f.spec.toLowerCase().includes(q) ||
+        f.description.toLowerCase().includes(q),
+    );
+  }, [q]);
 
   const openLightbox = useCallback((idx: number) => setLightboxIdx(idx), []);
   const closeLightbox = useCallback(() => setLightboxIdx(null), []);
@@ -226,6 +257,7 @@ function CataloguePage() {
     (dir: 1 | -1) => {
       if (lightboxIdx === null) return;
       const len = filteredProducts.length;
+      if (len === 0) return;
       setLightboxIdx((lightboxIdx + dir + len) % len);
     },
     [lightboxIdx, filteredProducts.length]
@@ -240,6 +272,8 @@ function CataloguePage() {
     { id: "decor", label: "Décor & Art" },
     { id: "services", label: "Services" },
   ];
+
+
 
 
   return (
