@@ -293,7 +293,7 @@ function drawProductGroup(
     // Price on the right
     if (p.priceRange) {
       const priceW = fonts.display.widthOfTextAtSize(p.priceRange, 10);
-      page.drawText(p.priceRange, {
+      page.drawText(sanitize(p.priceRange), {
         x: MARGIN + CONTENT_W - 16 - priceW,
         y: cy, size: 10, font: fonts.display, color: WHITE,
       });
