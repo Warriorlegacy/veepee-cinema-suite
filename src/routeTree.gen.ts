@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapServicesDotxmlRouteImport } from './routes/sitemap-services[.]xml'
+import { Route as SitemapIndexDotxmlRouteImport } from './routes/sitemap-index[.]xml'
+import { Route as SitemapCatalogueDotxmlRouteImport } from './routes/sitemap-catalogue[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProcurementRouteImport } from './routes/procurement'
@@ -36,6 +38,16 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SitemapServicesDotxmlRoute = SitemapServicesDotxmlRouteImport.update({
   id: '/sitemap-services.xml',
   path: '/sitemap-services.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapIndexDotxmlRoute = SitemapIndexDotxmlRouteImport.update({
+  id: '/sitemap-index.xml',
+  path: '/sitemap-index.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCatalogueDotxmlRoute = SitemapCatalogueDotxmlRouteImport.update({
+  id: '/sitemap-catalogue.xml',
+  path: '/sitemap-catalogue.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -129,6 +141,8 @@ export interface FileRoutesByFullPath {
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-catalogue.xml': typeof SitemapCatalogueDotxmlRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
@@ -149,6 +163,8 @@ export interface FileRoutesByTo {
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-catalogue.xml': typeof SitemapCatalogueDotxmlRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
@@ -170,6 +186,8 @@ export interface FileRoutesById {
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-catalogue.xml': typeof SitemapCatalogueDotxmlRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
@@ -192,6 +210,8 @@ export interface FileRouteTypes {
     | '/procurement'
     | '/projects'
     | '/robots.txt'
+    | '/sitemap-catalogue.xml'
+    | '/sitemap-index.xml'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
     | '/api/brochure.pdf'
@@ -212,6 +232,8 @@ export interface FileRouteTypes {
     | '/procurement'
     | '/projects'
     | '/robots.txt'
+    | '/sitemap-catalogue.xml'
+    | '/sitemap-index.xml'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
     | '/api/brochure.pdf'
@@ -232,6 +254,8 @@ export interface FileRouteTypes {
     | '/procurement'
     | '/projects'
     | '/robots.txt'
+    | '/sitemap-catalogue.xml'
+    | '/sitemap-index.xml'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
     | '/api/brochure.pdf'
@@ -253,6 +277,8 @@ export interface RootRouteChildren {
   ProcurementRoute: typeof ProcurementRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapCatalogueDotxmlRoute: typeof SitemapCatalogueDotxmlRoute
+  SitemapIndexDotxmlRoute: typeof SitemapIndexDotxmlRoute
   SitemapServicesDotxmlRoute: typeof SitemapServicesDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiBrochureDotpdfRoute: typeof ApiBrochureDotpdfRoute
@@ -277,6 +303,20 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-services.xml'
       fullPath: '/sitemap-services.xml'
       preLoaderRoute: typeof SitemapServicesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-index.xml': {
+      id: '/sitemap-index.xml'
+      path: '/sitemap-index.xml'
+      fullPath: '/sitemap-index.xml'
+      preLoaderRoute: typeof SitemapIndexDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-catalogue.xml': {
+      id: '/sitemap-catalogue.xml'
+      path: '/sitemap-catalogue.xml'
+      fullPath: '/sitemap-catalogue.xml'
+      preLoaderRoute: typeof SitemapCatalogueDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -416,6 +456,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProcurementRoute: ProcurementRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapCatalogueDotxmlRoute: SitemapCatalogueDotxmlRoute,
+  SitemapIndexDotxmlRoute: SitemapIndexDotxmlRoute,
   SitemapServicesDotxmlRoute: SitemapServicesDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiBrochureDotpdfRoute: ApiBrochureDotpdfRoute,
