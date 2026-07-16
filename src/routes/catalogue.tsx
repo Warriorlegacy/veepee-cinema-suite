@@ -1,10 +1,11 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import {
   X, ArrowRight, Grid3X3, DoorOpen, Fence,
   Church, Paintbrush, CircleDot, Wind, Cog, Gift,
   ChevronLeft, ChevronRight, IndianRupee, Phone, Building, Factory,
+  Search, PackageSearch,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -20,13 +21,20 @@ import {
 } from "@/data/catalogue-data";
 
 
-type CatalogueSearch = { cat?: string; view?: "products" | "facilities" };
+type CatalogueSearch = { cat?: string; view?: "products" | "facilities"; q?: string };
+
+const validCategoryIds = new Set(categories.map((c) => c.id));
 
 export const Route = createFileRoute("/catalogue")({
-  validateSearch: (s: Record<string, unknown>): CatalogueSearch => ({
-    cat: typeof s.cat === "string" ? s.cat : undefined,
-    view: s.view === "facilities" ? "facilities" : "products",
-  }),
+  validateSearch: (s: Record<string, unknown>): CatalogueSearch => {
+    const rawCat = typeof s.cat === "string" ? s.cat : undefined;
+    const cat = rawCat && (rawCat === "all" || validCategoryIds.has(rawCat)) ? rawCat : undefined;
+    return {
+      cat,
+      view: s.view === "facilities" ? "facilities" : "products",
+      q: typeof s.q === "string" ? s.q.slice(0, 80) : undefined,
+    };
+  },
   head: () => ({
     meta: [
       { title: "Product Catalogue — VEEPEE Engineers · Pipeline · Fabricated · Loco · Architectural" },
