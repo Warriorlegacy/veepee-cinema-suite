@@ -320,7 +320,7 @@ function drawContact(
   page.drawRectangle({ x: 0, y: 0, width: PAGE_W, height: PAGE_H, color: NEAR_BLACK });
   page.drawRectangle({ x: 0, y: 0, width: 6, height: PAGE_H, color: MAGENTA });
 
-  page.drawText("BUILD WITH US", {
+  page.drawText(sanitize("BUILD WITH US"), {
     x: MARGIN, y: PAGE_H - MARGIN - 24,
     size: 10, font: fonts.body, color: MAGENTA,
   });
