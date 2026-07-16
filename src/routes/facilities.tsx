@@ -267,6 +267,69 @@ export const Route = createFileRoute("/facilities")({
             ],
           }),
         },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "VEEPEE Engineers Plant & Machinery",
+            numberOfItems: machineSpecs.length,
+            itemListElement: machineSpecs.map((m, i) => {
+              const f = facilities.find((x) => x.id === m.id);
+              return {
+                "@type": "ListItem",
+                position: i + 1,
+                item: {
+                  "@type": "Product",
+                  "@id": `${url}#${m.id}`,
+                  name: f?.name ?? m.id,
+                  category: "Manufacturing Equipment",
+                  description: m.tagline,
+                  additionalProperty: [
+                    { "@type": "PropertyValue", name: "Process", value: m.process },
+                    { "@type": "PropertyValue", name: "Capacity", value: m.capacity.join("; ") },
+                    { "@type": "PropertyValue", name: "Tolerances", value: m.tolerances.join("; ") },
+                    { "@type": "PropertyValue", name: "Materials", value: m.materials.join("; ") },
+                    { "@type": "PropertyValue", name: "Applications", value: m.applications.join("; ") },
+                  ],
+                  brand: { "@type": "Brand", name: "VEEPEE Engineers" },
+                  manufacturer: {
+                    "@type": "Organization",
+                    name: "VEEPEE Engineers",
+                    url: "https://veepeeengr.com",
+                  },
+                },
+              };
+            }),
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "VEEPEE Engineers",
+            url: "https://veepeeengr.com",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "Maheshpur Industrial Estate",
+              addressLocality: "Varanasi",
+              addressRegion: "Uttar Pradesh",
+              addressCountry: "IN",
+            },
+            makesOffer: machineSpecs.map((m) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: facilities.find((f) => f.id === m.id)?.name ?? m.id,
+                description: m.tagline,
+                serviceType: m.process,
+                areaServed: "IN",
+                provider: { "@type": "Organization", name: "VEEPEE Engineers" },
+              },
+            })),
+          }),
+        },
       ],
     };
   },
