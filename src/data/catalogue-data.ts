@@ -1437,12 +1437,29 @@ export const products: CatalogueProduct[] = [
   }
 ];
 
-/** Get all products in a category */
+/**
+ * Resolve a product's effective category. Some historical products live under
+ * the generic "industrial" bucket — reclassify them at read-time into the new
+ * Pipeline / Fabricated / Loco taxonomy so the UI never mixes them.
+ */
+export function resolveCategoryId(p: CatalogueProduct): string {
+  const name = `${p.name} ${p.description ?? ""}`.toLowerCase();
+  if (p.categoryId === "industrial") {
+    if (/\b(loco|locomotive|rail(?:way)?|bogie|coach|wagon|brake gear)\b/.test(name)) return "loco-products";
+    if (/\b(pipeline|pipe segment|large[- ]diameter|culvert|conduit|dismantling|flange adapter|pipe section|penstock)\b/.test(name)) return "pipeline-products";
+    if (/\b(coupling|clamp|bracket|fitting|adapter|fabricated|assembly|structural)\b/.test(name)) return "fabricated-products";
+    return "fabricated-products";
+  }
+  return p.categoryId;
+}
+
+/** Get all products in a category (respects virtual reclassification). */
 export function getProductsByCategory(categoryId: string): CatalogueProduct[] {
-  return products.filter((p) => p.categoryId === categoryId);
+  return products.filter((p) => resolveCategoryId(p) === categoryId);
 }
 
 /** Get a category by its ID */
 export function getCategoryById(id: string): CatalogueCategory | undefined {
   return categories.find((c) => c.id === id);
 }
+
