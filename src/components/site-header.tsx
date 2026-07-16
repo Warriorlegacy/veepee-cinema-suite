@@ -38,8 +38,8 @@ export function SiteHeader() {
         scrolled ? "glass py-3" : "bg-transparent py-5"
       }`}
     >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6">
+        <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0 shrink-0">
           <img
             src={logo.url}
             alt="VEEPEE Engineers"
@@ -53,12 +53,21 @@ export function SiteHeader() {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8">
-          {links.map((l) => (
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 min-w-0">
+          {primaryLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="font-sans-brand text-sm uppercase tracking-[0.2em] text-metallic hover:text-magenta transition-colors"
+              className="font-sans-brand text-[12px] xl:text-sm uppercase tracking-[0.18em] xl:tracking-[0.2em] text-metallic hover:text-magenta transition-colors whitespace-nowrap"
+            >
+              {l.label}
+            </a>
+          ))}
+          {extraLinks.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="hidden xl:inline font-sans-brand text-sm uppercase tracking-[0.2em] text-metallic hover:text-magenta transition-colors whitespace-nowrap"
             >
               {l.label}
             </a>
