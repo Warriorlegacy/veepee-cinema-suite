@@ -244,8 +244,16 @@ function ProductCard({
       )}
       <img
         src={product.image}
-        alt={product.name}
+        alt={
+          category
+            ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""} by VEEPEE Engineers`
+            : `${product.name} by VEEPEE Engineers`
+        }
         loading="lazy"
+        decoding="async"
+        width={640}
+        height={800}
+        sizes="(min-width: 1280px) 300px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
         onLoad={() => setLoaded(true)}
         onError={() => setLoaded(true)}
         className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1.2s] group-hover:scale-110 ${
@@ -312,14 +320,21 @@ function Lightbox({
         <div className="relative aspect-square lg:aspect-auto bg-black flex items-center justify-center min-h-[300px] lg:min-h-[500px]">
           <img
             src={product.image}
-            alt={product.name}
+            alt={
+              category
+                ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""}`
+                : product.name
+            }
+            decoding="async"
+            width={1200}
+            height={1200}
             className="w-full h-full object-contain max-h-[70vh]"
           />
           {/* Nav arrows */}
-          <button onClick={onPrev} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all">
+          <button onClick={onPrev} aria-label="Previous product" className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta">
             <ChevronLeft className="h-5 w-5" />
           </button>
-          <button onClick={onNext} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all">
+          <button onClick={onNext} aria-label="Next product" className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta">
             <ChevronRight className="h-5 w-5" />
           </button>
         </div>
