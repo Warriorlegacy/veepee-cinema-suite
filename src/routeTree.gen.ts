@@ -14,6 +14,7 @@ import { Route as SitemapServicesDotxmlRouteImport } from './routes/sitemap-serv
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProcurementRouteImport } from './routes/procurement'
+import { Route as FacilitiesRouteImport } from './routes/facilities'
 import { Route as ExportRouteImport } from './routes/export'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as ArchitectsRouteImport } from './routes/architects'
@@ -49,6 +50,11 @@ const ProjectsRoute = ProjectsRouteImport.update({
 const ProcurementRoute = ProcurementRouteImport.update({
   id: '/procurement',
   path: '/procurement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FacilitiesRoute = FacilitiesRouteImport.update({
+  id: '/facilities',
+  path: '/facilities',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExportRoute = ExportRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/architects': typeof ArchitectsRoute
   '/catalogue': typeof CatalogueRoute
   '/export': typeof ExportRoute
+  '/facilities': typeof FacilitiesRoute
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/architects': typeof ArchitectsRoute
   '/catalogue': typeof CatalogueRoute
   '/export': typeof ExportRoute
+  '/facilities': typeof FacilitiesRoute
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/architects': typeof ArchitectsRoute
   '/catalogue': typeof CatalogueRoute
   '/export': typeof ExportRoute
+  '/facilities': typeof FacilitiesRoute
   '/procurement': typeof ProcurementRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/architects'
     | '/catalogue'
     | '/export'
+    | '/facilities'
     | '/procurement'
     | '/projects'
     | '/robots.txt'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/architects'
     | '/catalogue'
     | '/export'
+    | '/facilities'
     | '/procurement'
     | '/projects'
     | '/robots.txt'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/architects'
     | '/catalogue'
     | '/export'
+    | '/facilities'
     | '/procurement'
     | '/projects'
     | '/robots.txt'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   ArchitectsRoute: typeof ArchitectsRoute
   CatalogueRoute: typeof CatalogueRoute
   ExportRoute: typeof ExportRoute
+  FacilitiesRoute: typeof FacilitiesRoute
   ProcurementRoute: typeof ProcurementRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/procurement'
       fullPath: '/procurement'
       preLoaderRoute: typeof ProcurementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/facilities': {
+      id: '/facilities'
+      path: '/facilities'
+      fullPath: '/facilities'
+      preLoaderRoute: typeof FacilitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/export': {
@@ -372,6 +392,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArchitectsRoute: ArchitectsRoute,
   CatalogueRoute: CatalogueRoute,
   ExportRoute: ExportRoute,
+  FacilitiesRoute: FacilitiesRoute,
   ProcurementRoute: ProcurementRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
   RobotsDottxtRoute: RobotsDottxtRoute,

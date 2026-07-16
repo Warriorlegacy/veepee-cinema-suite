@@ -6,10 +6,9 @@ import logo from "@/assets/veepee-logo.png.asset.json";
 const primaryLinks = [
   { label: "Services", href: "/#services" },
   { label: "Catalogue", href: "/catalogue" },
+  { label: "Facilities", href: "/facilities" },
   { label: "Projects", href: "/projects" },
   { label: "Export", href: "/export" },
-  { label: "Architects", href: "/architects" },
-  { label: "Procurement", href: "/procurement" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -18,6 +17,7 @@ const extraLinks = [
   { label: "Fabricated", href: "/catalogue?cat=fabricated-products" },
   { label: "Loco", href: "/catalogue?cat=loco-products" },
 ];
+
 
 const links = [...primaryLinks, ...extraLinks];
 
