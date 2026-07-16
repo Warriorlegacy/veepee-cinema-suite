@@ -33,9 +33,9 @@ export const Route = createFileRoute("/catalogue")({
     const cat = rawCat && (rawCat === "all" || validCategoryIds.has(rawCat)) ? rawCat : undefined;
     return {
       cat,
-      view: s.view === "facilities" ? "facilities" : "products",
       q: typeof s.q === "string" ? s.q.slice(0, 80) : undefined,
     };
+
   },
   head: () => ({
     meta: [
