@@ -443,7 +443,9 @@ function CataloguePage() {
 
 
       {/* ── PRODUCT GRID ── */}
+      {view === "products" && (
       <section className="py-12 bg-[#0A0A0A]">
+
         <div className="mx-auto max-w-[1400px] px-6">
           <div className="mb-6 text-metallic font-body text-sm">
             Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
