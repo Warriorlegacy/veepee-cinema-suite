@@ -212,12 +212,92 @@ export const getServiceDetail = createServerFn({ method: "GET" })
       return null;
     }
 
-    const { data: images } = await supabase
+    const dbImages = data.id ? (await supabase
       .from("service_images")
       .select("id, service_id, url, caption, sort_order")
       .eq("service_id", data.id)
-      .order("sort_order", { ascending: true });
-    return { service: svc, images: images ?? [] };
+      .order("sort_order", { ascending: true })).data : [];
+    
+    const serviceImages = dbImages ?? [];
+    
+    // Dynamically enrich images if there are fewer than 4 images
+    if (serviceImages.length < 4) {
+      const fallbackMap: Record<string, { url: string; caption: string }[]> = {
+        // Laser Cutting
+        "5300a1c0-ad1d-4b15-89b5-1f847d2922d8": [
+          { url: "/catalogue/laser-cutting-services/cat-31.webp", caption: "High-precision fiber laser marking" },
+          { url: "/catalogue/laser-cutting-services/catalogue-16.webp", caption: "Laser cutting job-work processing" },
+          { url: "/catalogue/vent-grilles/grille-1.webp", caption: "Precision cut ventilation screen" }
+        ],
+        // CNC Bending & Fabrication
+        "b86b9ae1-2a73-4aa2-bbb8-bceb6abd5661": [
+          { url: "/catalogue/industrial/cat-34.webp", caption: "Modular steel shuttering panels" },
+          { url: "/catalogue/vent-grilles/grille-1.webp", caption: "Laser cut ventilation grille" }
+        ],
+        // Engineering Components
+        "344202eb-a66d-49de-b082-41198736eba5": [
+          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Machined junior coupling connections" },
+          { url: "/catalogue/industrial/cat-34.webp", caption: "Precision modular panels" }
+        ],
+        // Gates & Railings
+        "f1f4cf46-0dd1-4e75-928d-e05347ad98d6": [
+          { url: "/catalogue/gates/designer-gate-peacock.webp", caption: "Peacock motif laser-cut double gate" },
+          { url: "/catalogue/railings/railing-1.webp", caption: "Geometric balcony safety railing" },
+          { url: "/catalogue/railings/railing-2.webp", caption: "Artistic staircase balustrade" }
+        ],
+        // Architectural Metalwork
+        "3d525269-6ee0-448c-963a-7c731854bb62": [
+          { url: "/catalogue/self-designing-facades/facade-sample.webp", caption: "Parametric facade cladding screen" },
+          { url: "/catalogue/self-designing-facades/facade-1.webp", caption: "Park border privacy fencing" },
+          { url: "/catalogue/jaali-screens/jaali-1.webp", caption: "Decorative room divider panel" }
+        ],
+        // Industrial Manufacturing
+        "65ac2c65-492f-4e8b-8a97-525abb49baf4": [
+          { url: "/catalogue/industrial/cat-34.webp", caption: "Heavy-duty steel formwork panels" },
+          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Fabricated piping fittings" }
+        ],
+        // Hot Dip Galvanizing
+        "5b4ce05b-4ed8-4f8b-a20e-1479ef0631e6": [
+          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Galvanized couplings after zinc bath" },
+          { url: "/catalogue/industrial/cat-34.webp", caption: "Galvanized sheet metal fabrications" }
+        ],
+        // Tubewell Fittings
+        "ec5ac136-c055-4cea-ae77-344f310f4405": [
+          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Heavy-duty pipe coupling adapters" },
+          { url: "/catalogue/industrial/cat-34.webp", caption: "Fabricated steel shuttering" }
+        ],
+        // Powder Coating
+        "900e626e-7e2e-4353-a716-2c31298091a4": [
+          { url: "/catalogue/gift-decor/imgi_26_unnamed.webp", caption: "Electrostatic powder-coated decor piece" },
+          { url: "/catalogue/shadow-art/cat-36.webp", caption: "Matte-black powder coated shadow panel" }
+        ],
+        // Plate Bending
+        "28eb02f4-6388-4b01-b649-234cdfbcc5c2": [
+          { url: "/catalogue/industrial/cat-34.webp", caption: "Bent steel formwork channels" },
+          { url: "/catalogue/vent-grilles/grille-1.webp", caption: "Bent edges ventilation grilles" }
+        ],
+        // Pipe Rolling
+        "d89a6998-dc01-4b8d-893b-acf5571d3214": [
+          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Rolled pipe couplings" },
+          { url: "/catalogue/industrial/cat-34.webp", caption: "Rolled framework modules" }
+        ]
+      };
+
+      const extraImages = fallbackMap[svc.id] ?? [];
+      for (const img of extraImages) {
+        if (!serviceImages.some(existing => existing.url === img.url)) {
+          serviceImages.push({
+            id: `fallback-img-${svc.id}-${serviceImages.length}`,
+            service_id: svc.id,
+            url: img.url,
+            caption: img.caption,
+            sort_order: 100 + serviceImages.length * 10
+          });
+        }
+      }
+    }
+
+    return { service: svc, images: serviceImages };
   });
 
 /* ─────────── Public: list gallery images per service (used in admin) ─────────── */

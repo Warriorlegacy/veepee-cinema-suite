@@ -328,6 +328,12 @@ function Lightbox({
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const titleId = `lightbox-title-${product.id}`;
 
+  const [activeImg, setActiveImg] = useState(product.image);
+
+  useEffect(() => {
+    setActiveImg(product.image);
+  }, [product]);
+
   // Focus trap + keyboard shortcuts (Escape, ArrowLeft/Right, Tab).
   useEffect(() => {
     const previouslyFocused = document.activeElement as HTMLElement | null;
@@ -358,7 +364,7 @@ function Lightbox({
     };
   }, [onClose, onNext, onPrev]);
 
-  const webp = toWebp(product.image);
+  const webp = toWebp(activeImg);
   const alt = category
     ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""}`
     : product.name;
@@ -384,18 +390,43 @@ function Lightbox({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image */}
-        <div className="relative aspect-square lg:aspect-auto bg-black flex items-center justify-center min-h-[300px] lg:min-h-[500px]">
-          <picture>
-            {webp && <source srcSet={webp} type="image/webp" />}
-            <img
-              src={product.image}
-              alt={alt}
-              decoding="async"
-              width={1200}
-              height={1200}
-              className="w-full h-full object-contain max-h-[70vh]"
-            />
-          </picture>
+        <div className="relative aspect-square lg:aspect-auto bg-black flex flex-col items-center justify-center min-h-[350px] lg:min-h-[550px] pb-16">
+          <div className="w-full h-full flex items-center justify-center p-4">
+            <picture>
+              {webp && <source srcSet={webp} type="image/webp" />}
+              <img
+                src={activeImg}
+                alt={alt}
+                decoding="async"
+                width={1200}
+                height={1200}
+                className="w-full h-full object-contain max-h-[50vh] lg:max-h-[60vh]"
+              />
+            </picture>
+          </div>
+          {/* Thumbnails strip */}
+          {product.images && product.images.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-10 max-w-[90%] overflow-x-auto">
+              {product.images.map((img, i) => {
+                const active = activeImg === img;
+                const thumbWebp = toWebp(img);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImg(img)}
+                    className={`relative h-10 w-10 rounded overflow-hidden border-2 transition-all ${
+                      active ? "border-magenta scale-105" : "border-transparent opacity-60 hover:opacity-100"
+                    }`}
+                  >
+                    <picture>
+                      {thumbWebp && <source srcSet={thumbWebp} type="image/webp" />}
+                      <img src={img} alt="" className="h-full w-full object-cover" />
+                    </picture>
+                  </button>
+                );
+              })}
+            </div>
+          )}
           {/* Nav arrows */}
           <button onClick={onPrev} aria-label="Previous product" className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta">
             <ChevronLeft className="h-5 w-5" />

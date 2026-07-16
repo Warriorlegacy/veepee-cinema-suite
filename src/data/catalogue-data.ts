@@ -35,6 +35,7 @@ export interface CatalogueProduct {
   categoryId: string;
   name: string;
   image: string;
+  images?: string[];
   priceRange: string;
   material?: string;
   description?: string;
@@ -317,6 +318,12 @@ export const products: CatalogueProduct[] = [
     "categoryId": "metal-furniture",
     "name": "Geometric Laser-Cut Coffee Table",
     "image": "/catalogue/metal-furniture/furniture-1.png",
+    "images": [
+      "/catalogue/metal-furniture/furniture-1.png",
+      "/catalogue/metal-furniture/furniture-2.png",
+      "/catalogue/metal-furniture/furniture-3.png",
+      "/catalogue/metal-furniture/furniture-4.png"
+    ],
     "priceRange": "₹12,500 – ₹18,000",
     "material": "Mild Steel & Solid Walnut",
     "description": "Premium coffee table featuring an intricate geometric laser-cut steel base with a polished solid walnut wood top. Offers a stunning minimalist designer look for modern living spaces."
@@ -326,6 +333,12 @@ export const products: CatalogueProduct[] = [
     "categoryId": "metal-furniture",
     "name": "Modern Industrial Bookshelf / Shelving Unit",
     "image": "/catalogue/metal-furniture/furniture-2.png",
+    "images": [
+      "/catalogue/metal-furniture/furniture-2.png",
+      "/catalogue/metal-furniture/furniture-1.png",
+      "/catalogue/metal-furniture/furniture-3.png",
+      "/catalogue/metal-furniture/furniture-4.png"
+    ],
     "priceRange": "₹15,000 – ₹24,000",
     "material": "Heavy-Duty Steel & Solid Teak",
     "description": "Heavy-duty steel framed shelving unit with floating solid teak wood shelves. A perfect fusion of industrial strength and organic warmth, ideal for modern offices and living rooms."
@@ -335,6 +348,12 @@ export const products: CatalogueProduct[] = [
     "categoryId": "metal-furniture",
     "name": "Bespoke Spider-Leg Metal Dining Table Base",
     "image": "/catalogue/metal-furniture/furniture-3.png",
+    "images": [
+      "/catalogue/metal-furniture/furniture-3.png",
+      "/catalogue/metal-furniture/furniture-1.png",
+      "/catalogue/metal-furniture/furniture-2.png",
+      "/catalogue/metal-furniture/furniture-4.png"
+    ],
     "priceRange": "₹18,000 – ₹32,000",
     "material": "Heavy-Gauge Structural Steel",
     "description": "Sturdy spider-leg metal base for heavy dining tables, precision-fabricated with heavy-gauge structural steel and finished in a matte black powder coat for ultimate wear resistance."
@@ -344,6 +363,12 @@ export const products: CatalogueProduct[] = [
     "categoryId": "metal-furniture",
     "name": "Art Deco Laser-Cut Accent Chair",
     "image": "/catalogue/metal-furniture/furniture-4.png",
+    "images": [
+      "/catalogue/metal-furniture/furniture-4.png",
+      "/catalogue/metal-furniture/furniture-1.png",
+      "/catalogue/metal-furniture/furniture-2.png",
+      "/catalogue/metal-furniture/furniture-3.png"
+    ],
     "priceRange": "₹9,500 – ₹14,500",
     "material": "Stainless Steel (Gold PVD) & Premium Velvet",
     "description": "Elegant lounge accent chair featuring an intricate laser-cut metal frame with geometric Art Deco styling, finished in a luxurious gold PVD coating and fitted with premium cushions."
@@ -353,6 +378,11 @@ export const products: CatalogueProduct[] = [
     "categoryId": "gift-decor",
     "name": "Romantic Rings Laser-Cut Heart Decor Stand",
     "image": "/catalogue/gift-decor/catalogue-15.jpeg",
+    "images": [
+      "/catalogue/gift-decor/catalogue-15.jpeg",
+      "/catalogue/gift-decor/catalogue-11.jpeg",
+      "/catalogue/gift-decor/imgi_26_unnamed.jpg"
+    ],
     "priceRange": "\u20b9450 \u2013 \u20b9950",
     "material": "Mild Steel",
     "description": "A charming laser-cut metal heart, beautifully designed with intertwined wedding rings and a sparkling engagement diamond motif. Finished in a vibrant red powder coat, this freestanding piece makes a perfect romantic gift or elegant table decor for engagements and anniversaries."
@@ -371,6 +401,11 @@ export const products: CatalogueProduct[] = [
     "categoryId": "jaali-screens",
     "name": "Intricate Geometric Star Jaali Panel",
     "image": "/catalogue/jaali-screens/catalogue-14.jpeg",
+    "images": [
+      "/catalogue/jaali-screens/catalogue-14.jpeg",
+      "/catalogue/self-designing-facades/facade-sample.webp",
+      "/catalogue/self-designing-facades/facade-1.webp"
+    ],
     "priceRange": "\u20b9280 \u2013 \u20b9550/sq ft",
     "material": "Mild Steel",
     "description": "Showcasing a mesmerizing geometric star pattern, these laser-cut metal panels are perfect for creating stunning architectural accents and semi-private partitions. Delivered in a raw metal finish, they are ready for custom painting, powder coating, or polishing to match any interior or exterior design scheme."
@@ -416,6 +451,11 @@ export const products: CatalogueProduct[] = [
     "categoryId": "gates",
     "name": "Divine Laser-Cut Designer Gates",
     "image": "/catalogue/gates/designer-gate-peacock.png",
+    "images": [
+      "/catalogue/gates/designer-gate-peacock.png",
+      "/catalogue/gates/imgi_32_unnamed.png",
+      "/catalogue/gates/imgi_33_unnamed.png"
+    ],
     "priceRange": "\u20b975,000 \u2013 \u20b92,50,000",
     "material": "Mild Steel with powder coating and acrylic inserts",
     "description": "Exquisite laser-cut designer gates featuring intricate Radha Krishna and vibrant peacock motifs, ideal for adding a luxurious and artistic statement to any residential or commercial entrance. Crafted with precision and finished with durable, multi-color coatings to ensure lasting beauty and elegance."
@@ -452,6 +492,11 @@ export const products: CatalogueProduct[] = [
     "categoryId": "railings",
     "name": "Modern Geometric Floret Staircase Railing",
     "image": "/catalogue/railings/imgi_25_unnamed.png",
+    "images": [
+      "/catalogue/railings/imgi_25_unnamed.png",
+      "/catalogue/railings/railing-1.webp",
+      "/catalogue/railings/railing-2.webp"
+    ],
     "priceRange": "\u20b9850 \u2013 \u20b91,750/sq ft",
     "material": "Mild Steel",
     "description": "Elevate modern interiors with this laser-cut Mild Steel staircase railing, featuring a seamless geometric floret pattern. Its minimalist design and sleek finish provide both aesthetic appeal and robust safety for contemporary spaces."
