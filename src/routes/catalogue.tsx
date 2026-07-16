@@ -530,7 +530,7 @@ function CataloguePage() {
 
       {/* ── Category Description ── */}
       <AnimatePresence mode="wait">
-        {view === "products" && activeCat && (
+        {activeCat && (
           <motion.section
             key={activeCat.id}
             initial={{ opacity: 0, height: 0 }}
@@ -558,75 +558,66 @@ function CataloguePage() {
         )}
       </AnimatePresence>
 
-      {/* ── FACILITIES GRID (Infrastructure & Facilities view) ── */}
-      {view === "facilities" && (
+      {/* ── LANDING TILES: shown for Architectural / Décor groups when no
+             specific sub-category is picked. Prevents laser-cut chaos. ── */}
+      {showLandingTiles && !q && (
         <section className="py-12 bg-[#0A0A0A]">
           <div className="mx-auto max-w-[1400px] px-6">
-            <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <h2 className="font-display text-3xl md:text-4xl text-white">
-                  Infrastructure & <span className="text-gradient-magenta">Facilities</span>
-                </h2>
-                <p className="mt-2 text-metallic font-body text-sm max-w-2xl">
-                  Our machinery and processing capacities. These are capabilities — not products for sale — so we keep them cleanly separated from the product catalogue.
-                </p>
-              </div>
-              <span className="px-3 py-1.5 border border-magenta/30 rounded text-[10px] font-sans-brand uppercase tracking-[0.22em] text-magenta">
-                Maheshpur Industrial Estate · Varanasi
-              </span>
+            <div className="mb-8">
+              <h2 className="font-display text-3xl md:text-4xl text-white">
+                {activeGroup === "architectural" ? "Laser-Cut Designs" : "Décor & Art"}
+                <span className="text-gradient-magenta"> · Segregated by Item</span>
+              </h2>
+              <p className="mt-2 text-metallic font-body text-sm max-w-2xl">
+                Each item type has its own gallery — no mashup. Tap a tile to see the full sub-category.
+              </p>
             </div>
-
-            {filteredFacilities.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {filteredFacilities.map((f, i) => (
-                  <motion.div
-                    key={f.id}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {visibleCategories.map((cat, i) => {
+                const info = categoryCounts.get(cat.id);
+                if (!info || info.count === 0) return null;
+                return (
+                  <motion.button
+                    key={cat.id}
                     custom={i}
                     variants={fadeUp}
                     initial="hidden"
                     whileInView="show"
-                    viewport={{ once: true, margin: "-50px" }}
-                    className="group relative rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                    viewport={{ once: true, margin: "-40px" }}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card border border-white/5 hover:border-magenta/40 text-left"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
-                        <Factory className="h-5 w-5" />
+                    <img
+                      src={info.cover}
+                      alt={cat.name}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
+                      {iconMap[cat.icon]} {info.count} items
+                    </span>
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 className="font-display text-lg text-white tracking-wide leading-tight">
+                        {cat.shortName}
+                      </h3>
+                      <p className="mt-1 text-[10px] font-sans-brand uppercase tracking-[0.22em] text-magenta">
+                        {cat.priceLabel}{cat.priceUnit}
+                      </p>
+                      <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.25em] opacity-0 group-hover:opacity-100 transition-opacity">
+                        Open gallery <ArrowRight className="h-3 w-3" />
                       </div>
-                      <span className="text-[10px] font-sans-brand uppercase tracking-[0.25em] text-magenta">
-                        {f.shortName}
-                      </span>
                     </div>
-                    <h3 className="font-display text-xl text-white tracking-wide leading-tight">
-                      {f.name}
-                    </h3>
-                    <p className="mt-2 text-[11px] font-sans-brand uppercase tracking-[0.2em] text-white/70">
-                      {f.spec}
-                    </p>
-                    <p className="mt-3 text-sm text-metallic font-body leading-relaxed">
-                      {f.description}
-                    </p>
-                    <div className="mt-4 pt-4 border-t border-white/5 text-xs font-body text-white/60">
-                      <span className="text-white/40 uppercase tracking-[0.2em] text-[9px] font-sans-brand block mb-1">Capacity</span>
-                      {f.capacity}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
-              <EmptyState
-                title={q ? "No facilities match your search" : "No facilities to show"}
-                message={q ? `We couldn't find any machine matching "${query}". Try a different keyword.` : "Facilities will appear here once configured."}
-                onReset={q ? () => setQuery("") : undefined}
-              />
-            )}
-
+                  </motion.button>
+                );
+              })}
+            </div>
           </div>
         </section>
       )}
 
-
       {/* ── PRODUCT GRID ── */}
-      {view === "products" && (
+      {!showLandingTiles && (
       <section className="py-12 bg-[#0A0A0A]">
 
         <div className="mx-auto max-w-[1400px] px-6">
@@ -674,6 +665,7 @@ function CataloguePage() {
         </div>
       </section>
       )}
+
 
 
       {/* ── CTA BANNER ── */}
