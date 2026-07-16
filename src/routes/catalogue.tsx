@@ -465,67 +465,64 @@ function CataloguePage() {
             </div>
           </div>
 
-          {view === "products" && (
-            <>
-              {/* Group tabs */}
-              <div role="tablist" aria-label="Product group" className="flex gap-2 overflow-x-auto scrollbar-hide">
-                {groups.map((g) => {
-                  const active = activeGroup === g.id;
-                  return (
-                    <button
-                      key={g.id}
-                      role="tab"
-                      aria-selected={active}
-                      onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
-                      className={`relative shrink-0 px-3.5 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
-                        active
-                          ? "border-magenta text-white bg-magenta/15 shadow-[0_0_0_1px_rgba(212,20,142,0.4)]"
-                          : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25 hover:bg-white/[0.03]"
-                      }`}
-                    >
-                      {g.label}
-                      {active && (
-                        <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 h-[2px] w-6 bg-magenta rounded-full" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Sub-category chips */}
-              <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          {/* Group tabs */}
+          <div role="tablist" aria-label="Product group" className="flex gap-2 overflow-x-auto scrollbar-hide">
+            {groups.map((g) => {
+              const active = activeGroup === g.id;
+              return (
                 <button
-                  onClick={() => setActiveCategory("all")}
-                  aria-pressed={activeCategory === "all"}
-                  className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                    activeCategory === "all"
+                  key={g.id}
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
+                  className={`relative shrink-0 px-3.5 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
+                    active
+                      ? "border-magenta text-white bg-magenta/15 shadow-[0_0_0_1px_rgba(212,20,142,0.4)]"
+                      : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25 hover:bg-white/[0.03]"
+                  }`}
+                >
+                  {g.label}
+                  {active && (
+                    <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 h-[2px] w-6 bg-magenta rounded-full" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Sub-category chips */}
+          <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <button
+              onClick={() => setActiveCategory("all")}
+              aria-pressed={activeCategory === "all"}
+              className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                activeCategory === "all"
+                  ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
+                  : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+              }`}
+            >
+              All in Group
+            </button>
+            {visibleCategories.map((cat) => {
+              const active = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  aria-pressed={active}
+                  className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                    active
                       ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
                       : "border-white/15 text-metallic hover:border-magenta hover:text-white"
                   }`}
                 >
-                  All in Group
+                  {iconMap[cat.icon]}
+                  {cat.shortName}
                 </button>
-                {visibleCategories.map((cat) => {
-                  const active = activeCategory === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => setActiveCategory(cat.id)}
-                      aria-pressed={active}
-                      className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                        active
-                          ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
-                          : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-                      }`}
-                    >
-                      {iconMap[cat.icon]}
-                      {cat.shortName}
-                    </button>
-                  );
-                })}
-              </div>
-            </>
-          )}
+              );
+            })}
+          </div>
+
         </div>
       </section>
 
