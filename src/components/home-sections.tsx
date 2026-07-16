@@ -250,8 +250,9 @@ export function Services() {
           We shape <span className="text-magenta">steel</span> into possibilities.
         </motion.h2>
         <p className="mt-5 max-w-2xl text-metallic font-body text-sm sm:text-base">
-          Integrated capabilities under one roof — from a single laser-cut sheet to full
-          architectural installations.
+          Integrated capabilities under one roof — from a single laser-cut sheet to full architectural installations.{" "}
+          <span className="text-white/90 font-medium">Tight-tolerance machined parts is our core domain</span> —
+          the backbone of our CNC Fabrication line for pipeline, fabricated and loco components.
         </p>
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
