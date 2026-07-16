@@ -11,7 +11,7 @@ import { categories, products, facilities, HIDDEN_FROM_CATALOGUE } from "@/data/
  * stale. Includes Pipeline, Fabricated, Loco product summaries and the
  * Plant & Machinery capability sheet.
  */
-export const Route = createFileRoute("/api/brochure.pdf")({
+export const Route = createFileRoute("/api/brochure/pdf")({
   server: {
     handlers: {
       GET: async () => {
@@ -114,7 +114,7 @@ function drawCover(
   page.drawRectangle({ x: 0, y: 0, width: 6, height: PAGE_H, color: MAGENTA });
 
   // Small eyebrow
-  page.drawText("PRODUCT & CAPABILITY BROCHURE", {
+  page.drawText(sanitize("PRODUCT & CAPABILITY BROCHURE"), {
     x: MARGIN, y: PAGE_H - MARGIN - 24,
     size: 9, font: fonts.body, color: MAGENTA,
   });
@@ -122,17 +122,17 @@ function drawCover(
   // Big title
   const t1 = "VEEPEE";
   const t2 = "ENGINEERS";
-  page.drawText(t1, {
+  page.drawText(sanitize(t1), {
     x: MARGIN, y: PAGE_H - MARGIN - 90,
     size: 64, font: fonts.display, color: WHITE,
   });
-  page.drawText(t2, {
+  page.drawText(sanitize(t2), {
     x: MARGIN, y: PAGE_H - MARGIN - 160,
     size: 64, font: fonts.display, color: MAGENTA,
   });
 
   // Tagline
-  page.drawText("Built on precision. Rooted in Varanasi.", {
+  page.drawText(sanitize("Built on precision. Rooted in Varanasi."), {
     x: MARGIN, y: PAGE_H - MARGIN - 200,
     size: 14, font: fonts.italic, color: MUTED,
   });
@@ -153,12 +153,12 @@ function drawCover(
     "Plant & Machinery — 5 kW fiber laser, CNC press brake, three-roll bender, CNC machining",
   ];
   let y = PAGE_H / 2 + 30;
-  page.drawText("Inside this brochure", {
+  page.drawText(sanitize("Inside this brochure"), {
     x: MARGIN, y, size: 12, font: fonts.display, color: WHITE,
   });
   y -= 22;
   for (const line of items) {
-    page.drawText("•", { x: MARGIN, y, size: 11, font: fonts.body, color: MAGENTA });
+    page.drawText(sanitize("•"), { x: MARGIN, y, size: 11, font: fonts.body, color: MAGENTA });
     page.drawText(line, { x: MARGIN + 14, y, size: 10.5, font: fonts.body, color: MUTED });
     y -= 18;
   }
@@ -170,13 +170,13 @@ function drawCover(
     end: { x: PAGE_W - MARGIN, y: footerY + 60 },
     thickness: 1, color: HAIRLINE,
   });
-  page.drawText("225/1 Maheshpur Industrial Estate, Varanasi 221106", {
+  page.drawText(sanitize("225/1 Maheshpur Industrial Estate, Varanasi 221106"), {
     x: MARGIN, y: footerY + 40, size: 10, font: fonts.body, color: WHITE,
   });
-  page.drawText("+91 91251 42400  ·  +91 79857 59501  ·  veepeeengr.com", {
+  page.drawText(sanitize("+91 91251 42400  ·  +91 79857 59501  ·  veepeeengr.com"), {
     x: MARGIN, y: footerY + 22, size: 10, font: fonts.body, color: MUTED,
   });
-  page.drawText("Since 1976 · CNC-driven · Job work welcome", {
+  page.drawText(sanitize("Since 1976 · CNC-driven · Job work welcome"), {
     x: MARGIN, y: footerY + 4, size: 9, font: fonts.italic, color: MAGENTA,
   });
 }
@@ -215,7 +215,7 @@ function drawCapabilities(
     });
 
     let cy = cardTop - 20;
-    page.drawText(f.name, { x: MARGIN + 16, y: cy, size: 13, font: fonts.display, color: WHITE });
+    page.drawText(sanitize(f.name), { x: MARGIN + 16, y: cy, size: 13, font: fonts.display, color: WHITE });
     cy -= 16;
     page.drawText(f.spec.toUpperCase(), { x: MARGIN + 16, y: cy, size: 8, font: fonts.body, color: MAGENTA });
     cy -= 14;
@@ -282,7 +282,7 @@ function drawProductGroup(
     });
 
     let cy = cardTop - 18;
-    page.drawText(p.name, { x: MARGIN + 16, y: cy, size: 12, font: fonts.display, color: WHITE });
+    page.drawText(sanitize(p.name), { x: MARGIN + 16, y: cy, size: 12, font: fonts.display, color: WHITE });
     cy -= 14;
 
     // Category · Material
@@ -301,7 +301,7 @@ function drawProductGroup(
     cy -= 12;
 
     for (const line of descLines) {
-      page.drawText(line, { x: MARGIN + 16, y: cy, size: 9.5, font: fonts.body, color: rgb(0.82, 0.82, 0.86) });
+      page.drawText(sanitize(line), { x: MARGIN + 16, y: cy, size: 9.5, font: fonts.body, color: rgb(0.82, 0.82, 0.86) });
       cy -= 12;
     }
 
@@ -324,11 +324,11 @@ function drawContact(
     x: MARGIN, y: PAGE_H - MARGIN - 24,
     size: 10, font: fonts.body, color: MAGENTA,
   });
-  page.drawText("Have a drawing?", {
+  page.drawText(sanitize("Have a drawing?"), {
     x: MARGIN, y: PAGE_H - MARGIN - 78,
     size: 44, font: fonts.display, color: WHITE,
   });
-  page.drawText("We can make it.", {
+  page.drawText(sanitize("We can make it."), {
     x: MARGIN, y: PAGE_H - MARGIN - 132,
     size: 44, font: fonts.display, color: MAGENTA,
   });
@@ -339,7 +339,7 @@ function drawContact(
   );
   let y = PAGE_H - MARGIN - 180;
   for (const line of bodyLines) {
-    page.drawText(line, { x: MARGIN, y, size: 12, font: fonts.body, color: MUTED });
+    page.drawText(sanitize(line), { x: MARGIN, y, size: 12, font: fonts.body, color: MUTED });
     y -= 18;
   }
 
@@ -363,7 +363,7 @@ function drawContact(
     end: { x: PAGE_W - MARGIN, y: MARGIN + 40 },
     thickness: 1, color: HAIRLINE,
   });
-  page.drawText("VEEPEE Engineers · Since 1976 · CNC-driven · Job work welcome", {
+  page.drawText(sanitize("VEEPEE Engineers · Since 1976 · CNC-driven · Job work welcome"), {
     x: MARGIN, y: MARGIN + 22,
     size: 9, font: fonts.italic, color: MUTED,
   });
@@ -379,11 +379,11 @@ function drawPageHeader(
   page.drawRectangle({ x: 0, y: 0, width: PAGE_W, height: PAGE_H, color: NEAR_BLACK });
   page.drawRectangle({ x: 0, y: 0, width: 6, height: PAGE_H, color: MAGENTA });
 
-  page.drawText("VEEPEE ENGINEERS", {
+  page.drawText(sanitize("VEEPEE ENGINEERS"), {
     x: MARGIN, y: PAGE_H - MARGIN,
     size: 8, font: fonts.display, color: MAGENTA,
   });
-  page.drawText(title.toUpperCase(), {
+  page.drawText(sanitize(title.toUpperCase()), {
     x: MARGIN, y: PAGE_H - MARGIN - 32,
     size: 22, font: fonts.display, color: WHITE,
   });
@@ -391,7 +391,7 @@ function drawPageHeader(
   if (subtitle) {
     const lines = wrapText(subtitle, fonts.body, 10.5, CONTENT_W);
     for (const line of lines) {
-      page.drawText(line, { x: MARGIN, y, size: 10.5, font: fonts.body, color: MUTED });
+      page.drawText(sanitize(line), { x: MARGIN, y, size: 10.5, font: fonts.body, color: MUTED });
       y -= 14;
     }
   }
@@ -409,7 +409,7 @@ function drawPageFooter(
   fonts: { display: any; body: any; italic: any },
 ) {
   const y = MARGIN - 10;
-  page.drawText("veepeeengr.com  ·  +91 91251 42400  ·  Maheshpur Industrial Estate, Varanasi", {
+  page.drawText(sanitize("veepeeengr.com  ·  +91 91251 42400  ·  Maheshpur Industrial Estate, Varanasi"), {
     x: MARGIN, y, size: 8, font: fonts.body, color: MUTED,
   });
 }

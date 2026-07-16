@@ -26,6 +26,7 @@ import { Route as DebugResponsivenessRouteImport } from './routes/debug.responsi
 import { Route as DebugImagesRouteImport } from './routes/debug.images'
 import { Route as DebugCanvasRouteImport } from './routes/debug.canvas'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
+import { Route as ApiBrochurePdfRouteImport } from './routes/api/brochure.pdf'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -112,6 +113,11 @@ const ApiPublicAnalyticsRoute = ApiPublicAnalyticsRouteImport.update({
   path: '/api/public/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiBrochurePdfRoute = ApiBrochurePdfRouteImport.update({
+  id: '/api/brochure/pdf',
+  path: '/api/brochure/pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
+  '/api/brochure/pdf': typeof ApiBrochurePdfRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
 }
 export interface FileRoutesByTo {
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
+  '/api/brochure/pdf': typeof ApiBrochurePdfRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
 }
 export interface FileRoutesById {
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/debug/responsiveness': typeof DebugResponsivenessRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$id': typeof ServicesIdRoute
+  '/api/brochure/pdf': typeof ApiBrochurePdfRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
 }
 export interface FileRouteTypes {
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
     | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
+    | '/api/brochure/pdf'
     | '/api/public/analytics'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
+    | '/api/brochure/pdf'
     | '/api/public/analytics'
   id:
     | '__root__'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/debug/responsiveness'
     | '/projects/$slug'
     | '/services/$id'
+    | '/api/brochure/pdf'
     | '/api/public/analytics'
   fileRoutesById: FileRoutesById
 }
@@ -247,6 +259,7 @@ export interface RootRouteChildren {
   DebugImagesRoute: typeof DebugImagesRoute
   DebugResponsivenessRoute: typeof DebugResponsivenessRoute
   ServicesIdRoute: typeof ServicesIdRoute
+  ApiBrochurePdfRoute: typeof ApiBrochurePdfRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
 }
 
@@ -371,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicAnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/brochure/pdf': {
+      id: '/api/brochure/pdf'
+      path: '/api/brochure/pdf'
+      fullPath: '/api/brochure/pdf'
+      preLoaderRoute: typeof ApiBrochurePdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -402,6 +422,7 @@ const rootRouteChildren: RootRouteChildren = {
   DebugImagesRoute: DebugImagesRoute,
   DebugResponsivenessRoute: DebugResponsivenessRoute,
   ServicesIdRoute: ServicesIdRoute,
+  ApiBrochurePdfRoute: ApiBrochurePdfRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,
 }
 export const routeTree = rootRouteImport
