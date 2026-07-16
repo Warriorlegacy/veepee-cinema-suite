@@ -449,7 +449,7 @@ function CataloguePage() {
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={view === "products" ? "Search products, materials, categories…" : "Search machines, capacities…"}
+                placeholder="Search products, materials, categories…"
                 aria-label="Search catalogue"
                 className="w-full pl-9 pr-9 py-2 rounded-full bg-white/[0.04] border border-white/10 focus:border-magenta/60 focus:ring-2 focus:ring-magenta/20 outline-none text-sm text-white placeholder:text-metallic/50 font-body transition-all"
               />
