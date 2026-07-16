@@ -356,6 +356,132 @@ function FacilitiesPage() {
         </div>
       </section>
 
+      {/* DETAILED SPEC CARDS — per-machine process, capacity, tolerances, materials */}
+      <section id="specifications" className="py-20 bg-near-black border-t border-white/5">
+        <div className="mx-auto max-w-[1400px] px-6">
+          <div className="mb-12 max-w-3xl">
+            <div className="flex items-center gap-3 text-magenta font-sans-brand text-[11px] uppercase tracking-[0.35em] mb-4">
+              <div className="w-8 h-px bg-magenta" />
+              Equipment Specifications
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl leading-[1.05] text-white">
+              Every machine, <span className="text-gradient-magenta">on record</span>.
+            </h2>
+            <p className="mt-4 text-metallic font-body text-lg leading-relaxed">
+              Process, working envelope, achievable tolerances and material range for every station on the shop floor —
+              so engineers, architects and procurement teams can qualify VEEPEE without a site visit.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {machineSpecs.map((m, i) => {
+              const facility = facilities.find((f) => f.id === m.id);
+              if (!facility) return null;
+              const MachineIcon = m.Icon;
+              return (
+                <motion.article
+                  key={m.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: Math.min(i, 3) * 0.05 }}
+                  className="group relative rounded-2xl border border-white/5 bg-card/60 hover:border-magenta/30 transition-all overflow-hidden"
+                  aria-labelledby={`spec-${m.id}-title`}
+                >
+                  {/* Header row */}
+                  <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 items-start p-6 md:p-8 border-b border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
+                    <div className="h-14 w-14 grid place-items-center rounded-xl bg-magenta/10 border border-magenta/25 text-magenta shrink-0">
+                      <MachineIcon className="h-7 w-7" strokeWidth={1.6} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
+                        <span className="text-[10px] font-sans-brand uppercase tracking-[0.28em] text-magenta">
+                          {facility.shortName}
+                        </span>
+                        <span className="hidden md:inline text-white/20">·</span>
+                        <span className="text-[10px] font-sans-brand uppercase tracking-[0.2em] text-white/50">
+                          {facility.spec}
+                        </span>
+                      </div>
+                      <h3 id={`spec-${m.id}-title`} className="font-display text-2xl md:text-3xl text-white tracking-wide leading-tight">
+                        {facility.name}
+                      </h3>
+                      <p className="mt-3 text-metallic font-body text-sm md:text-base leading-relaxed max-w-3xl">
+                        {m.tagline}
+                      </p>
+                    </div>
+                    <div className="md:text-right md:min-w-[180px]">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] font-sans-brand uppercase tracking-[0.22em] text-white/70">
+                        <Factory className="h-3 w-3" /> Maheshpur Floor
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Process paragraph */}
+                  <div className="px-6 md:px-8 py-6 border-b border-white/5">
+                    <div className="flex items-center gap-2 mb-2 text-magenta">
+                      <Cog className="h-4 w-4" />
+                      <span className="font-sans-brand text-[10px] uppercase tracking-[0.28em]">Process</span>
+                    </div>
+                    <p className="text-metallic font-body text-sm md:text-[15px] leading-relaxed">
+                      {m.process}
+                    </p>
+                  </div>
+
+                  {/* 4-bucket spec grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                    {specBucketMeta.map((b) => {
+                      const BucketIcon = b.Icon;
+                      const items = m[b.key];
+                      return (
+                        <div
+                          key={b.key}
+                          className="p-6 md:p-7 border-t border-white/5 md:border-t-0 md:border-l first:md:border-l-0 border-white/5 bg-white/[0.01]"
+                        >
+                          <div className="flex items-center gap-2 mb-3 text-white/70">
+                            <BucketIcon className="h-4 w-4 text-magenta" />
+                            <span className="font-sans-brand text-[10px] uppercase tracking-[0.28em]">
+                              {b.label}
+                            </span>
+                          </div>
+                          <ul className="space-y-2">
+                            {items.map((line) => (
+                              <li
+                                key={line}
+                                className="flex gap-2 text-[13px] leading-snug text-white/85 font-body"
+                              >
+                                <span aria-hidden className="mt-1.5 h-1 w-1 rounded-full bg-magenta/70 shrink-0" />
+                                <span>{line}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+
+          {/* Anchor CTA */}
+          <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-white/5 bg-white/[0.02] px-6 py-5">
+            <p className="text-metallic font-body text-sm max-w-xl">
+              Need a machine-level capability statement or process qualification record for vendor registration?
+              We can share PQR, WPS and calibration certificates on request.
+            </p>
+            <a
+              href="https://wa.me/919125142400?text=Hi%2C%20please%20share%20your%20plant%20capability%20statement%20and%20PQR%2FWPS."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-magenta-gradient text-white font-sans-brand text-xs uppercase tracking-[0.2em] hover:shadow-magenta transition-all"
+            >
+              Request documentation <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* QUALITY / STANDARDS STRIP */}
       <section className="py-14 border-y border-white/5 bg-near-black">
         <div className="mx-auto max-w-[1400px] px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
