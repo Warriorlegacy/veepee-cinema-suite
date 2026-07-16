@@ -1,10 +1,219 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, Factory, Phone, Cog } from "lucide-react";
+import {
+  ArrowRight, Factory, Phone, Cog,
+  Zap, Layers, Ruler, Wrench, Flame, ShieldCheck, Sparkles, GitCommitHorizontal,
+  Gauge, Beaker, CircleDot,
+} from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { facilities } from "@/data/catalogue-data";
+
+/* ─── Detailed per-machine specifications ────────────────────────────
+   Rich technical data (process, capacity, tolerances, materials) for
+   engineers evaluating VEEPEE as a supplier. Keyed by facility.id so
+   the existing `facilities` array stays the single source of truth for
+   name / short description. */
+type MachineSpec = {
+  id: string;
+  Icon: typeof Zap;
+  tagline: string;
+  process: string;
+  capacity: string[];
+  tolerances: string[];
+  materials: string[];
+  applications: string[];
+};
+
+const machineSpecs: MachineSpec[] = [
+  {
+    id: "fiber-laser",
+    Icon: Zap,
+    tagline: "5 kW IPG-class fiber laser — contour cutting from delicate jaali work to 20 mm structural plate on a single bed.",
+    process: "CNC fiber laser cutting with auto-focus head, assist-gas control (N₂ / O₂ / compressed air) and nested part programming from DXF / DWG / STEP.",
+    capacity: [
+      "Sheet size — 3000 × 1500 mm",
+      "Rapid traverse — up to 100 m/min",
+      "Nesting software — full-sheet material yield",
+      "Assist gases — N₂, O₂, compressed air",
+    ],
+    tolerances: [
+      "Positional accuracy ±0.05 mm",
+      "Repeatability ±0.03 mm",
+      "Kerf width 0.1 – 0.3 mm (material-dependent)",
+      "Edge squareness within ISO 9013 range 3–4",
+    ],
+    materials: [
+      "Mild Steel — up to 20 mm",
+      "Stainless Steel (304 / 316) — up to 12 mm",
+      "Aluminium — up to 8 mm",
+      "Brass & Copper — up to 6 mm",
+    ],
+    applications: ["Architectural jaalis", "Gate & railing panels", "Loco brackets", "Fabricated flanges & gussets"],
+  },
+  {
+    id: "cnc-press-brake",
+    Icon: Layers,
+    tagline: "Hydraulic CNC press brake — cold-formed bends without thermal deformation or sparks.",
+    process: "Cold forming with CNC back-gauge, servo-controlled ram descent and programmable bend sequence. Punch/die tooling library for V-bend, U-bend, hemming and off-set forming.",
+    capacity: [
+      "Bending length — up to 3200 mm",
+      "Press tonnage — heavy-plate class",
+      "Ram stroke with programmable dwell",
+      "Multi-axis CNC back-gauge",
+    ],
+    tolerances: [
+      "Bend angle ±0.5°",
+      "Bend length ±0.2 mm across the ram",
+      "Springback compensation programmed per material",
+      "Repeat accuracy across production runs",
+    ],
+    materials: [
+      "Mild Steel plate up to 12 mm",
+      "Stainless Steel plate up to 8 mm",
+      "Aluminium plate up to 10 mm",
+      "Pre-coated / galvanised sheet (protected tooling)",
+    ],
+    applications: ["Enclosures & panels", "Structural sections", "Pipeline covers & gusset plates", "Loco / railway trays"],
+  },
+  {
+    id: "three-roll-bender",
+    Icon: GitCommitHorizontal,
+    tagline: "Pyramid three-roll bender — controlled radii on pipe, tube and structural section without kinking.",
+    process: "Three-roll cold rolling with pyramid roll geometry. Progressive pinch of the top roll produces continuous, uniform curvature over long pieces. Suitable for arches, structural rings and pipeline segments.",
+    capacity: [
+      "Pipe & tube up to Ø 150 mm NB",
+      "Angle, channel, flat and square section",
+      "Rings, arches, spirals and large-radius curves",
+      "Long-piece feed with roller supports",
+    ],
+    tolerances: [
+      "Ovality < 3% on standard pipe",
+      "Radius accuracy ±1% of set radius",
+      "Uniform curvature end-to-end",
+      "Minimal springback with pre-set overbend",
+    ],
+    materials: [
+      "MS pipe / ERW / seamless",
+      "Stainless Steel pipe (304 / 316)",
+      "Structural sections — angle, channel, RHS",
+      "Non-ferrous tube on request",
+    ],
+    applications: ["Pipeline segments", "Structural arches & rings", "Balustrade curves", "Roll-cage frames"],
+  },
+  {
+    id: "cnc-machining",
+    Icon: Wrench,
+    tagline: "CNC turning, milling and boring — tight-tolerance machined parts is our core domain.",
+    process: "CNC lathes and machining centres running from CAM-generated tool paths. First-article inspection, in-process gauging and CMM verification for tolerance-critical loco and pipeline hardware.",
+    capacity: [
+      "CNC turning — chuck size up to 315 mm",
+      "CNC milling — 3-axis machining centre",
+      "Boring, drilling, tapping, threading",
+      "Batch production with tool-life management",
+    ],
+    tolerances: [
+      "General machining IT7 – IT8",
+      "Turned diameters ±0.02 mm",
+      "Bored bores H7 / H8",
+      "Surface finish Ra 1.6 – 3.2 μm",
+    ],
+    materials: [
+      "MS, EN-series alloy steel",
+      "Stainless Steel — 304 / 316 / 410",
+      "Cast iron & SG iron",
+      "Non-ferrous — brass, bronze, aluminium",
+    ],
+    applications: ["Pipeline flanges & fittings", "Loco brake gear pins & bushes", "Coupling components", "Fabricated hardware"],
+  },
+  {
+    id: "welding-fab",
+    Icon: Flame,
+    tagline: "Multi-station MIG / TIG / SMAW welding — pipeline, structural and loco assemblies.",
+    process: "Dedicated welding bays with jigs and fixtures for repeatable weldments. Qualified welders following ASME Sec IX / AWS D1.1 procedures on request. Root, hot-pass and cap sequencing on pipeline segments.",
+    capacity: [
+      "Multi-station bays (structural, pipeline, loco)",
+      "MIG (GMAW) — production speed",
+      "TIG (GTAW) — SS & thin-section precision",
+      "SMAW (arc) — heavy-plate & site prep",
+    ],
+    tolerances: [
+      "Fit-up gap 1.5 – 3 mm per WPS",
+      "Weld reinforcement 1 – 3 mm cap",
+      "Distortion controlled via jig & sequence",
+      "Visual & DPT acceptance to ASME / AWS",
+    ],
+    materials: [
+      "Carbon steel plate & pipe",
+      "Stainless Steel 304 / 316",
+      "Structural sections — RHS, ISMB, ISMC",
+      "Dissimilar joints with qualified WPS",
+    ],
+    applications: ["Pipeline spool fabrication", "Loco underframes & brackets", "Fabricated skids & hoppers", "Railway coach hardware"],
+  },
+  {
+    id: "powder-coating",
+    Icon: Sparkles,
+    tagline: "Seven-tank pre-treatment + oven-cured powder — architectural finishes at production scale.",
+    process: "Pre-treatment (degrease → derust → phosphate → passivate → rinse → DM rinse) followed by electrostatic powder spray and gas-fired convection oven cure. Colour-consistent batches across gates, railings and industrial parts.",
+    capacity: [
+      "Batch oven — accommodates gate & railing panels",
+      "Electrostatic spray booths",
+      "Full pre-treatment line",
+      "Colour library — RAL / architectural shades",
+    ],
+    tolerances: [
+      "Coating thickness 60 – 120 μm (DFT)",
+      "Adhesion — cross-cut Gt 0/1 (ISO 2409)",
+      "Impact & bend resistance per ASTM D2794",
+      "Gloss & colour matched to RAL reference",
+    ],
+    materials: [
+      "MS & GI substrates",
+      "Aluminium (Cr-free pre-treatment)",
+      "Polyester & epoxy-polyester powders",
+      "Architectural, industrial & textured finishes",
+    ],
+    applications: ["Gates & railings", "Facade panels & jaalis", "Industrial enclosures", "Loco hardware & brackets"],
+  },
+  {
+    id: "hot-dip-galv",
+    Icon: ShieldCheck,
+    tagline: "Coordinated hot-dip galvanizing (partner line) — corrosion protection for pipeline & structural work.",
+    process: "Batch hot-dip galvanizing per IS 4759 / ASTM A123: caustic degrease → acid pickle → flux → molten zinc immersion (~450 °C) → quench / passivate. Coordinated through our approved partner line with dispatch back to Maheshpur for inspection.",
+    capacity: [
+      "Kettle size accommodates pipeline & structural pieces",
+      "Batch scheduling with pre-treatment control",
+      "Passivation / chromate quench",
+      "Full documentation & inspection reports",
+    ],
+    tolerances: [
+      "Coating mass 610 g/m² (85 μm) typical",
+      "Coating adhesion per IS 2629",
+      "Uniform coverage — internal & external surfaces",
+      "Compliance with IS 4759 / ASTM A123",
+    ],
+    materials: [
+      "MS pipe & structural sections",
+      "Fabricated pipeline segments",
+      "Bolts, nuts and hardware",
+      "Structural gratings & handrails",
+    ],
+    applications: ["Buried / outdoor pipelines", "Structural steelwork", "Handrails & walkways", "Long-life industrial hardware"],
+  },
+];
+
+const specBucketMeta: {
+  key: keyof Pick<MachineSpec, "capacity" | "tolerances" | "materials" | "applications">;
+  label: string;
+  Icon: typeof Zap;
+}[] = [
+  { key: "capacity", label: "Capacity", Icon: Gauge },
+  { key: "tolerances", label: "Tolerances", Icon: Ruler },
+  { key: "materials", label: "Materials", Icon: Beaker },
+  { key: "applications", label: "Typical Applications", Icon: CircleDot },
+];
 
 export const Route = createFileRoute("/facilities")({
   head: () => {
