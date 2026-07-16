@@ -10,6 +10,7 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import { BrochureDownloadButton } from "@/components/brochure-download-button";
 import {
   categories,
   products,
@@ -214,6 +215,15 @@ function EmptyState({
   );
 }
 
+/* WebP variants are generated build-time under public/catalogue/ — every
+   jpg/png has a sibling .webp. Returned as the primary `<source>` in a
+   `<picture>` so modern browsers ship the smaller file automatically. */
+function toWebp(src: string): string | null {
+  const m = src.match(/^(.+)\.(jpe?g|png)(\?.*)?$/i);
+  if (!m) return null;
+  return `${m[1]}.webp${m[3] ?? ""}`;
+}
+
 /* ─── Product card (with image loading skeleton) ─── */
 function ProductCard({
   product,
@@ -227,6 +237,16 @@ function ProductCard({
   onOpen: () => void;
 }) {
   const [loaded, setLoaded] = useState(false);
+  const webp = toWebp(product.image);
+  const alt = category
+    ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""} by VEEPEE Engineers`
+    : `${product.name} by VEEPEE Engineers`;
+  const onKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onOpen();
+    }
+  };
   return (
     <motion.div
       layout
@@ -235,31 +255,34 @@ function ProductCard({
       initial="hidden"
       animate="show"
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
-      className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card cursor-pointer border border-white/5 hover:border-magenta/30 transition-all duration-500"
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${product.name}`}
+      onKeyDown={onKey}
+      className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card cursor-pointer border border-white/5 hover:border-magenta/30 transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
       onClick={onOpen}
     >
       {/* Shimmer skeleton while image loads */}
       {!loaded && (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-white/[0.08] to-white/[0.02] animate-pulse" />
       )}
-      <img
-        src={product.image}
-        alt={
-          category
-            ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""} by VEEPEE Engineers`
-            : `${product.name} by VEEPEE Engineers`
-        }
-        loading="lazy"
-        decoding="async"
-        width={640}
-        height={800}
-        sizes="(min-width: 1280px) 300px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-        onLoad={() => setLoaded(true)}
-        onError={() => setLoaded(true)}
-        className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1.2s] group-hover:scale-110 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-      />
+      <picture>
+        {webp && <source srcSet={webp} type="image/webp" />}
+        <img
+          src={product.image}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          width={640}
+          height={800}
+          sizes="(min-width: 1280px) 300px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1.2s] group-hover:scale-110 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      </picture>
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
       {category && (
         <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
@@ -300,6 +323,45 @@ function Lightbox({
   onPrev: () => void;
   onNext: () => void;
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const titleId = `lightbox-title-${product.id}`;
+
+  // Focus trap + keyboard shortcuts (Escape, ArrowLeft/Right, Tab).
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { e.preventDefault(); onClose(); return; }
+      if (e.key === "ArrowRight") { e.preventDefault(); onNext(); return; }
+      if (e.key === "ArrowLeft") { e.preventDefault(); onPrev(); return; }
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    document.addEventListener("keydown", handler);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = prevOverflow;
+      previouslyFocused?.focus?.();
+    };
+  }, [onClose, onNext, onPrev]);
+
+  const webp = toWebp(product.image);
+  const alt = category
+    ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""}`
+    : product.name;
+
   return (
     <motion.div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-xl p-4"
@@ -309,6 +371,10 @@ function Lightbox({
       onClick={onClose}
     >
       <motion.div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
         className="relative max-w-5xl w-full grid grid-cols-1 lg:grid-cols-[1fr_380px] bg-[#111] rounded-2xl overflow-hidden shadow-2xl border border-white/10"
         variants={scaleIn}
         initial="hidden"
@@ -318,18 +384,17 @@ function Lightbox({
       >
         {/* Image */}
         <div className="relative aspect-square lg:aspect-auto bg-black flex items-center justify-center min-h-[300px] lg:min-h-[500px]">
-          <img
-            src={product.image}
-            alt={
-              category
-                ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""}`
-                : product.name
-            }
-            decoding="async"
-            width={1200}
-            height={1200}
-            className="w-full h-full object-contain max-h-[70vh]"
-          />
+          <picture>
+            {webp && <source srcSet={webp} type="image/webp" />}
+            <img
+              src={product.image}
+              alt={alt}
+              decoding="async"
+              width={1200}
+              height={1200}
+              className="w-full h-full object-contain max-h-[70vh]"
+            />
+          </picture>
           {/* Nav arrows */}
           <button onClick={onPrev} aria-label="Previous product" className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta">
             <ChevronLeft className="h-5 w-5" />
@@ -346,7 +411,7 @@ function Lightbox({
               {iconMap[category.icon]} {category.shortName}
             </span>
           )}
-          <h3 className="font-display text-3xl text-white tracking-wide">{product.name}</h3>
+          <h3 id={titleId} className="font-display text-3xl text-white tracking-wide">{product.name}</h3>
 
           {product.material && (
             <div className="text-metallic text-sm font-body">
@@ -369,13 +434,13 @@ function Lightbox({
               href="https://wa.me/919125142400?text=Hi%2C%20I%27m%20interested%20in%20your%20product%3A%20"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-5 py-3 bg-[#25D366] text-white font-sans-brand text-sm uppercase tracking-[0.15em] rounded-lg hover:bg-[#1ebe5a] transition-all"
+              className="flex items-center justify-center gap-2 px-5 py-3 bg-[#25D366] text-white font-sans-brand text-sm uppercase tracking-[0.15em] rounded-lg hover:bg-[#1ebe5a] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta"
             >
               <Phone className="h-4 w-4" /> WhatsApp Enquiry
             </a>
             <a
               href="/#contact"
-              className="flex items-center justify-center gap-2 px-5 py-3 bg-magenta-gradient text-white font-sans-brand text-sm uppercase tracking-[0.15em] rounded-lg hover:shadow-magenta transition-all"
+              className="flex items-center justify-center gap-2 px-5 py-3 bg-magenta-gradient text-white font-sans-brand text-sm uppercase tracking-[0.15em] rounded-lg hover:shadow-magenta transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta"
             >
               Get Detailed Quote <ArrowRight className="h-4 w-4" />
             </a>
@@ -384,8 +449,10 @@ function Lightbox({
 
         {/* Close */}
         <button
+          ref={closeBtnRef}
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-black/60 hover:bg-magenta text-white transition-all z-10"
+          aria-label="Close product details"
+          className="absolute top-4 right-4 p-2 rounded-full bg-black/60 hover:bg-magenta text-white transition-all z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta"
         >
           <X className="h-5 w-5" />
         </button>
@@ -537,16 +604,7 @@ function CataloguePage() {
               </span>
             </div>
             <div className="mt-6">
-              <a
-                href="/api/brochure.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                download="VEEPEE-Engineers-Brochure.pdf"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-magenta/50 bg-magenta/5 hover:bg-magenta/15 text-white font-sans-brand text-xs uppercase tracking-[0.22em] transition-all"
-              >
-                <PackageSearch className="h-4 w-4 text-magenta" />
-                Download Full Brochure (PDF)
-              </a>
+              <BrochureDownloadButton />
             </div>
           </motion.div>
         </div>
@@ -710,16 +768,21 @@ function CataloguePage() {
                     aria-label={`Open ${cat.name} gallery — ${info.count} items`}
                     className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card border border-white/5 hover:border-magenta/40 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
                   >
-                    <img
-                      src={info.cover}
-                      alt={`${cat.name} — sample product from VEEPEE Engineers laser-cut catalogue`}
-                      loading="lazy"
-                      decoding="async"
-                      width={640}
-                      height={800}
-                      sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
-                    />
+                    <picture>
+                      {info.cover && toWebp(info.cover) && (
+                        <source srcSet={toWebp(info.cover)!} type="image/webp" />
+                      )}
+                      <img
+                        src={info.cover}
+                        alt={`${cat.name} — sample product from VEEPEE Engineers laser-cut catalogue`}
+                        loading="lazy"
+                        decoding="async"
+                        width={640}
+                        height={800}
+                        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
+                      />
+                    </picture>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                     <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
                       {iconMap[cat.icon]} {info.count} items

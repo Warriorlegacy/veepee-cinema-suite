@@ -16,6 +16,7 @@ import productRailing from "@/assets/product-railing.jpg";
 import productIndustrial from "@/assets/product-industrial.jpg";
 import projectHero from "@/assets/project-hero.jpg";
 import { ContactForm } from "@/components/contact-form";
+import { BrochureDownloadButton } from "@/components/brochure-download-button";
 import { ServiceImage } from "@/components/service-image";
 import { listServices } from "@/lib/services.functions";
 import { getServiceIcon } from "@/lib/service-icons";
@@ -261,15 +262,17 @@ export function Services() {
           <div className="absolute inset-y-0 left-0 w-1 bg-magenta-gradient" aria-hidden />
           <div className="flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.3em] mb-2">
             <span className="h-1.5 w-1.5 rounded-full bg-magenta animate-pulse" />
-            CNC Fabrication · Core Domain
+            The Machine Shop · Where Microns Matter
           </div>
           <p className="font-display text-2xl sm:text-3xl md:text-4xl text-white leading-tight">
-            "Tight-tolerance machined parts is{" "}
-            <span className="text-gradient-magenta">our core domain.</span>"
+            Cut a hair in half.{" "}
+            <span className="text-gradient-magenta">Then split the half.</span>{" "}
+            That's the tolerance we work to.
           </p>
           <p className="mt-3 text-metallic font-body text-sm sm:text-base max-w-3xl">
-            Turned, milled and bored components for pipeline fittings, fabricated assemblies and loco hardware —
-            first-article inspected, CMM-verified, delivered to drawing.
+            Every flange, pin, bush and bracket for pipeline, fabricated and loco assemblies is turned, milled and bored
+            on CNC — measured against the drawing, verified on the CMM, and shipped only after first-article sign-off.
+            No approximations, no "close enough."
           </p>
         </motion.div>
 
@@ -772,15 +775,10 @@ export function ContactCTA() {
             <a href="mailto:veepeeengr@gmail.com" className="flex items-center gap-3 px-5 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta">
               <Mail className="h-4 w-4" /> Email
             </a>
-            <a
-              href="/api/brochure.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              download="VEEPEE-Engineers-Brochure.pdf"
-              className="flex items-center gap-3 px-5 py-4 border border-magenta/50 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-magenta/10 transition-colors"
-            >
-              <FileDown className="h-4 w-4 text-magenta" /> Download Brochure (PDF)
-            </a>
+            <BrochureDownloadButton
+              className="flex items-center gap-3 px-5 py-4 border border-magenta/50 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-magenta/10 transition-colors disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
+              label="Download Brochure (PDF)"
+            />
 
             {[
               { icon: MapPin, label: "Workshop", value: "225/1 Maheshpur Industrial Estate, Varanasi 221106, Uttar Pradesh, India" },
