@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import {
   Hero, TrustBar, Services, Products, CatalogueCTA, Process,
-  FeaturedProject, Workshop, IndustriesTicker, Testimonials, ContactCTA, FAQSection,
+  FeaturedProject, Workshop, TechnicalSpecs, IndustriesTicker, Testimonials, ContactCTA, FAQSection,
 } from "@/components/home-sections";
 import heroImg from "@/assets/hero-sparks.jpg";
 
@@ -146,6 +146,7 @@ function Index() {
         <Process />
         <FeaturedProject />
         <Workshop />
+        <TechnicalSpecs />
         <IndustriesTicker />
         <Testimonials />
         <FAQSection />

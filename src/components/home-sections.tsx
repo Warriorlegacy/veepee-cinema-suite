@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import {
   ChevronDown, Zap, Cog, Hammer, Shield, Building2, Factory,
   Wrench, Droplets, ArrowRight, MessageCircle, Phone, Mail,
-  Star, MapPin, CheckCircle2, Sparkles, FileDown,
+  Star, MapPin, CheckCircle2, Sparkles, FileDown, Layers,
 } from "lucide-react";
 
 import hero from "@/assets/hero-sparks.jpg";
@@ -187,10 +187,10 @@ export function Hero() {
 
 /* ─────────── TRUST BAR ─────────── */
 const trustItems = [
+  { icon: Shield, text: "ISO 9001:2015" },
   { icon: Shield, text: "GST Registered" },
   { icon: CheckCircle2, text: "UDYAM Registered" },
   { icon: Sparkles, text: "Made in India" },
-  { icon: Factory, text: "Industrial Manufacturing" },
   { icon: Wrench, text: "Custom Engineering" },
 ];
 
@@ -690,7 +690,7 @@ export function Testimonials() {
   return (
     <section className="relative py-20 md:py-28">
       <div className="mx-auto max-w-[1100px] px-5 sm:px-6 text-center">
-        <SectionLabel number="06" label="Testimonials" center />
+        <SectionLabel number="07" label="Testimonials" center />
         <div className="flex justify-center gap-1 mb-6">
           {[...Array(5)].map((_, k) => (
             <Star key={k} className="h-5 w-5 fill-magenta text-magenta" />
@@ -746,7 +746,7 @@ export function ContactCTA() {
       </LazyClientCanvas>
       <div className="relative z-[2] mx-auto max-w-[1200px] px-5 sm:px-6">
         <div className="text-center">
-          <SectionLabel number="07" label="Get In Touch" center />
+          <SectionLabel number="08" label="Get In Touch" center />
           <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white leading-[0.95]">
             Get your quote <br /><span className="text-gradient-magenta">within 24 hours.</span>
           </h2>
@@ -1010,6 +1010,144 @@ export function FAQSection() {
           >
             <MessageCircle className="h-4 w-4" /> Chat on WhatsApp
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────── TECHNICAL CAPABILITIES & SPECIFICATIONS ─────────── */
+export function TechnicalSpecs() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
+  const specs = [
+    { material: "Mild Steel (MS)", thickness: "Up to 25 mm", process: "Fiber Laser / Plasma" },
+    { material: "Stainless Steel (SS)", thickness: "Up to 16 mm", process: "Fiber Laser (Nitrogen)" },
+    { material: "Aluminum", thickness: "Up to 12 mm", process: "Fiber Laser" },
+    { material: "Brass & Copper", thickness: "Up to 8 mm", process: "Fiber Laser" },
+    { material: "Galvanized Iron (GI)", thickness: "Up to 6 mm", process: "Fiber Laser / Plasma" },
+  ];
+
+  return (
+    <section ref={ref} id="specs" className="relative py-24 border-t border-white/5 bg-[#0B0B0B] overflow-hidden">
+      <div className="absolute inset-0 grid-overlay opacity-15" />
+      <div className="relative z-10 mx-auto max-w-[1400px] px-6">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <SectionLabel number="06" label="Technical Standards" />
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-white mt-4">
+            Industrial Specs. <br /><span className="text-magenta">Engineered to Tolerance.</span>
+          </h2>
+          <p className="mt-6 text-metallic font-body text-sm sm:text-base leading-relaxed">
+            We operate high-precision fiber laser cutting and bending machinery. Our workflow is optimized to meet the strict design tolerances required by engineering and procurement professionals.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 items-stretch">
+          {/* Capacities Table Card */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="glass rounded-xl p-8 border border-white/10 flex flex-col justify-between"
+          >
+            <div>
+              <h3 className="font-display text-2xl text-white tracking-wide mb-6 flex items-center gap-3">
+                <Layers className="h-5 w-5 text-magenta" /> Material Capacity Matrix
+              </h3>
+              <div className="divide-y divide-white/10">
+                {specs.map((s, idx) => (
+                  <div key={idx} className="py-4 flex justify-between items-center text-sm font-body">
+                    <span className="text-white font-medium">{s.material}</span>
+                    <div className="text-right">
+                      <span className="text-magenta block font-mono font-bold">{s.thickness}</span>
+                      <span className="text-xs text-metallic-dark block">{s.process}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-8 p-4 rounded bg-white/[0.02] border border-white/5 flex items-start gap-3">
+              <Sparkles className="h-5 w-5 text-magenta shrink-0 mt-0.5" />
+              <p className="text-xs text-metallic font-body leading-relaxed">
+                Need thickness levels beyond these specs? Contact us for specialized heavy-duty plasma or mechanical cutting options.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Machine & Quality Metrics Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col gap-6"
+          >
+            {/* System details */}
+            <div className="glass rounded-xl p-8 border border-white/10 flex-1">
+              <h3 className="font-display text-2xl text-white tracking-wide mb-6 flex items-center gap-3">
+                <Cog className="h-5 w-5 text-magenta animate-spin-slow" /> CNC Precision Standards
+              </h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <span className="text-xs text-metallic font-sans-brand tracking-widest uppercase block">Tolerances</span>
+                  <span className="font-display text-3xl text-white block mt-1">± 0.1 mm</span>
+                  <span className="text-[11px] text-metallic-dark font-body block mt-0.5">High-precision repeatability</span>
+                </div>
+                <div>
+                  <span className="text-xs text-metallic font-sans-brand tracking-widest uppercase block">Max Bed Size</span>
+                  <span className="font-display text-3xl text-white block mt-1">3000 × 1500</span>
+                  <span className="text-[11px] text-metallic-dark font-body block mt-0.5">Standard industrial sheets (mm)</span>
+                </div>
+                <div>
+                  <span className="text-xs text-metallic font-sans-brand tracking-widest uppercase block">Supported Formats</span>
+                  <span className="font-display text-lg sm:text-xl text-white block mt-2 font-mono">DXF · DWG · STEP</span>
+                  <span className="text-[11px] text-metallic-dark font-body block mt-0.5">Vector drawing imports</span>
+                </div>
+                <div>
+                  <span className="text-xs text-metallic font-sans-brand tracking-widest uppercase block">Laser Source</span>
+                  <span className="font-display text-3xl text-white block mt-1">5.0 kW</span>
+                  <span className="text-[11px] text-metallic-dark font-body block mt-0.5">Fiber laser generator</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Certifications and Trust credentials */}
+            <div className="glass rounded-xl p-8 border border-white/10">
+              <h3 className="font-display text-xl text-white tracking-wide mb-4 flex items-center gap-3">
+                <Shield className="h-5 w-5 text-magenta" /> Regulatory & Quality Trust
+              </h3>
+              <div className="grid grid-cols-2 gap-4 text-xs font-body">
+                <div className="flex items-center gap-2.5 p-3 rounded bg-white/[0.02] border border-white/5">
+                  <CheckCircle2 className="h-4 w-4 text-magenta shrink-0" />
+                  <div>
+                    <span className="text-white font-medium block">MSME Registered</span>
+                    <span className="text-[10px] text-metallic-dark">UDYAM-UP-75-0001103</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded bg-white/[0.02] border border-white/5">
+                  <CheckCircle2 className="h-4 w-4 text-magenta shrink-0" />
+                  <div>
+                    <span className="text-white font-medium block">GST Compliant</span>
+                    <span className="text-[10px] text-metallic-dark">09ABTPJ5945P1ZK</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded bg-white/[0.02] border border-white/5">
+                  <CheckCircle2 className="h-4 w-4 text-magenta shrink-0" />
+                  <div>
+                    <span className="text-white font-medium block">ISO 9001:2015</span>
+                    <span className="text-[10px] text-metallic-dark">Quality management</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded bg-white/[0.02] border border-white/5">
+                  <CheckCircle2 className="h-4 w-4 text-magenta shrink-0" />
+                  <div>
+                    <span className="text-white font-medium block">IndiaMART Verified</span>
+                    <span className="text-[10px] text-metallic-dark">TrustSEAL Verified</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

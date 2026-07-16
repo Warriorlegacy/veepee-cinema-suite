@@ -34,7 +34,7 @@ function pathFromPublicUrl(url: string): string | null {
 type GateSession = { unlocked?: boolean };
 
 const sessionConfig = () => ({
-  password: process.env.SESSION_SECRET!,
+  password: process.env.SESSION_SECRET || "a_secure_default_secret_phrase_for_local_development_32_chars",
   name: "vp-admin",
   maxAge: 60 * 60 * 24 * 30,
   cookie: {

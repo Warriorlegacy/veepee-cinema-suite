@@ -116,9 +116,15 @@ export function ContactForm() {
           name="message"
           rows={5}
           maxLength={1000}
-          placeholder="Drawings, sizes, quantities, timeline…"
+          placeholder="Describe your design, quantities, material thickness, or custom fabrication needs..."
           className="w-full bg-near-black border border-white/15 rounded-md px-3 py-3 text-white font-body text-sm focus:border-magenta focus:outline-none"
         />
+        <div className="mt-1.5 flex flex-wrap justify-between items-center gap-1 text-[11px] text-metallic font-body">
+          <span>Tip: You can attach your CAD drawings (.dxf, .dwg, .step) directly in the WhatsApp chat that opens.</span>
+          <span className="text-magenta font-sans-brand tracking-wider text-[10px] uppercase font-semibold">
+            ✦ DXF/DWG/STEP/PDF Accepted
+          </span>
+        </div>
         {errors.message && <p className="mt-1 text-xs text-magenta">{errors.message}</p>}
       </div>
       <button
