@@ -287,7 +287,6 @@ function Lightbox({
 /* ─── Main Page ─── */
 function CataloguePage() {
   const search = useSearch({ from: "/catalogue" });
-  const [view, setView] = useState<"products" | "facilities">(search.view ?? "products");
   const [activeCategory, setActiveCategory] = useState<string>(search.cat ?? "all");
   const [activeGroup, setActiveGroup] = useState<"all" | "architectural" | "industrial" | "decor" | "services">("all");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
@@ -297,13 +296,11 @@ function CataloguePage() {
   // React to nav-driven ?cat= changes.
   useEffect(() => {
     if (search.cat) {
-      setView("products");
       setActiveCategory(search.cat);
       const cat = categories.find((c) => c.id === search.cat);
       if (cat?.group) setActiveGroup(cat.group as typeof activeGroup);
     }
-    if (search.view === "facilities") setView("facilities");
-  }, [search.cat, search.view]);
+  }, [search.cat]);
 
   // Product-only categories, filtered by the active group.
   const productCategories = categories.filter((c) => (c.type ?? "product") === "product");
@@ -313,19 +310,28 @@ function CataloguePage() {
 
   const q = query.trim().toLowerCase();
 
+  const visibleAll = useMemo(() => getVisibleProducts(), []);
+
   const baseProducts = useMemo(
     () =>
       activeCategory === "all"
         ? (activeGroup === "all"
-            ? products
-            : products.filter((p) => {
+            ? visibleAll
+            : visibleAll.filter((p) => {
                 const cid = resolveCategoryId(p);
+                if (cid === HIDDEN_FROM_CATALOGUE) return false;
                 const cat = categories.find((c) => c.id === cid);
                 return cat?.group === activeGroup;
               }))
         : getProductsByCategory(activeCategory),
-    [activeCategory, activeGroup],
+    [activeCategory, activeGroup, visibleAll],
   );
+
+  // Landing-tile mode: architectural group has many sub-categories with
+  // very different aesthetics — show category tiles instead of one giant
+  // wall of mixed products. Prevents the "laser-cut mashup" chaos.
+  const showLandingTiles =
+    activeCategory === "all" && (activeGroup === "architectural" || activeGroup === "decor");
 
   const filteredProducts = useMemo(() => {
     if (!q) return baseProducts;
@@ -341,16 +347,19 @@ function CataloguePage() {
     });
   }, [baseProducts, q]);
 
-  const filteredFacilities = useMemo(() => {
-    if (!q) return facilities;
-    return facilities.filter(
-      (f) =>
-        f.name.toLowerCase().includes(q) ||
-        f.shortName.toLowerCase().includes(q) ||
-        f.spec.toLowerCase().includes(q) ||
-        f.description.toLowerCase().includes(q),
-    );
-  }, [q]);
+  // Category tile counts (only among visible / non-hidden products).
+  const categoryCounts = useMemo(() => {
+    const map = new Map<string, { count: number; cover?: string }>();
+    for (const p of visibleAll) {
+      const cid = resolveCategoryId(p);
+      const entry = map.get(cid) ?? { count: 0, cover: undefined };
+      entry.count += 1;
+      if (!entry.cover) entry.cover = p.image;
+      map.set(cid, entry);
+    }
+    return map;
+  }, [visibleAll]);
+
 
   const openLightbox = useCallback((idx: number) => setLightboxIdx(idx), []);
   const closeLightbox = useCallback(() => setLightboxIdx(null), []);
