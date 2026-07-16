@@ -401,11 +401,12 @@ function FacilitiesPage() {
               <motion.a
                 key={f.id}
                 href={`#specifications`}
+                aria-label={`Jump to detailed specifications for ${f.name}`}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="group relative block rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                className="group relative block rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
