@@ -317,15 +317,32 @@ function FacilitiesPage() {
       {/* MACHINE GRID */}
       <section className="py-16 bg-[#0A0A0A]">
         <div className="mx-auto max-w-[1400px] px-6">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 className="font-display text-3xl md:text-4xl text-white tracking-wide">
+                Plant Overview
+              </h2>
+              <p className="mt-2 text-metallic font-body text-sm max-w-xl">
+                Quick snapshot of every machine. Scroll down for detailed process, tolerance and material specs.
+              </p>
+            </div>
+            <a
+              href="#specifications"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-magenta/40 text-magenta hover:bg-magenta/10 text-[10px] font-sans-brand uppercase tracking-[0.22em] transition-all"
+            >
+              Jump to detailed specs <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {facilities.map((f, i) => (
-              <motion.div
+              <motion.a
                 key={f.id}
+                href={`#specifications`}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="group relative rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                className="group relative block rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
@@ -350,11 +367,16 @@ function FacilitiesPage() {
                   </span>
                   {f.capacity}
                 </div>
-              </motion.div>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.22em] opacity-0 group-hover:opacity-100 transition-opacity">
+                  View full spec <ArrowRight className="h-3 w-3" />
+                </span>
+              </motion.a>
             ))}
           </div>
         </div>
       </section>
+
+
 
       {/* DETAILED SPEC CARDS — per-machine process, capacity, tolerances, materials */}
       <section id="specifications" className="py-20 bg-near-black border-t border-white/5">
