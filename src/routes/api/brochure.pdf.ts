@@ -159,7 +159,7 @@ function drawCover(
   y -= 22;
   for (const line of items) {
     page.drawText(sanitize("•"), { x: MARGIN, y, size: 11, font: fonts.body, color: MAGENTA });
-    page.drawText(line, { x: MARGIN + 14, y, size: 10.5, font: fonts.body, color: MUTED });
+    page.drawText(sanitize(line), { x: MARGIN + 14, y, size: 10.5, font: fonts.body, color: MUTED });
     y -= 18;
   }
 
@@ -217,17 +217,17 @@ function drawCapabilities(
     let cy = cardTop - 20;
     page.drawText(sanitize(f.name), { x: MARGIN + 16, y: cy, size: 13, font: fonts.display, color: WHITE });
     cy -= 16;
-    page.drawText(f.spec.toUpperCase(), { x: MARGIN + 16, y: cy, size: 8, font: fonts.body, color: MAGENTA });
+    page.drawText(sanitize(f.spec.toUpperCase()), { x: MARGIN + 16, y: cy, size: 8, font: fonts.body, color: MAGENTA });
     cy -= 14;
     for (const line of descLines) {
-      page.drawText(line, { x: MARGIN + 16, y: cy, size: 10, font: fonts.body, color: rgb(0.85, 0.85, 0.88) });
+      page.drawText(sanitize(line), { x: MARGIN + 16, y: cy, size: 10, font: fonts.body, color: rgb(0.85, 0.85, 0.88) });
       cy -= 13;
     }
     cy -= 4;
-    page.drawText("CAPACITY", { x: MARGIN + 16, y: cy, size: 7.5, font: fonts.display, color: MUTED });
+    page.drawText(sanitize("CAPACITY"), { x: MARGIN + 16, y: cy, size: 7.5, font: fonts.display, color: MUTED });
     cy -= 11;
     for (const line of capLines) {
-      page.drawText(line, { x: MARGIN + 16, y: cy, size: 9.5, font: fonts.body, color: rgb(0.75, 0.75, 0.80) });
+      page.drawText(sanitize(line), { x: MARGIN + 16, y: cy, size: 9.5, font: fonts.body, color: rgb(0.75, 0.75, 0.80) });
       cy -= 12;
     }
 
@@ -288,7 +288,7 @@ function drawProductGroup(
     // Category · Material
     const meta = [cat?.shortName, p.material].filter(Boolean).join("  ·  ");
     if (meta) {
-      page.drawText(meta.toUpperCase(), { x: MARGIN + 16, y: cy, size: 7.5, font: fonts.body, color: MAGENTA });
+      page.drawText(sanitize(meta.toUpperCase()), { x: MARGIN + 16, y: cy, size: 7.5, font: fonts.body, color: MAGENTA });
     }
     // Price on the right
     if (p.priceRange) {
@@ -352,8 +352,8 @@ function drawContact(
     ["WORKSHOP", "225/1 Maheshpur Industrial Estate, Varanasi 221106"],
   ];
   for (const [label, value] of rows) {
-    page.drawText(label, { x: MARGIN, y, size: 8.5, font: fonts.display, color: MAGENTA });
-    page.drawText(value, { x: MARGIN + 90, y, size: 11, font: fonts.body, color: WHITE });
+    page.drawText(sanitize(label), { x: MARGIN, y, size: 8.5, font: fonts.display, color: MAGENTA });
+    page.drawText(sanitize(value), { x: MARGIN + 90, y, size: 11, font: fonts.body, color: WHITE });
     y -= 22;
   }
 
