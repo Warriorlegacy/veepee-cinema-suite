@@ -176,13 +176,39 @@ function Lightbox({
 
 /* ─── Main Page ─── */
 function CataloguePage() {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const search = useSearch({ from: "/catalogue" });
+  const [view, setView] = useState<"products" | "facilities">(search.view ?? "products");
+  const [activeCategory, setActiveCategory] = useState<string>(search.cat ?? "all");
+  const [activeGroup, setActiveGroup] = useState<"all" | "architectural" | "industrial" | "decor" | "services">("all");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
 
+  // React to nav-driven ?cat= changes.
+  useEffect(() => {
+    if (search.cat) {
+      setView("products");
+      setActiveCategory(search.cat);
+      const cat = categories.find((c) => c.id === search.cat);
+      if (cat?.group) setActiveGroup(cat.group as typeof activeGroup);
+    }
+    if (search.view === "facilities") setView("facilities");
+  }, [search.cat, search.view]);
+
+  // Product-only categories, filtered by the active group.
+  const productCategories = categories.filter((c) => (c.type ?? "product") === "product");
+  const visibleCategories = activeGroup === "all"
+    ? productCategories
+    : productCategories.filter((c) => c.group === activeGroup);
+
   const filteredProducts =
     activeCategory === "all"
-      ? products
+      ? (activeGroup === "all"
+          ? products
+          : products.filter((p) => {
+              const cid = resolveCategoryId(p);
+              const cat = categories.find((c) => c.id === cid);
+              return cat?.group === activeGroup;
+            }))
       : getProductsByCategory(activeCategory);
 
   const openLightbox = useCallback((idx: number) => setLightboxIdx(idx), []);
@@ -198,6 +224,15 @@ function CataloguePage() {
   );
 
   const activeCat = categories.find((c) => c.id === activeCategory);
+
+  const groups: { id: typeof activeGroup; label: string }[] = [
+    { id: "all", label: "All" },
+    { id: "architectural", label: "Architectural & Laser-Cut" },
+    { id: "industrial", label: "Pipeline · Fabricated · Loco" },
+    { id: "decor", label: "Décor & Art" },
+    { id: "services", label: "Services" },
+  ];
+
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
