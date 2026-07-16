@@ -25,6 +25,7 @@ import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as DebugResponsivenessRouteImport } from './routes/debug.responsiveness'
 import { Route as DebugImagesRouteImport } from './routes/debug.images'
 import { Route as DebugCanvasRouteImport } from './routes/debug.canvas'
+import { Route as ApiBrochureDotpdfRouteImport } from './routes/api/brochure[.]pdf'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -107,6 +108,11 @@ const DebugCanvasRoute = DebugCanvasRouteImport.update({
   path: '/debug/canvas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiBrochureDotpdfRoute = ApiBrochureDotpdfRouteImport.update({
+  id: '/api/brochure.pdf',
+  path: '/api/brochure.pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAnalyticsRoute = ApiPublicAnalyticsRouteImport.update({
   id: '/api/public/analytics',
   path: '/api/public/analytics',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
   '/debug/responsiveness': typeof DebugResponsivenessRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
   '/debug/responsiveness': typeof DebugResponsivenessRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap-services.xml': typeof SitemapServicesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/brochure.pdf': typeof ApiBrochureDotpdfRoute
   '/debug/canvas': typeof DebugCanvasRoute
   '/debug/images': typeof DebugImagesRoute
   '/debug/responsiveness': typeof DebugResponsivenessRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/api/brochure.pdf'
     | '/debug/canvas'
     | '/debug/images'
     | '/debug/responsiveness'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/api/brochure.pdf'
     | '/debug/canvas'
     | '/debug/images'
     | '/debug/responsiveness'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap-services.xml'
     | '/sitemap.xml'
+    | '/api/brochure.pdf'
     | '/debug/canvas'
     | '/debug/images'
     | '/debug/responsiveness'
@@ -243,6 +255,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapServicesDotxmlRoute: typeof SitemapServicesDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiBrochureDotpdfRoute: typeof ApiBrochureDotpdfRoute
   DebugCanvasRoute: typeof DebugCanvasRoute
   DebugImagesRoute: typeof DebugImagesRoute
   DebugResponsivenessRoute: typeof DebugResponsivenessRoute
@@ -364,6 +377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DebugCanvasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/brochure.pdf': {
+      id: '/api/brochure.pdf'
+      path: '/api/brochure.pdf'
+      fullPath: '/api/brochure.pdf'
+      preLoaderRoute: typeof ApiBrochureDotpdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/analytics': {
       id: '/api/public/analytics'
       path: '/api/public/analytics'
@@ -398,6 +418,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapServicesDotxmlRoute: SitemapServicesDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiBrochureDotpdfRoute: ApiBrochureDotpdfRoute,
   DebugCanvasRoute: DebugCanvasRoute,
   DebugImagesRoute: DebugImagesRoute,
   DebugResponsivenessRoute: DebugResponsivenessRoute,

@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import {
   ChevronDown, Zap, Cog, Hammer, Shield, Building2, Factory,
   Wrench, Droplets, ArrowRight, MessageCircle, Phone, Mail,
-  Star, MapPin, CheckCircle2, Sparkles,
+  Star, MapPin, CheckCircle2, Sparkles, FileDown,
 } from "lucide-react";
 
 import hero from "@/assets/hero-sparks.jpg";
@@ -249,10 +249,33 @@ export function Services() {
         >
           We shape <span className="text-magenta">steel</span> into possibilities.
         </motion.h2>
-        <p className="mt-5 max-w-2xl text-metallic font-body text-sm sm:text-base">
-          Integrated capabilities under one roof — from a single laser-cut sheet to full architectural installations.{" "}
-          <span className="text-white/90 font-medium">Tight-tolerance machined parts is our core domain</span> —
-          the backbone of our CNC Fabrication line for pipeline, fabricated and loco components.
+
+        {/* CNC core-domain banner — the tight-tolerance tagline as a first-class statement */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="mt-8 relative overflow-hidden rounded-2xl border border-magenta/40 bg-gradient-to-r from-magenta/10 via-magenta/5 to-transparent p-5 sm:p-6 max-w-4xl"
+        >
+          <div className="absolute inset-y-0 left-0 w-1 bg-magenta-gradient" aria-hidden />
+          <div className="flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.3em] mb-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-magenta animate-pulse" />
+            CNC Fabrication · Core Domain
+          </div>
+          <p className="font-display text-2xl sm:text-3xl md:text-4xl text-white leading-tight">
+            "Tight-tolerance machined parts is{" "}
+            <span className="text-gradient-magenta">our core domain.</span>"
+          </p>
+          <p className="mt-3 text-metallic font-body text-sm sm:text-base max-w-3xl">
+            Turned, milled and bored components for pipeline fittings, fabricated assemblies and loco hardware —
+            first-article inspected, CMM-verified, delivered to drawing.
+          </p>
+        </motion.div>
+
+        <p className="mt-6 max-w-2xl text-metallic font-body text-sm sm:text-base">
+          Integrated capabilities under one roof — from a single laser-cut sheet to full architectural installations,
+          backed by our CNC Fabrication line for Pipeline, Fabricated and Loco products.
         </p>
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -748,6 +771,15 @@ export function ContactCTA() {
             </a>
             <a href="mailto:veepeeengr@gmail.com" className="flex items-center gap-3 px-5 py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-white/5 hover:border-magenta">
               <Mail className="h-4 w-4" /> Email
+            </a>
+            <a
+              href="/api/brochure.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              download="VEEPEE-Engineers-Brochure.pdf"
+              className="flex items-center gap-3 px-5 py-4 border border-magenta/50 text-white font-sans-brand uppercase tracking-[0.2em] text-sm rounded-md hover:bg-magenta/10 transition-colors"
+            >
+              <FileDown className="h-4 w-4 text-magenta" /> Download Brochure (PDF)
             </a>
 
             {[

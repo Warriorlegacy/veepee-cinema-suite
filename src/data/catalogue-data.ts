@@ -1432,7 +1432,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_pl_1",
       "categoryId": "pipeline-products",
       "name": "Puddle Flange for Concrete Wall Penetration",
-      "image": "/catalogue/industrial/catalogue-1.jpeg",
+      "image": "/catalogue/generated/p_pl_1.jpg",
       "priceRange": "₹3,500 – ₹18,000/piece",
       "material": "Mild Steel (Epoxy Coated)",
       "description": "Weld-fabricated puddle flange with anchor ring, engineered for water-tight pipe penetration through concrete overhead tanks, sump walls and rising-main chambers. Available in DN 100 to DN 800."
@@ -1441,7 +1441,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_pl_2",
       "categoryId": "pipeline-products",
       "name": "Dismantling Joint (DN 100 – DN 600)",
-      "image": "/catalogue/industrial/catalogue-3.jpeg",
+      "image": "/catalogue/generated/p_pl_2.jpg",
       "priceRange": "₹6,500 – ₹42,000/piece",
       "material": "MS body · EPDM sealing · SS 304 tie-rods",
       "description": "Flanged dismantling joint with axial adjustment, giving pipeline maintenance teams the working space to remove valves and pumps without cutting pipe. Built to IS 8329 / BS EN standards."
@@ -1450,7 +1450,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_pl_3",
       "categoryId": "pipeline-products",
       "name": "Bell Mouth & Concentric Reducer",
-      "image": "/catalogue/industrial/cat-9.jpeg",
+      "image": "/catalogue/generated/p_pl_3.jpg",
       "priceRange": "₹2,800 – ₹22,000/piece",
       "material": "Mild Steel · Coated",
       "description": "CNC-rolled and welded bell-mouth pipe ends and concentric reducers for intake structures, pump suctions and rising-main transitions. Radiographed welds on request."
@@ -1459,7 +1459,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_pl_4",
       "categoryId": "pipeline-products",
       "name": "Fabricated Penstock Gate Assembly",
-      "image": "/catalogue/industrial/catalogue-2.jpeg",
+      "image": "/catalogue/generated/p_pl_4.jpg",
       "priceRange": "₹35,000 – ₹1,80,000/gate",
       "material": "Mild Steel Frame · SS Sealing Face",
       "description": "Rising-stem penstock / sluice gate fabricated for small hydel, irrigation off-takes and STP inlets. Machined stainless sealing faces, epoxy-coated body and rising-stem handwheel."
@@ -1468,7 +1468,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_pl_5",
       "categoryId": "pipeline-products",
       "name": "Coated MS Pipe Segment (Rising Main)",
-      "image": "/catalogue/industrial/catalogue-2.jpeg",
+      "image": "/catalogue/generated/p_pl_5.jpg",
       "priceRange": "₹18,000 – ₹95,000/segment",
       "material": "Mild Steel · 3-Layer PE / Coal-Tar Epoxy",
       "description": "Rolled and longitudinally-welded MS pipe segments up to 1200 mm diameter, externally coated for buried water-supply rising mains and industrial fluid transfer. Hydro-tested per IS 3589."
@@ -1477,7 +1477,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_pl_6",
       "categoryId": "pipeline-products",
       "name": "Tapping Saddle & Branch Tee Fabrication",
-      "image": "/catalogue/industrial/cat-14.jpeg",
+      "image": "/catalogue/generated/p_pl_6.jpg",
       "priceRange": "₹1,800 – ₹9,500/piece",
       "material": "Mild Steel",
       "description": "Custom-fabricated saddle tees and branch off-takes for live pipeline tapping and network extensions. Made to project drawing, drilled and coated in-house."
@@ -1488,7 +1488,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_fb_1",
       "categoryId": "fabricated-products",
       "name": "Structural Base Plates & Gusseted Column Bases",
-      "image": "/catalogue/industrial/cat-10.jpeg",
+      "image": "/catalogue/generated/p_fb_1.jpg",
       "priceRange": "₹1,500 – ₹12,000/piece",
       "material": "Mild Steel (Machined)",
       "description": "CNC-cut base plates with welded stiffener gussets and drilled bolt patterns for structural steel columns, canopy legs and equipment skids. Delivered ready to grout."
@@ -1497,7 +1497,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_fb_2",
       "categoryId": "fabricated-products",
       "name": "Heavy-Duty Perforated Cable Tray & Ladder",
-      "image": "/catalogue/industrial/cat-11.jpeg",
+      "image": "/catalogue/generated/p_fb_2.jpg",
       "priceRange": "₹850 – ₹3,200/running metre",
       "material": "Mild Steel · Hot-Dip Galvanized or Powder Coated",
       "description": "Ladder-type and perforated cable trays fabricated to plant elevation drawings, complete with bends, tees, reducers and covers. Standard widths 100–900 mm."
@@ -1506,7 +1506,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_fb_3",
       "categoryId": "fabricated-products",
       "name": "Storage Tank Saddle Supports",
-      "image": "/catalogue/industrial/cat-13.jpeg",
+      "image": "/catalogue/generated/p_fb_3.jpg",
       "priceRange": "₹6,500 – ₹42,000/pair",
       "material": "Mild Steel · Wear-Pad Reinforced",
       "description": "Fabricated saddle supports for horizontal storage tanks and pressure vessels, engineered to Zick analysis for the vessel diameter and load. Wear-pad reinforced and coated."
@@ -1515,7 +1515,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_fb_4",
       "categoryId": "fabricated-products",
       "name": "Equipment Skid-Mounted Base Frame",
-      "image": "/catalogue/industrial/imgi_18_d1dc306b-82eb-4215-ae47-071d70b3058f.jpeg",
+      "image": "/catalogue/generated/p_fb_4.jpg",
       "priceRange": "₹35,000 – ₹2,50,000/skid",
       "material": "Structural Steel (ISMB / ISMC sections)",
       "description": "Welded skid base frames for pump sets, DG sets and process equipment. Machined mounting pads, lifting lugs and drip trays fabricated in-house to drawing."
@@ -1524,7 +1524,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_fb_5",
       "categoryId": "fabricated-products",
       "name": "Industrial Ladder, Cage & Platform Assembly",
-      "image": "/catalogue/industrial/cat-11.jpeg",
+      "image": "/catalogue/generated/p_fb_5.jpg",
       "priceRange": "₹18,000 – ₹1,20,000/assembly",
       "material": "Mild Steel · Chequered Plate · Galvanized",
       "description": "Access ladders with safety cages, intermediate landings and grating platforms for tank tops, silos and process floors. Handrail per IS 3696, chequered plate treads."
@@ -1533,7 +1533,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_fb_6",
       "categoryId": "fabricated-products",
       "name": "Heavy-Duty Hopper & Chute Fabrication",
-      "image": "/catalogue/industrial/cat-12.jpeg",
+      "image": "/catalogue/generated/p_fb_6.jpg",
       "priceRange": "₹22,000 – ₹1,50,000/piece",
       "material": "Mild Steel · Wear-Liner Options",
       "description": "Welded conical and pyramidal hoppers, transfer chutes and diverter gates for material-handling plants. Wear-liner (Hardox / bisplate) inserts on request."
@@ -1544,7 +1544,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_lc_1",
       "categoryId": "loco-products",
       "name": "Bogie Side-Frame Bracket & Suspension Fitting",
-      "image": "/catalogue/industrial/cat-7.jpeg",
+      "image": "/catalogue/generated/p_lc_1.jpg",
       "priceRange": "On Enquiry",
       "material": "Cast / Fabricated Mild Steel · Machined",
       "description": "Machined brackets and suspension fittings for coach and wagon bogies, built to railway drawing with IGM / RDSO-grade weld procedures and dimensional inspection."
@@ -1553,7 +1553,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_lc_2",
       "categoryId": "loco-products",
       "name": "Brake Gear Fulcrum & Hanger Bracket",
-      "image": "/catalogue/industrial/cat-8.jpeg",
+      "image": "/catalogue/generated/p_lc_2.jpg",
       "priceRange": "On Enquiry",
       "material": "Mild Steel · Case-Hardened Bushes",
       "description": "Brake gear fulcrums, hangers and pull-rod ends fabricated and machined for locomotive and rolling-stock brake linkages. Bushes case-hardened, faces machined to tolerance."
@@ -1562,7 +1562,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_lc_3",
       "categoryId": "loco-products",
       "name": "Coach Door Hinges, Latches & Hardware",
-      "image": "/catalogue/industrial/imgi_20_unnamed.jpg",
+      "image": "/catalogue/generated/p_lc_3.jpg",
       "priceRange": "On Enquiry",
       "material": "Mild Steel · Stainless Steel",
       "description": "Precision-machined coach door hinges, latches, footsteps and grab-rail fittings supplied against railway workshop indents. Batch-traceable and inspected."
@@ -1571,7 +1571,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_lc_4",
       "categoryId": "loco-products",
       "name": "Buffer Housing & Draft Gear Components",
-      "image": "/catalogue/industrial/imgi_16_cc7c5b25-bb16-4f12-badc-387a937a0dee.jpeg",
+      "image": "/catalogue/generated/p_lc_4.jpg",
       "priceRange": "On Enquiry",
       "material": "Fabricated / Cast Steel",
       "description": "Buffer housings, spring pockets and draft-gear brackets — machined bore faces, drilled and reamed to drawing for coach and wagon underframe assemblies."
@@ -1580,7 +1580,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_lc_5",
       "categoryId": "loco-products",
       "name": "Traction Motor Mounting Bracket",
-      "image": "/catalogue/industrial/cat-10.jpeg",
+      "image": "/catalogue/generated/p_lc_5.jpg",
       "priceRange": "On Enquiry",
       "material": "Mild Steel · Machined Mating Faces",
       "description": "Heavy-fabricated traction motor mount brackets with machined interface pads and bolt-hole patterns to loco drawing. Post-weld heat treated on request."
@@ -1589,7 +1589,7 @@ export const products: CatalogueProduct[] = [
       "id": "p_lc_6",
       "categoryId": "loco-products",
       "name": "Railway Underframe & Sub-Assembly Fabrication",
-      "image": "/catalogue/industrial/imgi_18_d1dc306b-82eb-4215-ae47-071d70b3058f.jpeg",
+      "image": "/catalogue/generated/p_lc_6.jpg",
       "priceRange": "On Enquiry",
       "material": "Structural Steel · Certified Welders",
       "description": "Sub-assembly fabrication for coach and wagon underframes, cross-members and end-walls. Certified welders, jig-controlled fit-up and inspection at every stage."
