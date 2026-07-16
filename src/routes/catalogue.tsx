@@ -356,7 +356,7 @@ function CataloguePage() {
 
       {/* ── Category Description ── */}
       <AnimatePresence mode="wait">
-        {activeCat && (
+        {view === "products" && activeCat && (
           <motion.section
             key={activeCat.id}
             initial={{ opacity: 0, height: 0 }}
@@ -383,6 +383,64 @@ function CataloguePage() {
           </motion.section>
         )}
       </AnimatePresence>
+
+      {/* ── FACILITIES GRID (Infrastructure & Facilities view) ── */}
+      {view === "facilities" && (
+        <section className="py-12 bg-[#0A0A0A]">
+          <div className="mx-auto max-w-[1400px] px-6">
+            <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <h2 className="font-display text-3xl md:text-4xl text-white">
+                  Infrastructure & <span className="text-gradient-magenta">Facilities</span>
+                </h2>
+                <p className="mt-2 text-metallic font-body text-sm max-w-2xl">
+                  Our machinery and processing capacities. These are capabilities — not products for sale — so we keep them cleanly separated from the product catalogue.
+                </p>
+              </div>
+              <span className="px-3 py-1.5 border border-magenta/30 rounded text-[10px] font-sans-brand uppercase tracking-[0.22em] text-magenta">
+                Maheshpur Industrial Estate · Varanasi
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {facilities.map((f, i) => (
+                <motion.div
+                  key={f.id}
+                  custom={i}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: "-50px" }}
+                  className="group relative rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
+                      <Factory className="h-5 w-5" />
+                    </div>
+                    <span className="text-[10px] font-sans-brand uppercase tracking-[0.25em] text-magenta">
+                      {f.shortName}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl text-white tracking-wide leading-tight">
+                    {f.name}
+                  </h3>
+                  <p className="mt-2 text-[11px] font-sans-brand uppercase tracking-[0.2em] text-white/70">
+                    {f.spec}
+                  </p>
+                  <p className="mt-3 text-sm text-metallic font-body leading-relaxed">
+                    {f.description}
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-white/5 text-xs font-body text-white/60">
+                    <span className="text-white/40 uppercase tracking-[0.2em] text-[9px] font-sans-brand block mb-1">Capacity</span>
+                    {f.capacity}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
 
       {/* ── PRODUCT GRID ── */}
       <section className="py-12 bg-[#0A0A0A]">
