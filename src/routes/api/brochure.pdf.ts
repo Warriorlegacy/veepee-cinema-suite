@@ -251,7 +251,7 @@ function drawProductGroup(
   );
 
   if (rows.length === 0) {
-    page.drawText("Catalogue in progress — contact us for current SKUs and drawings.", {
+    page.drawText(sanitize("Catalogue in progress — contact us for current SKUs and drawings."), {
       x: MARGIN, y, size: 10, font: fonts.italic, color: MUTED,
     });
     drawPageFooter(page, fonts);
