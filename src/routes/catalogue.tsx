@@ -1,10 +1,11 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import {
   X, ArrowRight, Grid3X3, DoorOpen, Fence,
   Church, Paintbrush, CircleDot, Wind, Cog, Gift,
   ChevronLeft, ChevronRight, IndianRupee, Phone, Building, Factory,
+  Search, PackageSearch,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -20,13 +21,20 @@ import {
 } from "@/data/catalogue-data";
 
 
-type CatalogueSearch = { cat?: string; view?: "products" | "facilities" };
+type CatalogueSearch = { cat?: string; view?: "products" | "facilities"; q?: string };
+
+const validCategoryIds = new Set(categories.map((c) => c.id));
 
 export const Route = createFileRoute("/catalogue")({
-  validateSearch: (s: Record<string, unknown>): CatalogueSearch => ({
-    cat: typeof s.cat === "string" ? s.cat : undefined,
-    view: s.view === "facilities" ? "facilities" : "products",
-  }),
+  validateSearch: (s: Record<string, unknown>): CatalogueSearch => {
+    const rawCat = typeof s.cat === "string" ? s.cat : undefined;
+    const cat = rawCat && (rawCat === "all" || validCategoryIds.has(rawCat)) ? rawCat : undefined;
+    return {
+      cat,
+      view: s.view === "facilities" ? "facilities" : "products",
+      q: typeof s.q === "string" ? s.q.slice(0, 80) : undefined,
+    };
+  },
   head: () => ({
     meta: [
       { title: "Product Catalogue — VEEPEE Engineers · Pipeline · Fabricated · Loco · Architectural" },
@@ -73,7 +81,107 @@ const scaleIn = {
   exit: { opacity: 0, scale: 0.92, transition: { duration: 0.3 } },
 };
 
-/* ─── Lightbox ─── */
+/* ─── Empty state ─── */
+function EmptyState({
+  title,
+  message,
+  onReset,
+  resetLabel = "Clear search",
+}: {
+  title: string;
+  message: string;
+  onReset?: () => void;
+  resetLabel?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="mx-auto max-w-lg text-center py-16 px-6 rounded-2xl border border-dashed border-white/10 bg-white/[0.02]"
+    >
+      <div className="mx-auto mb-4 h-14 w-14 grid place-items-center rounded-full bg-magenta/10 border border-magenta/20 text-magenta">
+        <PackageSearch className="h-6 w-6" />
+      </div>
+      <h3 className="font-display text-xl text-white tracking-wide">{title}</h3>
+      <p className="mt-2 text-metallic font-body text-sm leading-relaxed">{message}</p>
+      {onReset && (
+        <button
+          onClick={onReset}
+          className="mt-5 inline-flex items-center gap-2 px-4 py-2 text-[11px] font-sans-brand uppercase tracking-[0.22em] rounded-full bg-magenta-gradient text-white hover:shadow-magenta transition-all"
+        >
+          {resetLabel} <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+      )}
+    </motion.div>
+  );
+}
+
+/* ─── Product card (with image loading skeleton) ─── */
+function ProductCard({
+  product,
+  category,
+  idx,
+  onOpen,
+}: {
+  product: CatalogueProduct;
+  category?: CatalogueCategory;
+  idx: number;
+  onOpen: () => void;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <motion.div
+      layout
+      custom={idx}
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
+      className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card cursor-pointer border border-white/5 hover:border-magenta/30 transition-all duration-500"
+      onClick={onOpen}
+    >
+      {/* Shimmer skeleton while image loads */}
+      {!loaded && (
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-white/[0.08] to-white/[0.02] animate-pulse" />
+      )}
+      <img
+        src={product.image}
+        alt={product.name}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+        className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1.2s] group-hover:scale-110 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+      {category && (
+        <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
+          {iconMap[category.icon]}
+          {category.shortName}
+        </span>
+      )}
+      <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-sm text-white/90 text-[10px] font-sans-brand tracking-wider border border-white/10">
+        {product.priceRange.split("–")[0]}
+      </span>
+      <div className="absolute bottom-0 left-0 right-0 p-4">
+        <h3 className="font-display text-lg text-white tracking-wide leading-tight">
+          {product.name}
+        </h3>
+        {product.material && (
+          <p className="text-[11px] text-metallic font-body mt-1">{product.material}</p>
+        )}
+        <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.25em] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          View Details <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+        </div>
+      </div>
+      <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/5 group-hover:ring-magenta/20 transition-all duration-500" />
+    </motion.div>
+  );
+}
+
+
 function Lightbox({
   product,
   category,
@@ -181,6 +289,7 @@ function CataloguePage() {
   const [activeCategory, setActiveCategory] = useState<string>(search.cat ?? "all");
   const [activeGroup, setActiveGroup] = useState<"all" | "architectural" | "industrial" | "decor" | "services">("all");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const [query, setQuery] = useState<string>(search.q ?? "");
   const filterRef = useRef<HTMLDivElement>(null);
 
   // React to nav-driven ?cat= changes.
@@ -200,16 +309,46 @@ function CataloguePage() {
     ? productCategories
     : productCategories.filter((c) => c.group === activeGroup);
 
-  const filteredProducts =
-    activeCategory === "all"
-      ? (activeGroup === "all"
-          ? products
-          : products.filter((p) => {
-              const cid = resolveCategoryId(p);
-              const cat = categories.find((c) => c.id === cid);
-              return cat?.group === activeGroup;
-            }))
-      : getProductsByCategory(activeCategory);
+  const q = query.trim().toLowerCase();
+
+  const baseProducts = useMemo(
+    () =>
+      activeCategory === "all"
+        ? (activeGroup === "all"
+            ? products
+            : products.filter((p) => {
+                const cid = resolveCategoryId(p);
+                const cat = categories.find((c) => c.id === cid);
+                return cat?.group === activeGroup;
+              }))
+        : getProductsByCategory(activeCategory),
+    [activeCategory, activeGroup],
+  );
+
+  const filteredProducts = useMemo(() => {
+    if (!q) return baseProducts;
+    return baseProducts.filter((p) => {
+      const cid = resolveCategoryId(p);
+      const cat = categories.find((c) => c.id === cid);
+      return (
+        p.name.toLowerCase().includes(q) ||
+        (p.material?.toLowerCase().includes(q) ?? false) ||
+        (cat?.name.toLowerCase().includes(q) ?? false) ||
+        (cat?.shortName.toLowerCase().includes(q) ?? false)
+      );
+    });
+  }, [baseProducts, q]);
+
+  const filteredFacilities = useMemo(() => {
+    if (!q) return facilities;
+    return facilities.filter(
+      (f) =>
+        f.name.toLowerCase().includes(q) ||
+        f.shortName.toLowerCase().includes(q) ||
+        f.spec.toLowerCase().includes(q) ||
+        f.description.toLowerCase().includes(q),
+    );
+  }, [q]);
 
   const openLightbox = useCallback((idx: number) => setLightboxIdx(idx), []);
   const closeLightbox = useCallback(() => setLightboxIdx(null), []);
@@ -218,6 +357,7 @@ function CataloguePage() {
     (dir: 1 | -1) => {
       if (lightboxIdx === null) return;
       const len = filteredProducts.length;
+      if (len === 0) return;
       setLightboxIdx((lightboxIdx + dir + len) % len);
     },
     [lightboxIdx, filteredProducts.length]
@@ -232,6 +372,8 @@ function CataloguePage() {
     { id: "decor", label: "Décor & Art" },
     { id: "services", label: "Services" },
   ];
+
+
 
 
   return (
@@ -280,78 +422,126 @@ function CataloguePage() {
       {/* ── PRIMARY TOGGLE: Product Catalog vs Infrastructure & Facilities ── */}
       <section className="sticky top-[64px] z-40 bg-[#0A0A0A]/95 backdrop-blur-lg border-b border-white/5">
         <div className="mx-auto max-w-[1400px] px-6 py-3 flex flex-col gap-3">
-          {/* Toggle */}
-          <div className="flex items-center gap-2">
-            <div className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.02]">
+          {/* Toggle + Search */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <div
+              role="tablist"
+              aria-label="Catalogue view"
+              className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.03] shadow-inner"
+            >
               <button
+                role="tab"
+                aria-selected={view === "products"}
                 onClick={() => setView("products")}
                 className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "products" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
+                  view === "products"
+                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
+                    : "text-metallic hover:text-white hover:bg-white/5"
                 }`}
               >
                 <Grid3X3 className="h-3.5 w-3.5" /> Product Catalog
               </button>
               <button
+                role="tab"
+                aria-selected={view === "facilities"}
                 onClick={() => setView("facilities")}
                 className={`flex items-center gap-2 px-4 py-2 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-full transition-all ${
-                  view === "facilities" ? "bg-magenta-gradient text-white shadow-magenta" : "text-metallic hover:text-white"
+                  view === "facilities"
+                    ? "bg-magenta-gradient text-white shadow-magenta ring-1 ring-magenta/40"
+                    : "text-metallic hover:text-white hover:bg-white/5"
                 }`}
               >
                 <Factory className="h-3.5 w-3.5" /> Infrastructure & Facilities
               </button>
+            </div>
+
+            {/* Live search */}
+            <div className="relative flex-1 min-w-[200px] max-w-md ml-auto">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-metallic/60 pointer-events-none" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={view === "products" ? "Search products, materials, categories…" : "Search machines, capacities…"}
+                aria-label="Search catalogue"
+                className="w-full pl-9 pr-9 py-2 rounded-full bg-white/[0.04] border border-white/10 focus:border-magenta/60 focus:ring-2 focus:ring-magenta/20 outline-none text-sm text-white placeholder:text-metallic/50 font-body transition-all"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-metallic hover:text-white hover:bg-white/10"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
             </div>
           </div>
 
           {view === "products" && (
             <>
               {/* Group tabs */}
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                {groups.map((g) => (
-                  <button
-                    key={g.id}
-                    onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
-                    className={`shrink-0 px-3 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
-                      activeGroup === g.id
-                        ? "border-magenta/60 text-white bg-magenta/10"
-                        : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25"
-                    }`}
-                  >
-                    {g.label}
-                  </button>
-                ))}
+              <div role="tablist" aria-label="Product group" className="flex gap-2 overflow-x-auto scrollbar-hide">
+                {groups.map((g) => {
+                  const active = activeGroup === g.id;
+                  return (
+                    <button
+                      key={g.id}
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => { setActiveGroup(g.id); setActiveCategory("all"); }}
+                      className={`relative shrink-0 px-3.5 py-1.5 text-[10px] font-sans-brand uppercase tracking-[0.22em] rounded-md border transition-all whitespace-nowrap ${
+                        active
+                          ? "border-magenta text-white bg-magenta/15 shadow-[0_0_0_1px_rgba(212,20,142,0.4)]"
+                          : "border-white/10 text-metallic/70 hover:text-white hover:border-white/25 hover:bg-white/[0.03]"
+                      }`}
+                    >
+                      {g.label}
+                      {active && (
+                        <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 h-[2px] w-6 bg-magenta rounded-full" />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Sub-category chips */}
               <div ref={filterRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                 <button
                   onClick={() => setActiveCategory("all")}
+                  aria-pressed={activeCategory === "all"}
                   className={`shrink-0 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
                     activeCategory === "all"
-                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
+                      ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
                       : "border-white/15 text-metallic hover:border-magenta hover:text-white"
                   }`}
                 >
                   All in Group
                 </button>
-                {visibleCategories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
-                    className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
-                      activeCategory === cat.id
-                        ? "bg-magenta-gradient text-white border-transparent shadow-magenta"
-                        : "border-white/15 text-metallic hover:border-magenta hover:text-white"
-                    }`}
-                  >
-                    {iconMap[cat.icon]}
-                    {cat.shortName}
-                  </button>
-                ))}
+                {visibleCategories.map((cat) => {
+                  const active = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveCategory(cat.id)}
+                      aria-pressed={active}
+                      className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] font-sans-brand uppercase tracking-[0.2em] rounded-full border transition-all whitespace-nowrap ${
+                        active
+                          ? "bg-magenta-gradient text-white border-transparent shadow-magenta ring-1 ring-magenta/40"
+                          : "border-white/15 text-metallic hover:border-magenta hover:text-white"
+                      }`}
+                    >
+                      {iconMap[cat.icon]}
+                      {cat.shortName}
+                    </button>
+                  );
+                })}
               </div>
             </>
           )}
         </div>
       </section>
+
 
 
       {/* ── Category Description ── */}
@@ -402,41 +592,50 @@ function CataloguePage() {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {facilities.map((f, i) => (
-                <motion.div
-                  key={f.id}
-                  custom={i}
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: "-50px" }}
-                  className="group relative rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
-                      <Factory className="h-5 w-5" />
+            {filteredFacilities.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {filteredFacilities.map((f, i) => (
+                  <motion.div
+                    key={f.id}
+                    custom={i}
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: "-50px" }}
+                    className="group relative rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
+                        <Factory className="h-5 w-5" />
+                      </div>
+                      <span className="text-[10px] font-sans-brand uppercase tracking-[0.25em] text-magenta">
+                        {f.shortName}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-sans-brand uppercase tracking-[0.25em] text-magenta">
-                      {f.shortName}
-                    </span>
-                  </div>
-                  <h3 className="font-display text-xl text-white tracking-wide leading-tight">
-                    {f.name}
-                  </h3>
-                  <p className="mt-2 text-[11px] font-sans-brand uppercase tracking-[0.2em] text-white/70">
-                    {f.spec}
-                  </p>
-                  <p className="mt-3 text-sm text-metallic font-body leading-relaxed">
-                    {f.description}
-                  </p>
-                  <div className="mt-4 pt-4 border-t border-white/5 text-xs font-body text-white/60">
-                    <span className="text-white/40 uppercase tracking-[0.2em] text-[9px] font-sans-brand block mb-1">Capacity</span>
-                    {f.capacity}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                    <h3 className="font-display text-xl text-white tracking-wide leading-tight">
+                      {f.name}
+                    </h3>
+                    <p className="mt-2 text-[11px] font-sans-brand uppercase tracking-[0.2em] text-white/70">
+                      {f.spec}
+                    </p>
+                    <p className="mt-3 text-sm text-metallic font-body leading-relaxed">
+                      {f.description}
+                    </p>
+                    <div className="mt-4 pt-4 border-t border-white/5 text-xs font-body text-white/60">
+                      <span className="text-white/40 uppercase tracking-[0.2em] text-[9px] font-sans-brand block mb-1">Capacity</span>
+                      {f.capacity}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title={q ? "No facilities match your search" : "No facilities to show"}
+                message={q ? `We couldn't find any machine matching "${query}". Try a different keyword.` : "Facilities will appear here once configured."}
+                onReset={q ? () => setQuery("") : undefined}
+              />
+            )}
+
           </div>
         </section>
       )}
@@ -447,82 +646,51 @@ function CataloguePage() {
       <section className="py-12 bg-[#0A0A0A]">
 
         <div className="mx-auto max-w-[1400px] px-6">
-          <div className="mb-6 text-metallic font-body text-sm">
-            Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
+          <div className="mb-6 text-metallic font-body text-sm flex items-center gap-2 flex-wrap">
+            <span>Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}</span>
+            {q && (
+              <span className="text-metallic/70">
+                for “<span className="text-white">{query}</span>”
+              </span>
+            )}
           </div>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-            layout
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProducts.map((product, idx) => {
-                const cat = categories.find((c) => c.id === product.categoryId);
-                return (
-                  <motion.div
-                    key={product.id}
-                    layout
-                    custom={idx}
-                    variants={fadeUp}
-                    initial="hidden"
-                    animate="show"
-                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
-                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card cursor-pointer border border-white/5 hover:border-magenta/30 transition-all duration-500"
-                    onClick={() => openLightbox(idx)}
-                  >
-                    {/* Image */}
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
+          {filteredProducts.length > 0 ? (
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+              layout
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredProducts.map((product, idx) => {
+                  const cat = categories.find((c) => c.id === product.categoryId);
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      category={cat}
+                      idx={idx}
+                      onOpen={() => openLightbox(idx)}
                     />
-
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-
-                    {/* Category badge */}
-                    {cat && (
-                      <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-magenta/90 text-white text-[9px] font-sans-brand uppercase tracking-[0.25em]">
-                        {iconMap[cat.icon]}
-                        {cat.shortName}
-                      </span>
-                    )}
-
-                    {/* Price badge */}
-                    <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-sm text-white/90 text-[10px] font-sans-brand tracking-wider border border-white/10">
-                      {product.priceRange.split("–")[0]}
-                    </span>
-
-                    {/* Bottom info */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-display text-lg text-white tracking-wide leading-tight">
-                        {product.name}
-                      </h3>
-                      {product.material && (
-                        <p className="text-[11px] text-metallic font-body mt-1">{product.material}</p>
-                      )}
-                      <div className="mt-2 flex items-center gap-2 text-magenta font-sans-brand text-[10px] uppercase tracking-[0.25em] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        View Details <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                      </div>
-                    </div>
-
-                    {/* Hover glow */}
-                    <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/5 group-hover:ring-magenta/20 transition-all duration-500" />
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
-
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-20 text-metallic font-body">
-              No products found in this category.
-            </div>
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
+          ) : (
+            <EmptyState
+              title={q ? "No products match your search" : "No products in this category yet"}
+              message={
+                q
+                  ? `We couldn't find any product matching "${query}". Try a different keyword or clear filters.`
+                  : "This category is being catalogued. Check back soon or reach out for custom work — we build to spec."
+              }
+              onReset={q ? () => setQuery("") : () => { setActiveCategory("all"); setActiveGroup("all"); }}
+              resetLabel={q ? "Clear search" : "View all products"}
+            />
           )}
         </div>
       </section>
       )}
+
 
       {/* ── CTA BANNER ── */}
 

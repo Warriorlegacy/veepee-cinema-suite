@@ -1256,15 +1256,6 @@ export const products: CatalogueProduct[] = [
       "description": "High-detail fiber laser surface marking and engraving on metallic sheets for logo panels, labels, or devotional symbols."
   },
   {
-      "id": "p_107",
-      "categoryId": "industrial",
-      "name": "Custom Pipeline Tubewell Fitting Assembly",
-      "image": "/catalogue/industrial/cat-32.jpeg",
-      "priceRange": "₹2,000 – ₹6,500",
-      "material": "Mild Steel",
-      "description": "Fabricated heavy pipe connector sleeve with dual flanges, constructed to specifications for tubewell infrastructure."
-  },
-  {
       "id": "p_108",
       "categoryId": "industrial",
       "name": "OHT Shuttering Panel System (Modular)",
