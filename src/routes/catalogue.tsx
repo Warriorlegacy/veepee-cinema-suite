@@ -94,6 +94,54 @@ export const Route = createFileRoute("/catalogue")({
             ],
           }),
         },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "VEEPEE Engineers Product Catalogue",
+            numberOfItems: products.filter((p) => p.categoryId !== HIDDEN_FROM_CATALOGUE).length,
+            itemListElement: products
+              .filter((p) => p.categoryId !== HIDDEN_FROM_CATALOGUE)
+              .slice(0, 60)
+              .map((p, i) => {
+                const cat = categories.find((c) => c.id === p.categoryId);
+                return {
+                  "@type": "ListItem",
+                  position: i + 1,
+                  item: {
+                    "@type": "Product",
+                    "@id": `https://veepeeengr.com/catalogue#${p.id}`,
+                    name: p.name,
+                    category: cat?.name ?? "Metal Fabrication",
+                    ...(p.material ? { material: p.material } : {}),
+                    ...(p.description ? { description: p.description } : {}),
+                    image: p.image?.startsWith("http")
+                      ? p.image
+                      : `https://veepeeengr.com${p.image?.startsWith("/") ? "" : "/"}${p.image ?? ""}`,
+                    brand: { "@type": "Brand", name: "VEEPEE Engineers" },
+                    manufacturer: {
+                      "@type": "Organization",
+                      name: "VEEPEE Engineers",
+                      url: "https://veepeeengr.com",
+                    },
+                    offers: {
+                      "@type": "Offer",
+                      priceCurrency: "INR",
+                      price: (p.priceRange.match(/\d[\d,]*/)?.[0] ?? "0").replace(/,/g, ""),
+                      priceSpecification: {
+                        "@type": "PriceSpecification",
+                        priceCurrency: "INR",
+                        price: p.priceRange,
+                      },
+                      availability: "https://schema.org/InStock",
+                      url,
+                    },
+                  },
+                };
+              }),
+          }),
+        },
       ],
     };
   },
