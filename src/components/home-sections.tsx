@@ -127,9 +127,25 @@ export function Hero() {
             <p
               className="hero-fade hero-fade-4 mt-6 sm:mt-8 max-w-2xl font-sans-brand text-sm sm:text-base md:text-lg tracking-wide text-metallic"
             >
-              Laser Cutting · CNC Fabrication · Industrial Manufacturing · Architectural Metal Works.
-              Rooted in the steel heritage of Varanasi, built for India's most demanding projects.
+              Laser Cutting · CNC Fabrication · Pipeline · Fabricated & Loco Products · Architectural Metal.
+              Built on precision. Rooted in Varanasi.
             </p>
+
+            {/* Facility & machine spec strip */}
+            <div className="hero-fade hero-fade-4 mt-5 sm:mt-6 max-w-2xl">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] sm:text-xs font-sans-brand uppercase tracking-[0.22em] sm:tracking-[0.28em] text-white/80">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-magenta shadow-[0_0_10px_2px_rgba(212,20,142,0.7)]" />
+                  Maheshpur Industrial Estate
+                </span>
+                <span className="hidden sm:inline text-white/30">/</span>
+                <span className="text-metallic">5&nbsp;kW Fiber Laser</span>
+                <span className="hidden sm:inline text-white/30">/</span>
+                <span className="text-metallic">3000&nbsp;×&nbsp;1500 Bed</span>
+                <span className="hidden sm:inline text-white/30">/</span>
+                <span className="text-metallic">CNC Press Brake</span>
+              </div>
+            </div>
 
             <div className="hero-fade hero-fade-5 mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
               <a

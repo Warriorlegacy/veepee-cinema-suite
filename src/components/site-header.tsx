@@ -6,11 +6,13 @@ import logo from "@/assets/veepee-logo.png.asset.json";
 const links = [
   { label: "Services", href: "/#services" },
   { label: "Catalogue", href: "/catalogue" },
+  { label: "Pipeline", href: "/catalogue?cat=pipeline-products" },
+  { label: "Fabricated", href: "/catalogue?cat=fabricated-products" },
+  { label: "Loco", href: "/catalogue?cat=loco-products" },
   { label: "Projects", href: "/projects" },
   { label: "Export", href: "/export" },
   { label: "Architects", href: "/architects" },
   { label: "Procurement", href: "/procurement" },
-  { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },
 ];
 

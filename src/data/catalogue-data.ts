@@ -645,12 +645,12 @@ export const products: CatalogueProduct[] = [
   },
   {
     "id": "p_57",
-    "categoryId": "gates",
-    "name": "Op-Art Geometric Staircase Gate",
+    "categoryId": "balustrades-staircases",
+    "name": "Op-Art Geometric Staircase Railing",
     "image": "/catalogue/gates/catalogue-55.jpeg",
     "priceRange": "\u20b915,000 \u2013 \u20b935,000",
     "material": "Mild Steel",
-    "description": "A striking laser-cut metal gate featuring a dynamic optical art geometric pattern, perfect for adding a sophisticated and modern touch to residential or commercial staircase entrances. Finished in a matte black, it provides a secure yet visually engaging barrier."
+    "description": "A striking laser-cut metal staircase railing/balustrade featuring a dynamic optical-art geometric pattern. Finished in matte black, it provides a sophisticated, modern balustrade for residential and commercial staircases."
   },
   {
     "id": "p_58",
