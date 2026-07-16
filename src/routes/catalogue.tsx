@@ -94,6 +94,54 @@ export const Route = createFileRoute("/catalogue")({
             ],
           }),
         },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "VEEPEE Engineers Product Catalogue",
+            numberOfItems: products.filter((p) => p.categoryId !== HIDDEN_FROM_CATALOGUE).length,
+            itemListElement: products
+              .filter((p) => p.categoryId !== HIDDEN_FROM_CATALOGUE)
+              .slice(0, 60)
+              .map((p, i) => {
+                const cat = categories.find((c) => c.id === p.categoryId);
+                return {
+                  "@type": "ListItem",
+                  position: i + 1,
+                  item: {
+                    "@type": "Product",
+                    "@id": `https://veepeeengr.com/catalogue#${p.id}`,
+                    name: p.name,
+                    category: cat?.name ?? "Metal Fabrication",
+                    ...(p.material ? { material: p.material } : {}),
+                    ...(p.description ? { description: p.description } : {}),
+                    image: p.image?.startsWith("http")
+                      ? p.image
+                      : `https://veepeeengr.com${p.image?.startsWith("/") ? "" : "/"}${p.image ?? ""}`,
+                    brand: { "@type": "Brand", name: "VEEPEE Engineers" },
+                    manufacturer: {
+                      "@type": "Organization",
+                      name: "VEEPEE Engineers",
+                      url: "https://veepeeengr.com",
+                    },
+                    offers: {
+                      "@type": "Offer",
+                      priceCurrency: "INR",
+                      price: (p.priceRange.match(/\d[\d,]*/)?.[0] ?? "0").replace(/,/g, ""),
+                      priceSpecification: {
+                        "@type": "PriceSpecification",
+                        priceCurrency: "INR",
+                        price: p.priceRange,
+                      },
+                      availability: "https://schema.org/InStock",
+                      url,
+                    },
+                  },
+                };
+              }),
+          }),
+        },
       ],
     };
   },
@@ -196,8 +244,16 @@ function ProductCard({
       )}
       <img
         src={product.image}
-        alt={product.name}
+        alt={
+          category
+            ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""} by VEEPEE Engineers`
+            : `${product.name} by VEEPEE Engineers`
+        }
         loading="lazy"
+        decoding="async"
+        width={640}
+        height={800}
+        sizes="(min-width: 1280px) 300px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
         onLoad={() => setLoaded(true)}
         onError={() => setLoaded(true)}
         className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1.2s] group-hover:scale-110 ${
@@ -264,14 +320,21 @@ function Lightbox({
         <div className="relative aspect-square lg:aspect-auto bg-black flex items-center justify-center min-h-[300px] lg:min-h-[500px]">
           <img
             src={product.image}
-            alt={product.name}
+            alt={
+              category
+                ? `${product.name} — ${category.shortName}${product.material ? `, ${product.material}` : ""}`
+                : product.name
+            }
+            decoding="async"
+            width={1200}
+            height={1200}
             className="w-full h-full object-contain max-h-[70vh]"
           />
           {/* Nav arrows */}
-          <button onClick={onPrev} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all">
+          <button onClick={onPrev} aria-label="Previous product" className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta">
             <ChevronLeft className="h-5 w-5" />
           </button>
-          <button onClick={onNext} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all">
+          <button onClick={onNext} aria-label="Next product" className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-magenta/80 text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta">
             <ChevronRight className="h-5 w-5" />
           </button>
         </div>
@@ -644,12 +707,17 @@ function CataloguePage() {
                     whileInView="show"
                     viewport={{ once: true, margin: "-40px" }}
                     onClick={() => setActiveCategory(cat.id)}
-                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card border border-white/5 hover:border-magenta/40 text-left"
+                    aria-label={`Open ${cat.name} gallery — ${info.count} items`}
+                    className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-card border border-white/5 hover:border-magenta/40 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
                   >
                     <img
                       src={info.cover}
-                      alt={cat.name}
+                      alt={`${cat.name} — sample product from VEEPEE Engineers laser-cut catalogue`}
                       loading="lazy"
+                      decoding="async"
+                      width={640}
+                      height={800}
+                      sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />

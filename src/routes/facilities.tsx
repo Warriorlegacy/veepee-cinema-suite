@@ -267,6 +267,69 @@ export const Route = createFileRoute("/facilities")({
             ],
           }),
         },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "VEEPEE Engineers Plant & Machinery",
+            numberOfItems: machineSpecs.length,
+            itemListElement: machineSpecs.map((m, i) => {
+              const f = facilities.find((x) => x.id === m.id);
+              return {
+                "@type": "ListItem",
+                position: i + 1,
+                item: {
+                  "@type": "Product",
+                  "@id": `${url}#${m.id}`,
+                  name: f?.name ?? m.id,
+                  category: "Manufacturing Equipment",
+                  description: m.tagline,
+                  additionalProperty: [
+                    { "@type": "PropertyValue", name: "Process", value: m.process },
+                    { "@type": "PropertyValue", name: "Capacity", value: m.capacity.join("; ") },
+                    { "@type": "PropertyValue", name: "Tolerances", value: m.tolerances.join("; ") },
+                    { "@type": "PropertyValue", name: "Materials", value: m.materials.join("; ") },
+                    { "@type": "PropertyValue", name: "Applications", value: m.applications.join("; ") },
+                  ],
+                  brand: { "@type": "Brand", name: "VEEPEE Engineers" },
+                  manufacturer: {
+                    "@type": "Organization",
+                    name: "VEEPEE Engineers",
+                    url: "https://veepeeengr.com",
+                  },
+                },
+              };
+            }),
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "VEEPEE Engineers",
+            url: "https://veepeeengr.com",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "Maheshpur Industrial Estate",
+              addressLocality: "Varanasi",
+              addressRegion: "Uttar Pradesh",
+              addressCountry: "IN",
+            },
+            makesOffer: machineSpecs.map((m) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: facilities.find((f) => f.id === m.id)?.name ?? m.id,
+                description: m.tagline,
+                serviceType: m.process,
+                areaServed: "IN",
+                provider: { "@type": "Organization", name: "VEEPEE Engineers" },
+              },
+            })),
+          }),
+        },
       ],
     };
   },
@@ -338,11 +401,12 @@ function FacilitiesPage() {
               <motion.a
                 key={f.id}
                 href={`#specifications`}
+                aria-label={`Jump to detailed specifications for ${f.name}`}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="group relative block rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all"
+                className="group relative block rounded-xl p-6 bg-card border border-white/5 hover:border-magenta/40 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-10 w-10 grid place-items-center rounded-lg bg-magenta/10 border border-magenta/20 text-magenta shrink-0">
