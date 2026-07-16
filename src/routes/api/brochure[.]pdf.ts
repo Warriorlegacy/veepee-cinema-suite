@@ -21,7 +21,7 @@ function computeVersion(): string {
   const shape = {
     categories: categories.map((c) => [c.id, c.name, c.shortName, c.description, c.group]),
     products: products
-      .filter((p) => !HIDDEN_FROM_CATALOGUE.has(p.categoryId))
+      .filter((p) => p.categoryId !== HIDDEN_FROM_CATALOGUE)
       .map((p) => [p.id, p.categoryId, p.name, p.priceRange, p.material ?? "", p.description ?? ""]),
     facilities: facilities.map((f) => [f.id, f.name, f.spec, f.capacity, f.description]),
   };
