@@ -72,6 +72,20 @@ function serverSupabase() {
   );
 }
 
+const SERVICE_BANNER_MAP: Record<string, string> = {
+  "5300a1c0-ad1d-4b15-89b5-1f847d2922d8": "/assets/banners/laser-cutting-hero.webp",
+  "b86b9ae1-2a73-4aa2-bbb8-bceb6abd5661": "/assets/banners/cnc-fabrication-hero.webp",
+  "344202eb-a66d-49de-b082-41198736eba5": "/assets/banners/engineering-components-hero.webp",
+  "f1f4cf46-0dd1-4e75-928d-e05347ad98d6": "/assets/banners/gates-railings-hero.webp",
+  "3d525269-6ee0-448c-963a-7c731854bb62": "/assets/banners/architectural-metal-hero.webp",
+  "65ac2c65-492f-4e8b-8a97-525abb49baf4": "/assets/banners/industrial-manufacturing-hero.webp",
+  "5b4ce05b-4ed8-4f8b-a20e-1479ef0631e6": "/assets/banners/hot-dip-galvanized-hero.webp",
+  "ec5ac136-c055-4cea-ae77-344f310f4405": "/assets/banners/tubewell-fittings-hero.webp",
+  "900e626e-7e2e-4353-a716-2c31298091a4": "/assets/banners/powder-coating-hero.webp",
+  "28eb02f4-6388-4b01-b649-234cdfbcc5c2": "/assets/banners/plate-bending-hero.webp",
+  "d89a6998-dc01-4b8d-893b-acf5571d3214": "/assets/banners/pipe-rolling-hero.webp"
+};
+
 /* ─────────── Public: list services ─────────── */
 export const listServices = createServerFn({ method: "GET" }).handler(
   async (): Promise<Service[]> => {
@@ -83,7 +97,11 @@ export const listServices = createServerFn({ method: "GET" }).handler(
     if (error) {
       console.error("[listServices]", error);
     }
-    const servicesList = data ?? [];
+    const rawServicesList = data ?? [];
+    const servicesList = rawServicesList.map(s => ({
+      ...s,
+      image_url: SERVICE_BANNER_MAP[s.id] || s.image_url
+    }));
     const facadeServiceId = "7a00f135-e63d-4c38-89c5-842211bbcc01";
     if (!servicesList.some(s => s.id === facadeServiceId)) {
       servicesList.push({
@@ -116,11 +134,16 @@ export const getServiceDetail = createServerFn({ method: "GET" })
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data }): Promise<{ service: Service; images: ServiceImageRow[] } | null> => {
     const supabase = serverSupabase();
-    const { data: svc, error } = await supabase
+    const { data: rawSvc, error } = await supabase
       .from("services")
       .select("id, name, description, icon, image_url, sort_order")
       .eq("id", data.id)
       .maybeSingle();
+
+    const svc = rawSvc ? {
+      ...rawSvc,
+      image_url: SERVICE_BANNER_MAP[rawSvc.id] || rawSvc.image_url
+    } : null;
 
     if (error || !svc) {
       const facadeServiceId = "7a00f135-e63d-4c38-89c5-842211bbcc01";
