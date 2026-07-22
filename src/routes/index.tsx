@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Trusted metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens & architectural metalwork across Eastern India.",
+          "VEEPEE Engineers — #1 metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens, railings & architectural metalwork. Get a free quote: +91-9125142400.",
       },
       { property: "og:url", content: "https://veepeeengr.com/" },
       { property: "og:locale", content: "en_IN" },

@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "VEEPEE Engineers — trusted metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens, railings, hot-dip galvanizing & architectural metalwork. Call +91-9125142400.",
+          "VEEPEE Engineers — #1 metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens, railings & architectural metalwork. Get a free quote: +91-9125142400.",
       },
       { name: "author", content: "VEEPEE Engineers" },
       {
@@ -152,7 +152,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Trusted metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens & architectural metalwork.",
+          "VEEPEE Engineers — #1 metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens, railings & architectural metalwork. Get a free quote: +91-9125142400.",
       },
       {
         property: "og:image",
@@ -169,7 +169,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "Trusted metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens & architectural metalwork.",
+          "VEEPEE Engineers — #1 metal fabricator in Varanasi since 1976. Fiber laser cutting, CNC fabrication, custom steel gates, jaali screens, railings & architectural metalwork. Get a free quote: +91-9125142400.",
       },
       {
         name: "twitter:image",
@@ -202,7 +202,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/png", href: logo.url },
+      { rel: "icon", type: "image/png", href: "/__l5e/assets-v1/904ec24b-fad7-4552-b9f2-2e9f5305cd50/veepee-logo.png" },
       { rel: "apple-touch-icon", href: logo.url },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
