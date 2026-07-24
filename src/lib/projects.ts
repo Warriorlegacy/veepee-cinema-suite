@@ -1,9 +1,9 @@
-import projectHero from "@/assets/project-hero.jpg";
-import productGate from "@/assets/product-gate.jpg";
-import productJaali from "@/assets/product-jaali.jpg";
-import productRailing from "@/assets/product-railing.jpg";
-import productIndustrial from "@/assets/product-industrial.jpg";
-import workshop from "@/assets/workshop.jpg";
+const projectHero = "/catalogue/self-designing-facades/facade-sample.png";
+const productGate = "/catalogue/gates/designer-gate-peacock.png";
+const productJaali = "/catalogue/jaali-screens/catalogue-34.webp";
+const productRailing = "/catalogue/railings/railing-1.webp";
+const productIndustrial = "/catalogue/industrial/cat-34.webp";
+const workshop = "/assets/banners/industrial-manufacturing-hero.webp";
 
 export type Project = {
   slug: string;

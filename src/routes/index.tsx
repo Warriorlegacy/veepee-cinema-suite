@@ -8,7 +8,7 @@ import {
   Hero, TrustBar, Services, Products, CatalogueCTA, Process,
   FeaturedProject, Workshop, TechnicalSpecs, IndustriesTicker, Testimonials, ContactCTA, FAQSection,
 } from "@/components/home-sections";
-import heroImg from "@/assets/hero-sparks.jpg";
+const heroImg = "/assets/banners/laser-cutting-hero.webp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -137,7 +137,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <SiteHeader />
       <main>
         <Hero />

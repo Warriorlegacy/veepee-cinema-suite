@@ -13,8 +13,8 @@ import { LazyClientCanvas } from "@/components/three/lazy";
 import { LazyProcessPipeline } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
 
-import productIndustrial from "@/assets/product-industrial.jpg";
-import workshopImg from "@/assets/workshop.jpg";
+const productIndustrial = "/catalogue/industrial/cat-34.webp";
+const workshopImg = "/assets/banners/industrial-manufacturing-hero.webp";
 
 export const Route = createFileRoute("/procurement")({
   head: () => ({

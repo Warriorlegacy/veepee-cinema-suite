@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/veepee-logo.png.asset.json";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const primaryLinks = [
   { label: "Services", href: "/#services" },
@@ -77,7 +78,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2">
+          <ThemeToggle />
           <a
             href="/#contact"
             className="font-sans-brand text-sm uppercase tracking-[0.2em] px-5 py-2.5 bg-magenta-gradient text-white rounded-md hover:shadow-magenta transition-all"

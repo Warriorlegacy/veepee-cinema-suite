@@ -14,10 +14,10 @@ import { LazyProductModel } from "@/components/three/lazy";
 import { OrbitControls } from "@react-three/drei";
 import { trackEvent } from "@/lib/analytics";
 
-import productJaali from "@/assets/product-jaali.jpg";
-import productGate from "@/assets/product-gate.jpg";
-import productRailing from "@/assets/product-railing.jpg";
-import projectHero from "@/assets/project-hero.jpg";
+const productJaali = "/catalogue/jaali-screens/catalogue-34.webp";
+const productGate = "/catalogue/gates/designer-gate-peacock.png";
+const productRailing = "/catalogue/railings/railing-1.webp";
+const projectHero = "/catalogue/self-designing-facades/facade-sample.png";
 
 export const Route = createFileRoute("/architects")({
   head: () => ({

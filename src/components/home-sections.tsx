@@ -8,13 +8,13 @@ import {
   Star, MapPin, CheckCircle2, Sparkles, FileDown, Layers,
 } from "lucide-react";
 
-import hero from "@/assets/hero-sparks.jpg";
-import workshop from "@/assets/workshop.jpg";
-import productJaali from "@/assets/product-jaali.jpg";
-import productGate from "@/assets/product-gate.jpg";
-import productRailing from "@/assets/product-railing.jpg";
-import productIndustrial from "@/assets/product-industrial.jpg";
-import projectHero from "@/assets/project-hero.jpg";
+const heroBanner = "/assets/banners/laser-cutting-hero.webp";
+const workshopBanner = "/assets/banners/industrial-manufacturing-hero.webp";
+const productJaali = "/catalogue/jaali-screens/catalogue-34.webp";
+const productGate = "/catalogue/gates/designer-gate-peacock.png";
+const productRailing = "/catalogue/railings/railing-1.webp";
+const productIndustrial = "/catalogue/industrial/cat-34.webp";
+const projectHero = "/catalogue/self-designing-facades/facade-sample.png";
 import { ContactForm } from "@/components/contact-form";
 import { BrochureDownloadButton } from "@/components/brochure-download-button";
 import { ServiceImage } from "@/components/service-image";
@@ -77,7 +77,7 @@ export function Hero() {
       {/* Cinematic background (fallback / overlay) */}
       <motion.div style={{ y }} className="absolute inset-0 z-[1]">
         <img
-          src={hero}
+          src={heroBanner}
           alt="Fiber laser cutting steel with sparks flying"
           className="h-full w-full object-cover scale-110 opacity-40"
         />
@@ -562,7 +562,7 @@ export function Workshop() {
           transition={{ duration: 1 }}
           className="relative aspect-[5/4] rounded-lg overflow-hidden shadow-deep"
         >
-          <img src={workshop} alt="Veepee workshop floor" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <img src={workshopBanner} alt="Veepee workshop floor" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-tr from-magenta/30 via-transparent to-transparent mix-blend-overlay" />
           <div className="absolute bottom-6 left-6 right-6 glass rounded-md p-4">
             <div className="font-sans-brand text-[10px] tracking-[0.3em] text-magenta uppercase">Live · Workshop</div>
@@ -727,7 +727,7 @@ export function ContactCTA() {
   return (
     <section id="contact" className="relative py-32 overflow-hidden">
       <div className="absolute inset-0">
-        <img src={workshop} alt="" className="h-full w-full object-cover opacity-25" />
+        <img src={workshopBanner} alt="" className="h-full w-full object-cover opacity-25" />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
       </div>
       <LazyClientCanvas
@@ -832,12 +832,12 @@ function SectionLabel({ number, label, center }: { number: string; label: string
 /* ─────────── CATALOGUE CTA ─────────── */
 export function CatalogueCTA() {
   const previewImages = [
-    "/catalogue/jaali-screens/jaali-1.jpeg",
-    "/catalogue/gates/gate-1.jpeg",
-    "/catalogue/shadow-art/shadow-3.jpeg",
-    "/catalogue/pooja-panels/pooja-1.jpeg",
-    "/catalogue/railings/railing-1.jpeg",
-    "/catalogue/mirror-frames/mirror-1.jpeg",
+    "/catalogue/jaali-screens/catalogue-34.webp",
+    "/catalogue/gates/designer-gate-peacock.png",
+    "/catalogue/shadow-art/shadow-3.webp",
+    "/catalogue/pooja-panels/pooja-1.webp",
+    "/catalogue/railings/railing-1.webp",
+    "/catalogue/mirror-frames/mirror-1.webp",
   ];
 
   return (

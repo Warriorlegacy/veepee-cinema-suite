@@ -13,9 +13,9 @@ import { LazyClientCanvas } from "@/components/three/lazy";
 import { LazyWorkshopScene } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
 
-import workshopImg from "@/assets/workshop.jpg";
-import productIndustrial from "@/assets/product-industrial.jpg";
-import projectHero from "@/assets/project-hero.jpg";
+const workshopImg = "/assets/banners/industrial-manufacturing-hero.webp";
+const productIndustrial = "/catalogue/industrial/cat-34.webp";
+const projectHero = "/catalogue/self-designing-facades/facade-sample.png";
 
 export const Route = createFileRoute("/export")({
   head: () => ({

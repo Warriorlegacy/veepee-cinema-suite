@@ -10,9 +10,9 @@ import architecturalMetal from "@/assets/service-architectural-metal.png";
 import industrialManufacturing from "@/assets/service-industrial-manufacturing.png";
 import hotDipGalvanized from "@/assets/service-hot-dip-galvanized.png";
 import tubewellFittings from "@/assets/service-tubewell-fittings.png";
-import powderCoating from "@/assets/service-powder-coating.jpg";
-import plateBending from "@/assets/service-plate-bending.jpg";
-import pipeRolling from "@/assets/service-pipe-rolling.jpg";
+const powderCoating = "/assets/banners/powder-coating-hero.webp";
+const plateBending = "/assets/banners/plate-bending-hero.webp";
+const pipeRolling = "/assets/banners/pipe-rolling-hero.webp";
 import selfDesigningFacades from "@/assets/service-self-designing-facades.png";
 
 type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "onError"> & {
