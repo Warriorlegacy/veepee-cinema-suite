@@ -70,7 +70,7 @@ export function Hero() {
       </LazyClientCanvas>
 
       {/* Watermark */}
-      <LogoWatermark opacity={0.035} size={500} className="z-[1]" />
+      <LogoWatermark opacity={0.09} size={750} glow={true} position="center" className="z-[1]" />
 
 
 
@@ -335,7 +335,8 @@ export function Products() {
     : featuredProducts.filter((p) => resolveCategoryId(p) === filter);
 
   return (
-    <section id="products" className="relative py-20 md:py-28 bg-near-black">
+    <section id="products" className="relative py-20 md:py-28 bg-near-black overflow-hidden">
+      <LogoWatermark opacity={0.07} size={650} position="top-right" glow={true} className="z-[1]" />
       <LazyClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-30"
         cameraPosition={[0, 0, 5]}
@@ -439,6 +440,7 @@ const steps = [
 export function Process() {
   return (
     <section id="process" className="relative py-28 overflow-hidden">
+      <LogoWatermark opacity={0.06} size={600} position="bottom-right" glow={true} className="z-[1]" />
       <div className="absolute inset-0 grid-overlay opacity-20 z-0" />
       <LazyClientCanvas
         className="absolute inset-0 z-[1] pointer-events-none opacity-40"
@@ -485,8 +487,9 @@ export function Process() {
 /* ─────────── FEATURED PROJECT ─────────── */
 export function FeaturedProject() {
   return (
-    <section id="projects" className="relative py-28 bg-near-black">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
+    <section id="projects" className="relative py-28 bg-near-black overflow-hidden">
+      <LogoWatermark opacity={0.07} size={700} position="top-left" glow={true} className="z-[1]" />
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6 relative z-[2]">
         <SectionLabel number="04" label="Projects" />
         <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white max-w-4xl leading-[0.95]">
           Projects that <span className="text-magenta">define</span> spaces.
@@ -543,6 +546,7 @@ export function FeaturedProject() {
 export function Workshop() {
   return (
     <section id="about" className="relative py-28 overflow-hidden">
+      <LogoWatermark opacity={0.07} size={650} position="top-right" glow={true} className="z-[1]" />
       <LazyClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-20"
         cameraPosition={[0, 1, 4]}
@@ -683,8 +687,9 @@ export function Testimonials() {
   const t = testimonials[i];
 
   return (
-    <section className="relative py-20 md:py-28">
-      <div className="mx-auto max-w-[1100px] px-5 sm:px-6 text-center">
+    <section className="relative py-20 md:py-28 overflow-hidden">
+      <LogoWatermark opacity={0.06} size={550} position="center" glow={true} className="z-[0]" />
+      <div className="mx-auto max-w-[1100px] px-5 sm:px-6 text-center relative z-[1]">
         <SectionLabel number="07" label="Testimonials" center />
         <div className="flex justify-center gap-1 mb-6">
           {[...Array(5)].map((_, k) => (
@@ -739,7 +744,7 @@ export function ContactCTA() {
       >
         <LazyContactGear />
       </LazyClientCanvas>
-      <LogoWatermark opacity={0.06} size={400} className="z-[1]" />
+      <LogoWatermark opacity={0.09} size={700} position="center" glow={true} className="z-[1]" />
       <div className="relative z-[2] mx-auto max-w-[1200px] px-5 sm:px-6">
         <div className="text-center">
           <SectionLabel number="08" label="Get In Touch" center />

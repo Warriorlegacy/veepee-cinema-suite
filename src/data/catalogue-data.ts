@@ -381,7 +381,7 @@ export const products: CatalogueProduct[] = [
     "images": [
       "/catalogue/gift-decor/catalogue-15.jpeg",
       "/catalogue/gift-decor/catalogue-11.jpeg",
-      "/catalogue/gift-decor/imgi_26_unnamed.jpg"
+      "/catalogue/jaali-screens/jaali-1.webp"
     ],
     "priceRange": "\u20b9450 \u2013 \u20b9950",
     "material": "Mild Steel",
@@ -453,8 +453,8 @@ export const products: CatalogueProduct[] = [
     "image": "/catalogue/gates/designer-gate-peacock.png",
     "images": [
       "/catalogue/gates/designer-gate-peacock.png",
-      "/catalogue/gates/imgi_32_unnamed.png",
-      "/catalogue/gates/imgi_33_unnamed.png"
+      "/catalogue/railings/railing-1.webp",
+      "/catalogue/railings/railing-2.webp"
     ],
     "priceRange": "\u20b975,000 \u2013 \u20b92,50,000",
     "material": "Mild Steel with powder coating and acrylic inserts",
@@ -464,7 +464,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_9",
     "categoryId": "gates",
     "name": "Radiant Sunburst Laser-Cut Entrance Gate System",
-    "image": "/catalogue/gates/imgi_32_unnamed.png",
+    "image": "/catalogue/gates/designer-gate-peacock.png",
     "priceRange": "\u20b985,000 \u2013 \u20b91,80,000",
     "material": "Mild Steel",
     "description": "This grand entrance gate system features a bold, laser-cut sunburst motif across its double doors, transom, and flanking decorative panels. Finished in a striking combination of golden and frosted silver with robust black frames, it offers a contemporary and opulent welcome to any property."
@@ -473,7 +473,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_10",
     "categoryId": "railings",
     "name": "Organic Branch Motif Stair Railing",
-    "image": "/catalogue/railings/imgi_33_unnamed.png",
+    "image": "/catalogue/railings/railing-1.webp",
     "priceRange": "\u20b91,200 \u2013 \u20b92,800/linear ft",
     "material": "Mild Steel (Powder Coated)",
     "description": "Elevate your interiors with this exquisitely laser-cut stair railing featuring an intricate organic tree branch motif. Finished in a durable powder coat, it offers a blend of natural artistry and robust structural integrity."
@@ -482,7 +482,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_11",
     "categoryId": "gates",
     "name": "Botanical Leaf Laser-Cut Entrance Gate",
-    "image": "/catalogue/gates/imgi_48_unnamed.png",
+    "image": "/catalogue/gates/designer-gate-peacock.png",
     "priceRange": "\u20b935,000 \u2013 \u20b975,000",
     "material": "Laser-Cut Mild Steel (or Weathering Steel) with Wooden Frame",
     "description": "This elegant entrance gate features a striking laser-cut botanical leaf pattern, combining modern design with functional privacy. Constructed from durable metal within a robust wooden frame, it offers a sophisticated aesthetic for residential and commercial entryways."
@@ -491,9 +491,9 @@ export const products: CatalogueProduct[] = [
     "id": "p_12",
     "categoryId": "railings",
     "name": "Modern Geometric Floret Staircase Railing",
-    "image": "/catalogue/railings/imgi_25_unnamed.png",
+    "image": "/catalogue/railings/railing-1.webp",
     "images": [
-      "/catalogue/railings/imgi_25_unnamed.png",
+      "/catalogue/railings/railing-1.webp",
       "/catalogue/railings/railing-1.webp",
       "/catalogue/railings/railing-2.webp"
     ],
@@ -505,7 +505,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_13",
     "categoryId": "gates",
     "name": "Palm Frond Laser-Cut Entry Gate",
-    "image": "/catalogue/gates/imgi_49_unnamed.png",
+    "image": "/catalogue/gates/designer-gate-peacock.png",
     "priceRange": "\u20b920,000 \u2013 \u20b945,000",
     "material": "Mild Steel (Laser-Cut Panel) with Wood Frame",
     "description": "This bespoke entry gate features a captivating laser-cut metal panel showcasing an intricate tropical palm frond pattern, integrated into a robust wooden frame. It offers a blend of natural aesthetics and functional security, perfect for stylish residential or garden entrances."
@@ -955,7 +955,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_63",
     "categoryId": "industrial",
     "name": "Precision CNC Fiber Laser Cutting Service",
-    "image": "/catalogue/industrial/imgi_11_07f30c5e-2c8f-44e9-8252-4933a2a0bc42.jpeg",
+    "image": "/catalogue/generated/p_lc_1.webp",
     "priceRange": "Contact for Quote",
     "material": "Various",
     "description": "Veepee Engineers offers high-precision CNC Fiber Laser cutting services for fine artistic designs and industrial applications with smooth finishing and quick service. Our advanced machinery ensures intricate detailing and efficient production for a wide range of materials."
@@ -964,7 +964,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_64",
     "categoryId": "industrial",
     "name": "Hypertherm CNC Plasma Cutting Service (50mm, 3000x6000mm Capacity)",
-    "image": "/catalogue/industrial/imgi_12_f59bb2cb-0ed8-440a-aab0-84707c11b47e.jpeg",
+    "image": "/catalogue/generated/p_lc_2.webp",
     "priceRange": "Price on Request",
     "material": "Various",
     "description": "Veepee Engineers offers heavy-duty, thick sheet cutting services utilizing a Hypertherm CNC Plasma machine with a 50mm capacity and a large work area of 3000 x 6000 mm. This service is ideal for precision cutting of various industrial materials."
@@ -973,7 +973,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_65",
     "categoryId": "industrial",
     "name": "Industrial Brake Press Metal Bending Service (8MM x 3MTR)",
-    "image": "/catalogue/industrial/imgi_14_0f92dad2-51d3-4af2-80fe-3198dae7f5bc.jpeg",
+    "image": "/catalogue/generated/p_fb_1.webp",
     "priceRange": "Contact for Quote",
     "material": "Various",
     "description": "Veepee Engineers offers precision metal bending and forming services using our robust 8MM x 3MTR Brake Press. We handle various material types and thicknesses to meet diverse industrial fabrication needs with high accuracy and efficiency."
@@ -982,7 +982,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_66",
     "categoryId": "industrial",
     "name": "Industrial Hydraulic Plate Shear Machine (8mm x 3m)",
-    "image": "/catalogue/industrial/imgi_15_7e53235a-afd9-4251-8d42-57c26a5405e9.jpeg",
+    "image": "/catalogue/generated/p_fb_2.webp",
     "priceRange": "Price on Request",
     "material": "Various",
     "description": "This powerful 8mm x 3m hydraulic shear machine is essential for precision cutting of sheet metal in various industrial applications. It ensures clean, accurate cuts for fabrications across multiple material types, facilitating high-volume production."
@@ -991,7 +991,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_67",
     "categoryId": "industrial",
     "name": "Industrial Plate Rolling Services (25 x 2500MM)",
-    "image": "/catalogue/industrial/imgi_13_a2c88c21-843f-4660-97c0-94d4958dd9a4.jpeg",
+    "image": "/catalogue/generated/p_pl_1.webp",
     "priceRange": "Price on Request",
     "material": "Various",
     "description": "Veepee Engineers offers precision industrial plate rolling services using a robust 25 x 2500mm rolling machine, capable of forming various metal sheets into cylindrical or conical shapes. This service is ideal for manufacturing ducts, tanks, silos, and other curved metal components for diverse industrial applications."
@@ -1000,7 +1000,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_68",
     "categoryId": "industrial",
     "name": "500-Ton Industrial Hydraulic Press",
-    "image": "/catalogue/industrial/imgi_16_cc7c5b25-bb16-4f12-badc-387a937a0dee.jpeg",
+    "image": "/catalogue/generated/p_fb_3.webp",
     "priceRange": "Price on Request",
     "material": "Mild Steel",
     "description": "This is a robust 500-ton hydraulic press with a 2x2 meter opening, ideal for heavy-duty industrial forming and pressing applications. It is designed for high-force operations in manufacturing settings."
@@ -1009,7 +1009,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_69",
     "categoryId": "industrial",
     "name": "Advanced MIG/TIG/Spot Welding Services",
-    "image": "/catalogue/industrial/imgi_17_785571d4-b9a4-4e39-8e51-74afd3aa8def.jpeg",
+    "image": "/catalogue/generated/p_fb_4.webp",
     "priceRange": "Price on Request",
     "material": "Various",
     "description": "Veepee Engineers offers comprehensive MIG, TIG, and Spot Welding services, utilizing modern machinery such as the Esab Mig 400 and Ador Welding 50 mm Spot Welder. Our skilled team provides precision welding for a wide range of industrial applications and materials."
@@ -1018,7 +1018,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_70",
     "categoryId": "industrial",
     "name": "Custom Structural Fabrication - Large Industrial Module",
-    "image": "/catalogue/industrial/imgi_18_d1dc306b-82eb-4215-ae47-071d70b3058f.jpeg",
+    "image": "/catalogue/industrial/cat-34.webp",
     "priceRange": "Price on Request",
     "material": "Mild Steel",
     "description": "Veepee Engineers specializes in the fabrication of large-scale industrial structures, such as this 3x5x7 meter module. We provide custom solutions for robust and functional structural components designed for diverse industrial applications."
@@ -1036,7 +1036,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_72",
     "categoryId": "industrial",
     "name": "Industrial Power Press Services (85/50 Ton)",
-    "image": "/catalogue/industrial/imgi_20_2a2fb55b-a688-46de-a5e4-c55490823b61.jpeg",
+    "image": "/catalogue/generated/p_fb_5.webp",
     "priceRange": "Price on Request",
     "material": "Various",
     "description": "Veepee Engineers offers precision power press services using 85/50 ton machines, capable of handling various forming and punching operations for industrial components. Our workshop is equipped to produce custom drawn items and other press-formed parts for diverse manufacturing needs."
@@ -1045,7 +1045,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_73",
     "categoryId": "industrial",
     "name": "Junior Coupling Connectors",
-    "image": "/catalogue/industrial/imgi_20_unnamed.jpg",
+    "image": "/catalogue/generated/p_pl_2.webp",
     "priceRange": "\u20b9150 \u2013 \u20b9500",
     "material": "Cast Iron",
     "description": "These are red-painted Junior Coupling Connectors, essential components for various plumbing and industrial piping applications. They are designed for reliable and secure pipe connections in diverse systems."
@@ -1054,7 +1054,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_74",
     "categoryId": "industrial",
     "name": "5 Ton Overhead Traveling Crane",
-    "image": "/catalogue/industrial/imgi_19_c7bda3aa-e5ca-42cc-a476-1ee25492e718.jpeg",
+    "image": "/catalogue/generated/p_fb_6.webp",
     "priceRange": "Price on request",
     "material": "Various",
     "description": "This image showcases a robust 5-ton overhead traveling crane, perfect for heavy-duty lifting and material handling in industrial workshops. It is designed for efficient and safe operation, essential for manufacturing and fabrication processes."
@@ -1063,7 +1063,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_75",
     "categoryId": "jaali-screens",
     "name": "Circular Maze Pattern Jaali",
-    "image": "/catalogue/jaali-screens/latest-work-2.jpeg",
+    "image": "/catalogue/jaali-screens/jaali-1.webp",
     "priceRange": "\u20b9250 \u2013 \u20b9450/sq ft",
     "material": "Mild Steel",
     "description": "This laser-cut circular jaali screen features an intricate maze pattern, perfect for decorative partitioning or wall art. Its metallic finish adds a touch of modern sophistication, suitable for both indoor and outdoor applications."
@@ -1072,7 +1072,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_76",
     "categoryId": "shadow-art",
     "name": "Devotional Ganesha Shadow Art",
-    "image": "/catalogue/shadow-art/imgi_23_unnamed.jpg",
+    "image": "/catalogue/jaali-screens/catalogue-34.webp",
     "priceRange": "\u20b92,500 \u2013 \u20b95,000",
     "material": "Mild Steel",
     "description": "This exquisite laser-cut Ganesha shadow art piece features intricate details on a mild steel surface, mounted on a solid wooden base. It is perfect for adding a touch of devotion and artistic elegance to any home or office space."
@@ -1081,7 +1081,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_77",
     "categoryId": "gift-decor",
     "name": "Romantic Proposal Silhouette Desk Decor",
-    "image": "/catalogue/gift-decor/imgi_26_unnamed.jpg",
+    "image": "/catalogue/jaali-screens/jaali-1.webp",
     "priceRange": "\u20b9450 \u2013 \u20b9850",
     "material": "Mild Steel",
     "description": "This elegant laser-cut silhouette depicts a romantic proposal scene, perfect for adding a touch of sentiment to any desk or shelf. Crafted from durable mild steel, it makes a thoughtful gift or charming decorative piece."
@@ -1090,7 +1090,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_78",
     "categoryId": "shadow-art",
     "name": "Lord Shiva & Ganesha Laser-Cut Shadow Art Frames",
-    "image": "/catalogue/shadow-art/imgi_28_unnamed.jpg",
+    "image": "/catalogue/jaali-screens/catalogue-34.webp",
     "priceRange": "\u20b9750 \u2013 \u20b92,500",
     "material": "Various",
     "description": "Exquisite laser-cut shadow art depicting Lord Shiva and Lord Ganesha, framed for elegant display. These pieces offer a blend of intricate design and spiritual reverence, perfect for home decor or gifting."
@@ -1099,7 +1099,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_79",
     "categoryId": "shadow-art",
     "name": "Romantic Proposal Silhouette Art",
-    "image": "/catalogue/shadow-art/imgi_27_unnamed.jpg",
+    "image": "/catalogue/jaali-screens/jaali-1.webp",
     "priceRange": "\u20b91,500 \u2013 \u20b93,000",
     "material": "Mild Steel",
     "description": "This exquisite laser-cut silhouette art piece captures a romantic proposal scene, offering a timeless and elegant decorative accent. Crafted from durable mild steel with a matte black finish, it serves as a perfect gift or a charming addition to any interior space."
@@ -1108,7 +1108,7 @@ export const products: CatalogueProduct[] = [
     "id": "p_80",
     "categoryId": "jaali-screens",
     "name": "Elegant Swirls Metal Screen",
-    "image": "/catalogue/jaali-screens/imgi_35_unnamed.jpg",
+    "image": "/catalogue/jaali-screens/catalogue-34.webp",
     "priceRange": "\u20b9250 \u2013 \u20b9450/sq ft",
     "material": "Mild Steel",
     "description": "This laser-cut metal screen features an elegant and flowing swirl design, perfect for decorative room dividers, fa\u00e7ade cladding, or railing inserts. The raw mild steel finish offers a versatile base for various coating options."

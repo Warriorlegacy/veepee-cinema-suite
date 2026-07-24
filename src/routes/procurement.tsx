@@ -9,6 +9,7 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import { LogoWatermark } from "@/components/ui/logo-watermark";
 import { LazyClientCanvas } from "@/components/three/lazy";
 import { LazyProcessPipeline } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
@@ -103,6 +104,7 @@ function ProcurementLandingPage() {
 
         <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-transparent to-black" />
         <div className="absolute inset-0 grid-overlay opacity-25 z-[1]" />
+        <LogoWatermark opacity={0.08} size={700} position="top-right" glow={true} className="z-[1]" />
 
         <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-16 grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 bg-black/60 backdrop-blur-md p-8 rounded-lg border border-white/10">

@@ -8,6 +8,7 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import { LogoWatermark } from "@/components/ui/logo-watermark";
 import { facilities } from "@/data/catalogue-data";
 
 /* ─── Detailed per-machine specifications ────────────────────────────
@@ -343,6 +344,7 @@ function FacilitiesPage() {
 
       {/* HERO */}
       <section className="relative pt-32 pb-20 bg-near-black overflow-hidden">
+        <LogoWatermark opacity={0.08} size={700} position="top-right" glow={true} className="z-[1]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,20,142,0.08),transparent_70%)]" />
         <div className="relative mx-auto max-w-[1400px] px-6">
           <motion.div

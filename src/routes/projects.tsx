@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import { LogoWatermark } from "@/components/ui/logo-watermark";
 import { projects } from "@/lib/projects";
 
 export const Route = createFileRoute("/projects")({
@@ -21,7 +22,8 @@ export const Route = createFileRoute("/projects")({
 
 function ProjectsIndex() {
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden relative">
+      <LogoWatermark opacity={0.07} size={750} position="top-right" glow={true} className="z-[0]" />
       <SiteHeader />
       <main className="pt-32 pb-24">
         <div className="mx-auto max-w-[1400px] px-6">

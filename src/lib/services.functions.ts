@@ -259,40 +259,40 @@ export const getServiceDetail = createServerFn({ method: "GET" })
         ],
         // Engineering Components
         "344202eb-a66d-49de-b082-41198736eba5": [
-          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Machined junior coupling connections" },
+          { url: "/catalogue/generated/p_pl_1.webp", caption: "Machined junior coupling connections" },
           { url: "/catalogue/industrial/cat-34.webp", caption: "Precision modular panels" }
         ],
         // Gates & Railings
         "f1f4cf46-0dd1-4e75-928d-e05347ad98d6": [
-          { url: "/catalogue/gates/designer-gate-peacock.webp", caption: "Peacock motif laser-cut double gate" },
+          { url: "/catalogue/gates/designer-gate-peacock.png", caption: "Peacock motif laser-cut double gate" },
           { url: "/catalogue/railings/railing-1.webp", caption: "Geometric balcony safety railing" },
           { url: "/catalogue/railings/railing-2.webp", caption: "Artistic staircase balustrade" }
         ],
         // Architectural Metalwork
         "3d525269-6ee0-448c-963a-7c731854bb62": [
-          { url: "/catalogue/self-designing-facades/facade-sample.webp", caption: "Parametric facade cladding screen" },
-          { url: "/catalogue/self-designing-facades/facade-1.webp", caption: "Park border privacy fencing" },
+          { url: "/catalogue/self-designing-facades/facade-sample.png", caption: "Parametric facade cladding screen" },
+          { url: "/catalogue/jaali-screens/catalogue-34.webp", caption: "Park border privacy fencing" },
           { url: "/catalogue/jaali-screens/jaali-1.webp", caption: "Decorative room divider panel" }
         ],
         // Industrial Manufacturing
         "65ac2c65-492f-4e8b-8a97-525abb49baf4": [
           { url: "/catalogue/industrial/cat-34.webp", caption: "Heavy-duty steel formwork panels" },
-          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Fabricated piping fittings" }
+          { url: "/catalogue/generated/p_fb_1.webp", caption: "Fabricated piping fittings" }
         ],
         // Hot Dip Galvanizing
         "5b4ce05b-4ed8-4f8b-a20e-1479ef0631e6": [
-          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Galvanized couplings after zinc bath" },
+          { url: "/catalogue/generated/p_pl_2.webp", caption: "Galvanized couplings after zinc bath" },
           { url: "/catalogue/industrial/cat-34.webp", caption: "Galvanized sheet metal fabrications" }
         ],
         // Tubewell Fittings
         "ec5ac136-c055-4cea-ae77-344f310f4405": [
-          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Heavy-duty pipe coupling adapters" },
+          { url: "/catalogue/generated/p_pl_3.webp", caption: "Heavy-duty pipe coupling adapters" },
           { url: "/catalogue/industrial/cat-34.webp", caption: "Fabricated steel shuttering" }
         ],
         // Powder Coating
         "900e626e-7e2e-4353-a716-2c31298091a4": [
-          { url: "/catalogue/gift-decor/imgi_26_unnamed.webp", caption: "Electrostatic powder-coated decor piece" },
-          { url: "/catalogue/shadow-art/cat-36.webp", caption: "Matte-black powder coated shadow panel" }
+          { url: "/catalogue/generated/p_fb_2.webp", caption: "Electrostatic powder-coated decor piece" },
+          { url: "/catalogue/jaali-screens/catalogue-34.webp", caption: "Matte-black powder coated shadow panel" }
         ],
         // Plate Bending
         "28eb02f4-6388-4b01-b649-234cdfbcc5c2": [
@@ -301,7 +301,7 @@ export const getServiceDetail = createServerFn({ method: "GET" })
         ],
         // Pipe Rolling
         "d89a6998-dc01-4b8d-893b-acf5571d3214": [
-          { url: "/catalogue/industrial/imgi_20_unnamed.webp", caption: "Rolled pipe couplings" },
+          { url: "/catalogue/generated/p_pl_4.webp", caption: "Rolled pipe couplings" },
           { url: "/catalogue/industrial/cat-34.webp", caption: "Rolled framework modules" }
         ]
       };

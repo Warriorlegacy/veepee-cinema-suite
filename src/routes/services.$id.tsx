@@ -7,6 +7,7 @@ import { getServiceIcon } from "@/lib/service-icons";
 import { ServiceImage } from "@/components/service-image";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { LogoWatermark } from "@/components/ui/logo-watermark";
 
 const serviceQuery = (id: string) =>
   queryOptions({
@@ -172,6 +173,7 @@ function ServiceDetail() {
       <SiteHeader />
 
       <section className="relative h-[60vh] min-h-[420px] w-full overflow-hidden bg-black">
+        <LogoWatermark opacity={0.09} size={700} position="center" glow={true} className="z-[1]" />
         <ServiceImage
           src={hero}
           alt={service.name}
