@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/veepee-logo.png.asset.json";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 const primaryLinks = [
   { label: "Services", href: "/#services" },
@@ -33,11 +34,13 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass py-3" : "bg-transparent py-5"
-      }`}
-    >
+    <>
+      <ScrollProgress />
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? "glass py-3" : "bg-transparent py-5"
+        }`}
+      >
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6">
         <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0 shrink-0">
           <img
@@ -114,5 +117,6 @@ export function SiteHeader() {
         </div>
       )}
     </header>
+    </>
   );
 }

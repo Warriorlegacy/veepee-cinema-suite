@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import logo from "../assets/veepee-logo.png.asset.json";
+import { CursorFollower } from "@/components/ui/cursor-follower";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { trackPageView } from "../lib/analytics";
 
@@ -337,6 +338,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <CursorFollower />
         {children}
         <Scripts />
       </body>

@@ -18,6 +18,8 @@ import projectHero from "@/assets/project-hero.jpg";
 import { ContactForm } from "@/components/contact-form";
 import { BrochureDownloadButton } from "@/components/brochure-download-button";
 import { ServiceImage } from "@/components/service-image";
+import { MagneticButton } from "@/components/ui/magnetic-button";
+import { RevealText } from "@/components/ui/reveal-text";
 import { listServices } from "@/lib/services.functions";
 import { getServiceIcon } from "@/lib/service-icons";
 import { LazyClientCanvas } from "@/components/three/lazy";
@@ -149,28 +151,16 @@ export function Hero() {
             </div>
 
             <div className="hero-fade hero-fade-5 mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-              <a
-                href="#contact"
-                className="group inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md shadow-magenta hover:shadow-glow transition-all"
-              >
+              <MagneticButton as="a" href="#contact" className="group inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 bg-magenta-gradient text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md shadow-magenta hover:shadow-glow transition-all">
                 Get a Quote
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#projects"
-                className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md hover:bg-white/5 hover:border-magenta transition-all"
-              >
+              </MagneticButton>
+              <MagneticButton as="a" href="#projects" className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 border border-white/30 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md hover:bg-white/5 hover:border-magenta transition-all">
                 View Our Work
-              </a>
-              <a
-                href="https://wa.me/919125142400"
-                target="_blank"
-                rel="noreferrer"
-                className="hidden sm:inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md transition-all"
-                style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
-              >
+              </MagneticButton>
+              <MagneticButton as="a" href="https://wa.me/919125142400" target="_blank" rel="noreferrer" className="hidden sm:inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3.5 sm:py-4 text-white font-sans-brand uppercase tracking-[0.2em] text-xs sm:text-sm rounded-md transition-all" style={{"background":"linear-gradient(135deg,#25D366,#128C7E)"} as React.CSSProperties}>
                 <MessageCircle className="h-4 w-4" /> WhatsApp Now
-              </a>
+              </MagneticButton>
             </div>
           </div>
         </div>
@@ -276,10 +266,10 @@ export function Services() {
           </p>
         </motion.div>
 
-        <p className="mt-6 max-w-2xl text-metallic font-body text-sm sm:text-base">
+        <RevealText as="p" className="mt-6 max-w-2xl text-metallic font-body text-sm sm:text-base">
           Integrated capabilities under one roof — from a single laser-cut sheet to full architectural installations,
           backed by our CNC Fabrication line for Pipeline, Fabricated and Loco products.
-        </p>
+        </RevealText>
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {services.map((s, i) => {
@@ -750,10 +740,10 @@ export function ContactCTA() {
           <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white leading-[0.95]">
             Get your quote <br /><span className="text-gradient-magenta">within 24 hours.</span>
           </h2>
-          <p className="mt-6 max-w-xl mx-auto text-metallic font-body">
+          <RevealText as="p" className="mt-6 max-w-xl mx-auto text-metallic font-body">
             Share your drawing, sample, or sketch — our team will respond on WhatsApp with materials,
             timeline, and price.
-          </p>
+          </RevealText>
         </div>
 
         <div className="mt-14 grid lg:grid-cols-5 gap-8 items-start">
@@ -861,10 +851,10 @@ export function CatalogueCTA() {
           <h2 className="font-display text-4xl md:text-6xl text-white leading-[0.95]">
             Explore <span className="text-gradient-magenta">65+ Designs</span>
           </h2>
-          <p className="mt-4 text-metallic font-body text-base max-w-xl mx-auto">
+          <RevealText as="p" className="mt-4 text-metallic font-body text-base max-w-xl mx-auto">
             From laser-cut jaali screens to designer gates, pooja panels, and shadow art — browse our
             full product catalogue with pricing.
-          </p>
+          </RevealText>
         </motion.div>
 
         {/* Thumbnail preview strip */}
@@ -1038,9 +1028,9 @@ export function TechnicalSpecs() {
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-white mt-4">
             Industrial Specs. <br /><span className="text-magenta">Engineered to Tolerance.</span>
           </h2>
-          <p className="mt-6 text-metallic font-body text-sm sm:text-base leading-relaxed">
+          <RevealText as="p" className="mt-6 text-metallic font-body text-sm sm:text-base leading-relaxed">
             We operate high-precision fiber laser cutting and bending machinery. Our workflow is optimized to meet the strict design tolerances required by engineering and procurement professionals.
-          </p>
+          </RevealText>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 items-stretch">

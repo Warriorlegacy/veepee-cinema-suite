@@ -192,6 +192,59 @@
   /* Hide scrollbar but keep scroll */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Focus-visible ring — magenta glow for keyboard nav */
+  .focus-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: outline-color 150ms ease;
+  }
+  .focus-ring:focus-visible {
+    outline-color: var(--magenta);
+    box-shadow: 0 0 0 4px rgba(212,20,142,0.25);
+  }
+
+  /* Reduced motion — disable all animations */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Transition utilities */
+  .transition-fast { transition-duration: 150ms; }
+  .transition-base { transition-duration: 300ms; }
+  .transition-slow { transition-duration: 500ms; }
+  .ease-cinematic { transition-timing-function: var(--ease-cinematic); }
+
+  /* Spacing scale utilities */
+  .space-4 { width: 4px; height: 4px; }
+  .space-8 { width: 8px; height: 8px; }
+  .space-12 { width: 12px; height: 12px; }
+  .space-24 { width: 24px; height: 24px; }
+  .space-48 { width: 48px; height: 48px; }
+  .space-64 { width: 64px; height: 64px; }
+  .space-96 { width: 96px; height: 96px; }
+  .space-128 { width: 128px; height: 128px; }
+
+  /* Skip-to-content link (hidden until focused) */
+  .skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    z-index: 100;
+    padding: 8px 16px;
+    background: var(--magenta);
+    color: white;
+    font-size: 14px;
+    transition: top 150ms;
+  }
+  .skip-to-content:focus {
+    top: 0;
+  }
 }
 
 @keyframes scroll-chevron {
@@ -225,3 +278,16 @@
   50% { opacity: 1; transform: scale(1.05); }
 }
 .animate-spark { animation: spark-pulse 3s ease-in-out infinite; }
+
+/* Cinematic section divider — a subtle magenta/metallic gradient line */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 20, 142, 0.15) 20%,
+    rgba(212, 20, 142, 0.4) 50%,
+    rgba(212, 20, 142, 0.15) 80%,
+    transparent 100%
+  );
+}

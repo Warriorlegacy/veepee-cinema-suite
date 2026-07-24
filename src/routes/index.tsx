@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import { BackToTop } from "@/components/ui/back-to-top";
+import { CookieConsent } from "@/components/ui/cookie-consent";
 import {
   Hero, TrustBar, Services, Products, CatalogueCTA, Process,
   FeaturedProject, Workshop, TechnicalSpecs, IndustriesTicker, Testimonials, ContactCTA, FAQSection,
@@ -140,20 +142,33 @@ function Index() {
       <main>
         <Hero />
         <TrustBar />
+        <div className="section-divider" />
         <Services />
+        <div className="section-divider" />
         <Products />
+        <div className="section-divider" />
         <CatalogueCTA />
+        <div className="section-divider" />
         <Process />
+        <div className="section-divider" />
         <FeaturedProject />
+        <div className="section-divider" />
         <Workshop />
+        <div className="section-divider" />
         <TechnicalSpecs />
+        <div className="section-divider" />
         <IndustriesTicker />
+        <div className="section-divider" />
         <Testimonials />
+        <div className="section-divider" />
         <FAQSection />
+        <div className="section-divider" />
         <ContactCTA />
       </main>
       <SiteFooter />
       <WhatsAppFloat />
+      <BackToTop />
+      <CookieConsent />
     </div>
   );
 }

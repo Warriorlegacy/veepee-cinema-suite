@@ -1,9 +1,12 @@
 import { Phone, Mail, MapPin, MessageCircle, Facebook, Instagram, Linkedin, ExternalLink } from "lucide-react";
 import logo from "@/assets/veepee-logo.png.asset.json";
+import { PartnerBadges } from "@/components/ui/partner-badges";
 
 export function SiteFooter() {
   return (
-    <footer className="relative bg-near-black border-t border-white/5 pt-20 pb-10">
+    <>
+      <PartnerBadges />
+      <footer className="relative bg-near-black border-t border-white/5 pt-20 pb-10">
       <div className="mx-auto max-w-[1400px] px-6 grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3 mb-5">
@@ -136,5 +139,6 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
+    </>
   );
 }
