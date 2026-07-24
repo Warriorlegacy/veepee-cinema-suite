@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 type Theme = "dark" | "light";
 
@@ -10,14 +10,12 @@ interface ThemeCtx {
 const ThemeContext = createContext<ThemeCtx>({ theme: "dark", toggle: () => {} });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "light";
-    const stored = localStorage.getItem("veepee-theme") as Theme | null;
-    if (stored) return stored;
-    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  });
+  const [theme, setTheme] = useState<Theme>("dark");
 
-  const userChose = useRef(!!(typeof window !== "undefined" && localStorage.getItem("veepee-theme")));
+  useEffect(() => {
+    const stored = localStorage.getItem("veepee-theme") as Theme | null;
+    if (stored) setTheme(stored);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -26,19 +24,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("veepee-theme", theme);
   }, [theme]);
 
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: light)");
-    const handler = (e: MediaQueryListEvent) => {
-      if (!userChose.current) setTheme(e.matches ? "light" : "dark");
-    };
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  const toggle = () => {
-    userChose.current = true;
-    setTheme((t) => (t === "dark" ? "light" : "dark"));
-  };
+  const toggle = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
   return <ThemeContext value={{ theme, toggle }}>{children}</ThemeContext>;
 }
