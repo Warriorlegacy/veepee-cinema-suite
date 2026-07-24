@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { z } from "zod";
 import { 
   Shield, CheckCircle2, ArrowRight, Download, 
@@ -14,7 +13,7 @@ import { LazyClientCanvas } from "@/components/three/lazy";
 import { LazyProcessPipeline } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
 
-const productIndustrial = "/catalogue/industrial/cat-34.webp";
+const productIndustrial = "/catalogue/generated/p_fb_1.webp";
 const workshopImg = "/assets/banners/industrial-manufacturing-hero.webp";
 
 export const Route = createFileRoute("/procurement")({

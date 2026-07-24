@@ -107,25 +107,23 @@
   --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dark {
-  /* same — site is permanently dark by default, .light overrides below */
-}
 
 .light {
   color-scheme: light;
-  --background: oklch(0.98 0.005 280);
-  --foreground: oklch(0.18 0.02 280);
-  --card: oklch(0.99 0 0);
-  --card-foreground: oklch(0.18 0.02 280);
-  --popover: oklch(0.99 0 0);
-  --popover-foreground: oklch(0.18 0.02 280);
-  --secondary: oklch(0.94 0.01 280);
-  --secondary-foreground: oklch(0.18 0.02 280);
-  --muted: oklch(0.94 0.01 280);
-  --muted-foreground: oklch(0.40 0.02 280);
-  --border: oklch(0.88 0.01 280);
-  --input: oklch(0.88 0.01 280);
-  --metallic: #334155;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #475569;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #D4148E;
+  --metallic: #475569;
   --metallic-dark: #64748B;
   --steel: #64748B;
   --near-black: #F8FAFC;
@@ -147,6 +145,10 @@
 .light .bg-neutral-900,
 .light .bg-slate-950 {
   background-color: #FFFFFF !important;
+}
+
+.light section.bg-black {
+  background-color: #0A0A0E !important;
 }
 
 .light .bg-black\/30,
@@ -173,7 +175,7 @@
 
 .light .text-white\/40,
 .light .text-white\/50,
-.light text-white\/30 {
+.light .text-white\/30 {
   color: #64748B !important;
 }
 
@@ -203,15 +205,24 @@
   background-color: #D4148E !important;
 }
 
-.light .bg-magenta,
-.light .bg-magenta *,
+.light [class*="bg-magenta"],
+.light [class*="bg-magenta"] *,
 .light .btn-magenta,
-.light .btn-magenta * {
+.light .btn-magenta *,
+.light .bg-whatsapp,
+.light .bg-whatsapp *,
+.light [class*="bg-primary"],
+.light [class*="bg-primary"] * {
+  color: #FFFFFF !important;
+}
+
+.light section.bg-black,
+.light section.bg-black * {
   color: #FFFFFF !important;
 }
 
 .light .logo-watermark-img {
-  filter: grayscale(1) invert(0.85) opacity(0.15) !important;
+  filter: grayscale(1) invert(0.9) opacity(0.06) !important;
 }
 
 @layer base {

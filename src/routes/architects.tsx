@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { z } from "zod";
 import { 
   Hammer, Compass, Eye, CheckCircle2, 
@@ -15,7 +14,7 @@ import { LazyProductModel } from "@/components/three/lazy";
 import { OrbitControls } from "@react-three/drei";
 import { trackEvent } from "@/lib/analytics";
 
-const productJaali = "/catalogue/jaali-screens/catalogue-34.webp";
+const productJaali = "/catalogue/jaali-screens/jaali-1.webp";
 const productGate = "/catalogue/gates/designer-gate-peacock.png";
 const productRailing = "/catalogue/railings/railing-1.webp";
 const projectHero = "/catalogue/self-designing-facades/facade-sample.png";

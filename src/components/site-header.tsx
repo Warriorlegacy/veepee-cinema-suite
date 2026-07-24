@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/veepee-logo.png.asset.json";
@@ -20,12 +20,24 @@ const extraLinks = [
   { label: "Loco", href: "/catalogue?cat=loco-products" },
 ];
 
-
 const links = [...primaryLinks, ...extraLinks];
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const routerState = useRouterState();
+
+  const path = routerState.location.pathname;
+  const isDarkHeroPage =
+    path === "/" ||
+    path === "/architects" ||
+    path === "/procurement" ||
+    path === "/export" ||
+    path.startsWith("/services") ||
+    path.startsWith("/projects");
+
+  const textColorClass = scrolled || !isDarkHeroPage ? "text-foreground" : "text-white";
+  const textMutedClass = scrolled || !isDarkHeroPage ? "text-muted-foreground" : "text-metallic";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -52,8 +64,8 @@ export function SiteHeader() {
             className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 object-contain drop-shadow-[0_0_24px_rgba(212,20,142,0.55)]"
           />
           <div className="leading-none min-w-0">
-            <div className="font-display text-base sm:text-lg tracking-[0.16em] sm:tracking-[0.18em] text-white">VEEPEE</div>
-            <div className="font-sans-brand text-[9px] sm:text-[10px] tracking-[0.28em] sm:tracking-[0.3em] text-metallic">ENGINEERS</div>
+            <div className={`font-display text-base sm:text-lg tracking-[0.16em] sm:tracking-[0.18em] ${textColorClass}`}>VEEPEE</div>
+            <div className={`font-sans-brand text-[9px] sm:text-[10px] tracking-[0.28em] sm:tracking-[0.3em] ${textMutedClass}`}>ENGINEERS</div>
           </div>
         </Link>
 
@@ -62,7 +74,7 @@ export function SiteHeader() {
             <a
               key={l.href}
               href={l.href}
-              className="font-sans-brand text-[12px] xl:text-sm uppercase tracking-[0.18em] xl:tracking-[0.2em] text-metallic hover:text-magenta transition-colors whitespace-nowrap"
+              className={`font-sans-brand text-[12px] xl:text-sm uppercase tracking-[0.18em] xl:tracking-[0.2em] ${textColorClass} hover:text-magenta transition-colors whitespace-nowrap`}
             >
               {l.label}
             </a>
@@ -71,7 +83,7 @@ export function SiteHeader() {
             <a
               key={l.href}
               href={l.href}
-              className="hidden xl:inline font-sans-brand text-sm uppercase tracking-[0.2em] text-metallic hover:text-magenta transition-colors whitespace-nowrap"
+              className={`hidden xl:inline font-sans-brand text-sm uppercase tracking-[0.2em] ${textColorClass} hover:text-magenta transition-colors whitespace-nowrap`}
             >
               {l.label}
             </a>
@@ -91,7 +103,7 @@ export function SiteHeader() {
         <button
           aria-label="Menu"
           onClick={() => setOpen((o) => !o)}
-          className="lg:hidden text-white"
+          className={`lg:hidden ${textColorClass}`}
         >
           {open ? <X /> : <Menu />}
         </button>
@@ -104,7 +116,7 @@ export function SiteHeader() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="font-sans-brand text-sm uppercase tracking-[0.2em] text-metallic hover:text-magenta"
+              className="font-sans-brand text-sm uppercase tracking-[0.2em] text-foreground hover:text-magenta"
             >
               {l.label}
             </a>

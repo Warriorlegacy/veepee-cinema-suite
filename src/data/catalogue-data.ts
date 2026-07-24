@@ -1739,4 +1739,46 @@ export function getCategoryById(id: string): CatalogueCategory | undefined {
   return categories.find((c) => c.id === id);
 }
 
+function isAIImage(path: string): boolean {
+  if (!path) return false;
+  return (
+    path.includes("/catalogue/generated/") ||
+    path.includes("/metal-furniture/") ||
+    path.includes("designer-gate-peacock") ||
+    path.includes("facade-sample.png") ||
+    (path.includes("/gates/gate-") && path.endsWith(".webp")) ||
+    (path.includes("/railings/railing-") && path.endsWith(".webp")) ||
+    (path.includes("/jaali-screens/jaali-") && path.endsWith(".webp")) ||
+    (path.includes("/pooja-panels/pooja-") && path.endsWith(".webp")) ||
+    (path.includes("/shadow-art/shadow-") && path.endsWith(".webp"))
+  );
+}
+
+function getAISubstitute(cat: string, id: string): string {
+  const hash = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  if (cat === "gates") return `/catalogue/gates/gate-${(hash % 9) + 1}.webp`;
+  if (cat === "railings" || cat === "balustrades-staircases") return `/catalogue/railings/railing-${(hash % 5) + 1}.webp`;
+  if (cat === "jaali-screens" || cat === "vent-grilles") return `/catalogue/jaali-screens/jaali-${(hash % 18) + 1}.webp`;
+  if (cat === "self-designing-facades") return "/catalogue/self-designing-facades/facade-sample.png";
+  if (cat === "pooja-panels") return `/catalogue/pooja-panels/pooja-${(hash % 10) + 1}.webp`;
+  if (cat === "shadow-art" || cat === "gift-decor" || cat === "signage") return `/catalogue/shadow-art/shadow-${(hash % 9) + 1}.webp`;
+  if (cat === "metal-furniture") return `/catalogue/metal-furniture/furniture-${(hash % 4) + 1}.png`;
+  if (cat === "pipeline-products") return `/catalogue/generated/p_pl_${(hash % 6) + 1}.webp`;
+  if (cat === "fabricated-products") return `/catalogue/generated/p_fb_${(hash % 6) + 1}.webp`;
+  if (cat === "loco-products") return `/catalogue/generated/p_lc_${(hash % 6) + 1}.webp`;
+  return `/catalogue/generated/p_fb_${(hash % 6) + 1}.webp`;
+}
+
+// Normalize products array in-place so no camera raw images are ever emitted
+products.forEach((p) => {
+  const cat = resolveCategoryId(p);
+  if (!isAIImage(p.image)) {
+    p.image = getAISubstitute(cat, p.id);
+  }
+  if (p.images) {
+    p.images = p.images.map((img, i) => (isAIImage(img) ? img : getAISubstitute(cat, `${p.id}_${i}`)));
+  }
+});
+
+
 

@@ -8,6 +8,7 @@ interface MagneticButtonProps {
   rel?: string;
   onClick?: () => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function MagneticButton({
@@ -18,6 +19,7 @@ export function MagneticButton({
   rel,
   onClick,
   className = "",
+  style,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -46,7 +48,7 @@ export function MagneticButton({
       onMouseMove={move}
       onMouseLeave={reset}
     >
-      <Tag {...props} className={className}>
+      <Tag {...props} className={className} style={style}>
         {children}
       </Tag>
     </div>

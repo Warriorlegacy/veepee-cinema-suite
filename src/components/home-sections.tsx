@@ -1,20 +1,12 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
-  ChevronDown, Zap, Cog, Hammer, Shield, Building2, Factory,
-  Wrench, Droplets, ArrowRight, MessageCircle, Phone, Mail,
-  Star, MapPin, CheckCircle2, Sparkles, FileDown, Layers,
+  ChevronDown, Cog, Hammer, Shield,
+  Wrench, ArrowRight, MessageCircle, Phone, Mail,
+  Star, MapPin, CheckCircle2, Sparkles, Layers,
 } from "lucide-react";
-
-const heroBanner = "/assets/banners/laser-cutting-hero.webp";
-const workshopBanner = "/assets/banners/industrial-manufacturing-hero.webp";
-const productJaali = "/catalogue/jaali-screens/catalogue-34.webp";
-const productGate = "/catalogue/gates/designer-gate-peacock.png";
-const productRailing = "/catalogue/railings/railing-1.webp";
-const productIndustrial = "/catalogue/industrial/cat-34.webp";
-const projectHero = "/catalogue/self-designing-facades/facade-sample.png";
 import { ContactForm } from "@/components/contact-form";
 import { BrochureDownloadButton } from "@/components/brochure-download-button";
 import { ServiceImage } from "@/components/service-image";
@@ -31,6 +23,14 @@ import { LazyProcessPipeline } from "@/components/three/lazy";
 import { LazyWorkshopScene } from "@/components/three/lazy";
 import { LazyContactGear } from "@/components/three/lazy";
 import { categories as catalogueCategories, products as catalogueProducts, resolveCategoryId } from "@/data/catalogue-data";
+
+const heroBanner = "/assets/banners/laser-cutting-hero.webp";
+const workshopBanner = "/assets/banners/industrial-manufacturing-hero.webp";
+const productJaali = "/catalogue/jaali-screens/jaali-1.webp";
+const productIndustrial = "/catalogue/generated/p_fb_1.webp";
+const productGate = "/catalogue/gates/designer-gate-peacock.png";
+const productRailing = "/catalogue/railings/railing-1.webp";
+const projectHero = "/catalogue/self-designing-facades/facade-sample.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -70,7 +70,7 @@ export function Hero() {
       </LazyClientCanvas>
 
       {/* Watermark */}
-      <LogoWatermark opacity={0.09} size={750} glow={true} position="center" className="z-[1]" />
+      <LogoWatermark size={850} glow={true} position="center" className="z-[1]" />
 
 
 
@@ -233,7 +233,7 @@ export function Services() {
         <LazyFloatingIcon position={[4, 1.5, -5]} shape="sphere" speed={0.9} scale={0.5} />
         <LazyFloatingIcon position={[0, 3, -6]} shape="octahedron" speed={0.7} scale={0.6} />
       </LazyClientCanvas>
-      <LogoWatermark opacity={0.05} size={350} className="z-[1]" />
+      <LogoWatermark size={850} position="top-left" glow={true} className="z-[1]" />
       <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="01" label="Services" />
         <motion.h2
@@ -324,11 +324,17 @@ export function Products() {
   const [filter, setFilter] = useState("all");
   
   // Get 1-2 representative products per resolved category for featured display
-  const featuredProducts = catalogueProducts.filter((p) => {
-    const cid = resolveCategoryId(p);
-    const indexInCat = catalogueProducts.filter((x) => resolveCategoryId(x) === cid).indexOf(p);
-    return indexInCat < 2;
-  }).slice(0, 12);
+  const featuredProducts = useMemo(
+    () =>
+      catalogueProducts
+        .filter((p) => {
+          const cid = resolveCategoryId(p);
+          const indexInCat = catalogueProducts.filter((x) => resolveCategoryId(x) === cid).indexOf(p);
+          return indexInCat < 2;
+        })
+        .slice(0, 12),
+    []
+  );
 
   const visible = filter === "all"
     ? featuredProducts
@@ -336,7 +342,7 @@ export function Products() {
 
   return (
     <section id="products" className="relative py-20 md:py-28 bg-near-black overflow-hidden">
-      <LogoWatermark opacity={0.07} size={650} position="top-right" glow={true} className="z-[1]" />
+      <LogoWatermark size={850} position="top-right" glow={true} className="z-[1]" />
       <LazyClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-30"
         cameraPosition={[0, 0, 5]}
@@ -440,7 +446,7 @@ const steps = [
 export function Process() {
   return (
     <section id="process" className="relative py-28 overflow-hidden">
-      <LogoWatermark opacity={0.06} size={600} position="bottom-right" glow={true} className="z-[1]" />
+      <LogoWatermark size={850} position="center" glow={true} className="z-[1]" />
       <div className="absolute inset-0 grid-overlay opacity-20 z-0" />
       <LazyClientCanvas
         className="absolute inset-0 z-[1] pointer-events-none opacity-40"
@@ -546,7 +552,7 @@ export function FeaturedProject() {
 export function Workshop() {
   return (
     <section id="about" className="relative py-28 overflow-hidden">
-      <LogoWatermark opacity={0.07} size={650} position="top-right" glow={true} className="z-[1]" />
+      <LogoWatermark size={850} position="bottom-right" glow={true} className="z-[1]" />
       <LazyClientCanvas
         className="absolute inset-0 z-0 pointer-events-none opacity-20"
         cameraPosition={[0, 1, 4]}
@@ -688,7 +694,7 @@ export function Testimonials() {
 
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
-      <LogoWatermark opacity={0.06} size={550} position="center" glow={true} className="z-[0]" />
+      <LogoWatermark size={850} position="center" glow={true} className="z-[0]" />
       <div className="mx-auto max-w-[1100px] px-5 sm:px-6 text-center relative z-[1]">
         <SectionLabel number="07" label="Testimonials" center />
         <div className="flex justify-center gap-1 mb-6">
@@ -744,7 +750,7 @@ export function ContactCTA() {
       >
         <LazyContactGear />
       </LazyClientCanvas>
-      <LogoWatermark opacity={0.09} size={700} position="center" glow={true} className="z-[1]" />
+      <LogoWatermark size={850} position="center" glow={true} className="z-[1]" />
       <div className="relative z-[2] mx-auto max-w-[1200px] px-5 sm:px-6">
         <div className="text-center">
           <SectionLabel number="08" label="Get In Touch" center />
@@ -945,11 +951,12 @@ export function FAQSection() {
   return (
     <section
       id="faq"
-      className="relative py-24 bg-near-black border-t border-white/5"
+      className="relative py-24 bg-near-black border-t border-white/5 overflow-hidden"
       itemScope
       itemType="https://schema.org/FAQPage"
     >
-      <div className="mx-auto max-w-[900px] px-5 sm:px-6">
+      <LogoWatermark size={850} position="top-right" glow={true} className="z-[1]" />
+      <div className="mx-auto max-w-[900px] px-5 sm:px-6 relative z-[2]">
         <SectionLabel number="✦" label="FAQ" />
         <h2 className="font-display text-4xl md:text-6xl text-white leading-[0.95] mb-12">
           Common <span className="text-gradient-magenta">Questions</span>
@@ -1032,6 +1039,7 @@ export function TechnicalSpecs() {
 
   return (
     <section ref={ref} id="specs" className="relative py-24 border-t border-white/5 bg-[#0B0B0B] overflow-hidden">
+      <LogoWatermark size={850} position="top-left" glow={true} className="z-[1]" />
       <div className="absolute inset-0 grid-overlay opacity-15" />
       <div className="relative z-10 mx-auto max-w-[1400px] px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">

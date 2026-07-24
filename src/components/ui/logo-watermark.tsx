@@ -10,8 +10,8 @@ interface LogoWatermarkProps {
 
 export function LogoWatermark({
   className = "",
-  opacity = 0.07,
-  size = 600,
+  opacity = 0.08,
+  size = 850,
   position = "center",
   glow = true,
 }: LogoWatermarkProps) {
@@ -39,7 +39,7 @@ export function LogoWatermark({
           width: `${size}px`,
           maxWidth: "85vw",
           filter: glow
-            ? "grayscale(0.6) brightness(1.8) drop-shadow(0 0 45px rgba(212, 20, 142, 0.25))"
+            ? "grayscale(0.5) brightness(1.8) drop-shadow(0 0 50px rgba(212, 20, 142, 0.3))"
             : "grayscale(1) brightness(1.8)",
         }}
       />

@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { z } from "zod";
 import { 
   Building2, Globe, FileText, CheckCircle2, 
@@ -15,7 +14,7 @@ import { LazyWorkshopScene } from "@/components/three/lazy";
 import { trackEvent } from "@/lib/analytics";
 
 const workshopImg = "/assets/banners/industrial-manufacturing-hero.webp";
-const productIndustrial = "/catalogue/industrial/cat-34.webp";
+const productIndustrial = "/catalogue/generated/p_fb_1.webp";
 const projectHero = "/catalogue/self-designing-facades/facade-sample.png";
 
 export const Route = createFileRoute("/export")({
