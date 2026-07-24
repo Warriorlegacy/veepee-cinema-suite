@@ -9,10 +9,10 @@ export function SiteFooter() {
       <footer className="relative bg-near-black border-t border-white/5 pt-20 pb-10">
       <div className="mx-auto max-w-[1400px] px-6 grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-3 mb-5">
-            <img src={logo.url} alt="VEEPEE Engineers" width={48} height={48} className="h-12 w-12 object-contain" />
+          <div className="flex items-center gap-4 mb-5">
+            <img src={logo.url} alt="VEEPEE Engineers" width={80} height={80} className="h-20 w-20 object-contain drop-shadow-[0_0_30px_rgba(212,20,142,0.3)]" />
             <div>
-              <div className="font-display text-xl tracking-[0.18em] text-white">VEEPEE ENGINEERS</div>
+              <div className="font-display text-2xl tracking-[0.18em] text-white">VEEPEE ENGINEERS</div>
               <div className="font-sans-brand text-[11px] tracking-[0.3em] text-metallic">PRECISION · PERFORMANCE · PROGRESS</div>
             </div>
           </div>

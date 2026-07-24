@@ -46,9 +46,9 @@ export function SiteHeader() {
           <img
             src={logo.url}
             alt="VEEPEE Engineers"
-            width={40}
-            height={40}
-            className="h-8 w-8 sm:h-10 sm:w-10 shrink-0 object-contain drop-shadow-[0_4px_18px_rgba(212,20,142,0.45)]"
+            width={56}
+            height={56}
+            className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 object-contain drop-shadow-[0_0_24px_rgba(212,20,142,0.55)]"
           />
           <div className="leading-none min-w-0">
             <div className="font-display text-base sm:text-lg tracking-[0.16em] sm:tracking-[0.18em] text-white">VEEPEE</div>

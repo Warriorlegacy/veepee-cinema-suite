@@ -20,6 +20,7 @@ import { BrochureDownloadButton } from "@/components/brochure-download-button";
 import { ServiceImage } from "@/components/service-image";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { RevealText } from "@/components/ui/reveal-text";
+import { LogoWatermark } from "@/components/ui/logo-watermark";
 import { listServices } from "@/lib/services.functions";
 import { getServiceIcon } from "@/lib/service-icons";
 import { LazyClientCanvas } from "@/components/three/lazy";
@@ -67,6 +68,9 @@ export function Hero() {
       >
         <LazyHeroScene />
       </LazyClientCanvas>
+
+      {/* Watermark */}
+      <LogoWatermark opacity={0.035} size={500} className="z-[1]" />
 
 
 
@@ -229,6 +233,7 @@ export function Services() {
         <LazyFloatingIcon position={[4, 1.5, -5]} shape="sphere" speed={0.9} scale={0.5} />
         <LazyFloatingIcon position={[0, 3, -6]} shape="octahedron" speed={0.7} scale={0.6} />
       </LazyClientCanvas>
+      <LogoWatermark opacity={0.05} size={350} className="z-[1]" />
       <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
         <SectionLabel number="01" label="Services" />
         <motion.h2
@@ -734,6 +739,7 @@ export function ContactCTA() {
       >
         <LazyContactGear />
       </LazyClientCanvas>
+      <LogoWatermark opacity={0.06} size={400} className="z-[1]" />
       <div className="relative z-[2] mx-auto max-w-[1200px] px-5 sm:px-6">
         <div className="text-center">
           <SectionLabel number="08" label="Get In Touch" center />
